@@ -19,6 +19,11 @@ export type AudioPlayerBaseProps = {
   title: string;
   /** Passed into `<audio>`, e.g. `<track kind="captions">`. */
   children?: ReactNode;
+  /**
+   * Custom time readout; receives formatted strings (`"1:05"`, `"--:--"` before metadata loads).
+   * Defaults to `"elapsed / total"`.
+   */
+  renderTime?: (t: { elapsed: string; total: string }) => ReactNode;
   /** The underlying `<audio>` element. */
   ref?: Ref<HTMLAudioElement>;
   className?: string;
@@ -31,7 +36,7 @@ const assignRef = <T,>(ref: Ref<T> | undefined, value: T | null) => {
 };
 
 /** Internal: native `<audio>` with a play/pause button, a React Aria seek slider and elapsed/total time. */
-export function AudioPlayerBase({ src, title, children, ref, className, classes }: AudioPlayerBaseProps) {
+export function AudioPlayerBase({ src, title, children, renderTime, ref, className, classes }: AudioPlayerBaseProps) {
   const audio = useRef<HTMLAudioElement | null>(null);
   const [playing, setPlaying] = useState(false);
   const [current, setCurrent] = useState(0);
@@ -63,6 +68,8 @@ export function AudioPlayerBase({ src, title, children, ref, className, classes 
   };
 
   const max = Number.isFinite(duration) ? duration : 0;
+  const elapsed = formatTime(current);
+  const total = formatTime(duration);
 
   return (
     <div className={cn(classes.root, className)}>
@@ -93,7 +100,7 @@ export function AudioPlayerBase({ src, title, children, ref, className, classes 
           <SliderThumb className={classes.thumb} />
         </SliderTrack>
       </Slider>
-      <span className={classes.time}>{`${formatTime(current)} / ${formatTime(duration)}`}</span>
+      <span className={classes.time}>{renderTime ? renderTime({ elapsed, total }) : `${elapsed} / ${total}`}</span>
     </div>
   );
 }

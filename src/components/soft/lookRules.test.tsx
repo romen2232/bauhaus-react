@@ -16,6 +16,7 @@ import { MenuOverlaySoft } from "./MenuOverlaySoft/MenuOverlaySoft";
 import { TabsSoft } from "./TabsSoft/TabsSoft";
 import { DateStripSoft } from "./DateStripSoft/DateStripSoft";
 import { CarouselSoft } from "./CarouselSoft/CarouselSoft";
+import { AudioPlayerSoft } from "./AudioPlayerSoft/AudioPlayerSoft";
 
 // Soft look rules (spec §6.1): no borders, no hard shadow, no movement, yellow never as text.
 const FORBIDDEN = /^(border(-[xytrbl])?(-\d+)?|shadow-bh-hard.*|-?translate-.*|text-bh-yellow)$/;
@@ -43,6 +44,7 @@ const cases: [string, ReactElement][] = [
   ["TabsSoft", <TabsSoft label="View" items={[{ id: "a", title: "Day", content: "P" }]} />],
   ["DateStripSoft", <DateStripSoft label="Pick" start={new CalendarDate(2026, 11, 16)} />],
   ["CarouselSoft", <CarouselSoft label="Rooms"><div>A</div><div>B</div></CarouselSoft>],
+  ["AudioPlayerSoft", <AudioPlayerSoft src="/a.mp3" title="Intro" />],
 ];
 
 it.each(cases)("%s follows the Soft look rules", (_name, element) => {
