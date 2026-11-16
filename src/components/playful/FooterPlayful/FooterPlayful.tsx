@@ -1,6 +1,6 @@
 import type { ComponentProps, ReactNode } from "react";
-import { cn } from "../../../lib/cn";
-import { Grid } from "../../primitives/Grid/Grid";
+import { cn } from "../../../lib/cn.js";
+import { Grid } from "../../primitives/Grid/Grid.js";
 
 export type FooterPlayfulProps = ComponentProps<"footer"> & {
   columns: ReactNode[];

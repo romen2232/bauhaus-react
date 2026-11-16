@@ -1,8 +1,8 @@
 import { useId, type ComponentProps, type ReactNode } from "react";
-import { cn } from "../../../lib/cn";
-import { FILL_CLASSES, type FillColor } from "../../../lib/palette";
-import { FOCUS_RING } from "../../../lib/styles";
-import { TagPlayful } from "../TagPlayful/TagPlayful";
+import { cn } from "../../../lib/cn.js";
+import { FILL_CLASSES, type FillColor } from "../../../lib/palette.js";
+import { FOCUS_RING } from "../../../lib/styles.js";
+import { TagPlayful } from "../TagPlayful/TagPlayful.js";
 
 export type ProjectCardPlayfulProps = Omit<ComponentProps<"a">, "title" | "media"> & {
   href: string;
@@ -40,7 +40,7 @@ export function ProjectCardPlayful({
       aria-labelledby={titleId}
       className={cn(
         "flex min-h-96 flex-col gap-3 rounded-none p-6",
-        "transition-[translate,box-shadow] duration-150 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-bh-hard-lg",
+        "hover:shadow-bh-hard-lg motion-safe:transition-[translate,box-shadow] motion-safe:duration-150 motion-safe:hover:-translate-x-1 motion-safe:hover:-translate-y-1",
         FILL_CLASSES[color],
         FOCUS_RING,
         className,

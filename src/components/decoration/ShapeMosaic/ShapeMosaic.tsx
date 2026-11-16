@@ -1,7 +1,7 @@
 import type { ComponentProps } from "react";
-import { cn } from "../../../lib/cn";
-import { BG_CLASSES, type FillColor } from "../../../lib/palette";
-import { Shape, type ShapeKind, type ShapeRotation } from "../Shape/Shape";
+import { cn } from "../../../lib/cn.js";
+import { BG_CLASSES, type FillColor } from "../../../lib/palette.js";
+import { Shape, type ShapeKind, type ShapeRotation } from "../Shape/Shape.js";
 
 export type MosaicTile = {
   kind: ShapeKind;

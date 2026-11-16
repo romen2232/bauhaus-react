@@ -1,7 +1,7 @@
 import type { ComponentProps, ReactNode } from "react";
-import { cn } from "../../../lib/cn";
-import { FILL_CLASSES, type FillColor } from "../../../lib/palette";
-import { FOCUS_RING, HOVER_LIFT } from "../../../lib/styles";
+import { cn } from "../../../lib/cn.js";
+import { FILL_CLASSES, type FillColor } from "../../../lib/palette.js";
+import { FOCUS_RING, HOVER_LIFT } from "../../../lib/styles.js";
 
 export type ButtonPlayfulVariant = "solid" | "outline" | "color";
 export type ButtonPlayfulSize = "sm" | "md" | "lg";
@@ -50,7 +50,7 @@ export function ButtonPlayful(props: ButtonPlayfulProps) {
   if (props.href !== undefined) {
     const { variant: _v, color: _c, size: _s, disabled: _d, className: _cl, href, onClick, ...rest } = props;
     return disabled ? (
-      <a {...rest} aria-disabled="true" tabIndex={-1} className={classes} />
+      <a {...rest} role="link" aria-disabled="true" tabIndex={-1} className={classes} />
     ) : (
       <a {...rest} href={href} onClick={onClick} className={classes} />
     );

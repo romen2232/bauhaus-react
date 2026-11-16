@@ -1,1 +1,1 @@
-export { TopBarPlayful, type TopBarPlayfulProps } from "./TopBarPlayful";
+export { TopBarPlayful, type TopBarPlayfulProps } from "./TopBarPlayful.js";

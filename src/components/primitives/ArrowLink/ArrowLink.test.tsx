@@ -21,3 +21,9 @@ it("maps hero size to responsive display classes", () => {
   render(<ArrowLink href="#" size="hero">Manifesto</ArrowLink>);
   expect(screen.getByRole("link")).toHaveClass("text-6xl", "md:text-8xl");
 });
+
+it("arrow motion only animates when the user allows motion", () => {
+  render(<ArrowLink href="#">Go</ArrowLink>);
+  const classes = Array.from(screen.getByText("→").classList);
+  expect(classes.filter((c) => c.startsWith("transition") || c.startsWith("group-hover:"))).toEqual([]);
+});
