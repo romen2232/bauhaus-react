@@ -28,7 +28,9 @@ const GAPS: Record<GridGap, string> = {
   lg: "gap-10",
 };
 
-const RULED = "gap-px bg-bh-rule border border-bh-rule [&>*]:bg-bh-paper";
+/** Ruled-grid classes, shared with skins that draw the same grid lines. Not part of the public API. */
+export const GRID_RULED = "gap-px bg-bh-rule border border-bh-rule [&>*]:bg-bh-paper";
+const RULED = GRID_RULED;
 
 /** Modular layout grid; `ruled` makes the grid lines visible, Bauhaus-style. */
 export function Grid({ cols = 12, gap = "md", ruled = false, className, ...props }: GridProps) {
