@@ -36,6 +36,8 @@ const expected = [
   "animation-timeline: scroll()",
   "conic-gradient(currentColor 25%",
   ".text-bh-blue",
+  ".motion-safe\\:animate-bh-slide",
+  "@keyframes bh-grow",
 ];
 
 let failed = false;

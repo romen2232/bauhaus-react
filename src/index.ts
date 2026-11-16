@@ -47,3 +47,7 @@ export * from "./components/decoration/Shape/index.js";
 export * from "./components/decoration/ShapeMosaic/index.js";
 export * from "./components/decoration/Stamp/index.js";
 export * from "./components/decoration/Pattern/index.js";
+export * from "./components/decoration/Ribbon/index.js";
+export * from "./components/decoration/SkewBar/index.js";
+export * from "./components/decoration/KineticRule/index.js";
+export * from "./components/decoration/Composition/index.js";
