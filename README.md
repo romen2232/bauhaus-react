@@ -7,7 +7,7 @@ The library mixes several Bauhaus-derived looks. Each look has its own component
 | Look | Status | Suffix |
 |---|---|---|
 | Playful geometric | ✅ v0.2 | `*Playful` |
-| Swiss editorial | planned | `*Swiss` |
+| Swiss editorial | ✅ v0.4 | `*Swiss` |
 | Warm soft | ✅ v0.3 | `*Soft` |
 
 Look-agnostic pieces (layout, type, decoration) have no suffix.
@@ -39,7 +39,7 @@ Adjust the `@source` path so it is relative to your CSS file.
 
 ### Fonts
 
-The package does not bundle fonts. The theme expects **Outfit** (display), **Inter** (body) and **Inter Tight** (grotesk display, used by `Wordmark` and the upcoming Swiss look), and falls back to system sans-serif:
+The package does not bundle fonts. The theme expects **Outfit** (display), **Inter** (body) and **Inter Tight** (grotesk display, used by `Wordmark` and the Swiss look), and falls back to system sans-serif:
 
 ```sh
 pnpm add @fontsource/outfit @fontsource-variable/inter @fontsource/inter-tight
@@ -93,7 +93,7 @@ Fill colours: `red`, `yellow`, `blue`, `navy`, `sky`, `pink`, `orange`, `ink`, `
 Other tokens:
 
 - `bh-sand`: a Soft surface colour (takes ink text).
-- `bh-accent` (red by default): the Swiss look's single accent. Use it for fills, rules and text of 24px or larger only. It fails AA contrast for small text.
+- `bh-accent` (red by default): the Swiss look's single accent, used only as a fill or rule, never as text.
 - `rounded-bh-soft` (20px): a radius for Soft panels.
 - `font-bh-grotesk`: Inter Tight.
 - `animate-bh-slide` and `animate-bh-grow`: kinetic decoration loops.
@@ -112,6 +112,12 @@ Soft components use colour only to encode meaning (status, category, step), thro
 | `neutral` | `bh-charcoal` | `bh-paper` |
 
 `SOFT_TONE_CLASSES` gives each pair as classes. Soft surfaces that are `charcoal` (`CardSoft`, `FooterSoft`) switch nested focus rings to paper; put paper-text content inside them, since ink text is not readable on charcoal. Soft hover is a 10% tonal step (`SOFT_HOVER_CLASSES`): every fill gets darker except `red`, which gets lighter, because a darker red drops ink text below AA contrast.
+
+### Swiss look
+
+Swiss components use a `paper-white` ground, `ink` text and `muted-text` → `ink` emphasis. Each component uses at most one `bh-accent`, only as a fill or rule. The default accent carries ink text (4.86:1) but not white text (3.89:1); if you override `--color-bh-accent`, keep ink text readable on it. Structural hairlines are 1px, geometry is square except for the specified circular controls and small button, and hover states change colour only.
+
+`<Grid ruled>` paints `paper` cells by default. On a Swiss ground, override them with `className="[&>*]:bg-bh-paper-white"`.
 
 ## Components
 
@@ -167,6 +173,22 @@ Soft components use colour only to encode meaning (status, category, step), thro
 | `CarouselSoft` | Slide carousel with rounded slides and an index + progress pager |
 | `DateStripSoft` | Single-select strip of rounded day tiles |
 | `AudioPlayerSoft` | Charcoal player with the elapsed time as a big numeral |
+| `ButtonSwiss` | Square button: `solid`, `outline`, accent `color`; `size="sm"` is a pill; renders `<a>` with `href` |
+| `IconButtonSwiss` | Circular icon button, outlined by default (`aria-label` required); `size="lg"` is the FAB |
+| `TextLinkSwiss` | Text link with a hover-only underline and optional arrow |
+| `TagSwiss` | Sharp, outlined uppercase label |
+| `ChipSwiss` | Sharp, outlined metadata chip |
+| `ProjectCardSwiss` | Ruled card with a giant muted initial; the whole card is a link |
+| `CardSwiss` | Hairline content panel; a link with `href` |
+| `StackCardSwiss` | Ruled list card with a 2px accent spine |
+| `TopBarSwiss` | Paper-white header made of hairline cells |
+| `FooterSwiss` | Paper-white hairline grid footer |
+| `BottomNavSwiss` | Hairline navigation bar; the current page gets an ink top rule |
+| `TabsSwiss` | Tabs with an ink underline for the selected tab |
+| `MenuOverlaySwiss` | Fullscreen paper-white menu with large muted links and hairline divisions |
+| `CarouselSwiss` | Slide carousel with outlined arrows and a grotesk index + hairline progress pager |
+| `DateStripSwiss` | Single-select strip of days with an ink selection underline |
+| `AudioPlayerSwiss` | Audio player with a circular outlined play button, hairline track and square thumb |
 | `Shape` | Circle, quarter, half, triangle, square, bar; `fill`: solid, outline, pattern; optional `spin` |
 | `ShapeMosaic` | Edge-to-edge grid of shape tiles |
 | `Stamp` | Circular rotating text badge |

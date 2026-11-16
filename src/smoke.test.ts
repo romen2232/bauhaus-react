@@ -1,7 +1,7 @@
 import * as lib from "./index";
 
 it("exposes the package version", () => {
-  expect(lib.VERSION).toBe("0.3.0");
+  expect(lib.VERSION).toBe("0.4.0");
 });
 
 it("does not export internal bases", () => {
@@ -69,4 +69,15 @@ it.each([
 
 it("exports the Soft hover classes", () => {
   expect(Object.keys(lib.SOFT_HOVER_CLASSES)).toHaveLength(6);
+});
+
+it.each([
+  "Button", "IconButton", "TextLink", "Tag", "Chip", "ProjectCard", "Card", "StackCard",
+  "TopBar", "Footer", "BottomNav", "Tabs", "MenuOverlay", "Carousel", "DateStrip", "AudioPlayer",
+])("exports %sSwiss", (name) => {
+  expect(typeof (lib as Record<string, unknown>)[`${name}Swiss`]).toBe("function");
+});
+
+it("exports the Swiss palette", () => {
+  expect(lib.SWISS_HEX.white).toBe("#FFFFFF");
 });
