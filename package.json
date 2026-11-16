@@ -25,7 +25,8 @@
     "build": "vite build && tsc -p tsconfig.build.json",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "smoke": "node consumer-smoke/check.mjs"
+    "smoke": "node consumer-smoke/check.mjs",
+    "smoke:storybook": "node consumer-smoke/check-storybook.mjs"
   },
   "peerDependencies": {
     "react": "^19.0.0",
