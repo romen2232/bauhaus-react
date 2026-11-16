@@ -1,8 +1,18 @@
-export const VERSION = "0.1.0";
+export const VERSION = "0.2.0";
 
 // Utilities and tokens
 export { cn } from "./lib/cn.js";
-export { FILL_CLASSES, BG_CLASSES, TEXT_ON, HEX, type FillColor } from "./lib/palette.js";
+export {
+  FILL_CLASSES,
+  BG_CLASSES,
+  TEXT_ON,
+  HEX,
+  type FillColor,
+  SOFT_TONE_CLASSES,
+  SOFT_TONE_TEXT_ON,
+  SOFT_HEX,
+  type SoftTone,
+} from "./lib/palette.js";
 
 // Look-agnostic primitives
 export * from "./components/primitives/Container/index.js";
