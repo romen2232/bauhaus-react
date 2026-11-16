@@ -1,5 +1,5 @@
 "use client";
-import { Children, useEffect, useRef, useState, type ReactNode } from "react";
+import { Children, useEffect, useRef, useState, type ReactNode, type Ref } from "react";
 import { cn } from "../../../lib/cn.js";
 import { IndexCounter } from "../../primitives/IndexCounter/IndexCounter.js";
 import { ProgressRule } from "../../primitives/ProgressRule/ProgressRule.js";
@@ -31,6 +31,8 @@ export type CarouselBaseProps = {
   /** Renders the previous/next control with the look's icon button. */
   renderButton: (props: CarouselButtonProps) => ReactNode;
   className?: string;
+  /** The carousel region. */
+  ref?: Ref<HTMLElement>;
   classes: CarouselBaseClasses;
 };
 
@@ -46,6 +48,7 @@ export function CarouselBase({
   onIndexChange,
   renderButton,
   className,
+  ref,
   classes,
 }: CarouselBaseProps) {
   const slides = Children.toArray(children);
@@ -75,7 +78,7 @@ export function CarouselBase({
   }, [current]);
 
   return (
-    <section aria-roledescription="carousel" aria-label={label} className={cn(classes.root, className)}>
+    <section ref={ref} aria-roledescription="carousel" aria-label={label} className={cn(classes.root, className)}>
       <div className={classes.viewport}>
         <div
           className={cn("flex motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-out", classes.track)}

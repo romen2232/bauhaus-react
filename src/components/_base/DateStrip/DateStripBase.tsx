@@ -1,4 +1,5 @@
 "use client";
+import type { Ref } from "react";
 import { DateFormatter, parseDate, type CalendarDate } from "@internationalized/date";
 import { Radio, RadioGroup } from "react-aria-components";
 import { cn } from "../../../lib/cn.js";
@@ -21,6 +22,8 @@ export type DateStripBaseProps = {
   /** BCP 47 locale for weekday names and accessible labels. */
   locale?: string;
   className?: string;
+  /** The radio group element. */
+  ref?: Ref<HTMLDivElement>;
   /** Style selection with React Aria's `data-[selected]:` attribute in `day`. */
   classes: DateStripBaseClasses;
 };
@@ -41,6 +44,7 @@ export function DateStripBase({
   maxValue,
   locale = "en-US",
   className,
+  ref,
   classes,
 }: DateStripBaseProps) {
   // Format in UTC so the shown day never shifts with the viewer's time zone.
@@ -58,6 +62,7 @@ export function DateStripBase({
 
   return (
     <RadioGroup
+      ref={ref}
       aria-label={label}
       orientation="horizontal"
       className={cn(classes.root, className)}

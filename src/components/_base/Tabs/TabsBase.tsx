@@ -1,5 +1,5 @@
 "use client";
-import type { ReactNode } from "react";
+import type { ReactNode, Ref } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-aria-components";
 import { cn } from "../../../lib/cn.js";
 
@@ -15,6 +15,8 @@ export type TabsBaseProps = {
   defaultSelectedKey?: string;
   onSelectionChange?: (key: string) => void;
   className?: string;
+  /** The root element. */
+  ref?: Ref<HTMLDivElement>;
   /** Style selection with React Aria's `data-[selected]:` attribute in `tab`. */
   classes: TabsBaseClasses;
 };
@@ -27,10 +29,12 @@ export function TabsBase({
   defaultSelectedKey,
   onSelectionChange,
   className,
+  ref,
   classes,
 }: TabsBaseProps) {
   return (
     <Tabs
+      ref={ref}
       className={cn(classes.root, className)}
       selectedKey={selectedKey}
       defaultSelectedKey={defaultSelectedKey}

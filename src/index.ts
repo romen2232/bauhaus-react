@@ -72,6 +72,24 @@ export * from "./components/soft/DateStripSoft/index.js";
 export * from "./components/soft/CarouselSoft/index.js";
 export * from "./components/soft/AudioPlayerSoft/index.js";
 
+// Swiss look
+export * from "./components/swiss/ButtonSwiss/index.js";
+export * from "./components/swiss/IconButtonSwiss/index.js";
+export * from "./components/swiss/TextLinkSwiss/index.js";
+export * from "./components/swiss/TagSwiss/index.js";
+export * from "./components/swiss/ChipSwiss/index.js";
+export * from "./components/swiss/CardSwiss/index.js";
+export * from "./components/swiss/StackCardSwiss/index.js";
+export * from "./components/swiss/ProjectCardSwiss/index.js";
+export * from "./components/swiss/TopBarSwiss/index.js";
+export * from "./components/swiss/FooterSwiss/index.js";
+export * from "./components/swiss/BottomNavSwiss/index.js";
+export * from "./components/swiss/MenuOverlaySwiss/index.js";
+export * from "./components/swiss/TabsSwiss/index.js";
+export * from "./components/swiss/DateStripSwiss/index.js";
+export * from "./components/swiss/CarouselSwiss/index.js";
+export * from "./components/swiss/AudioPlayerSwiss/index.js";
+
 // Decoration
 export * from "./components/decoration/Shape/index.js";
 export * from "./components/decoration/ShapeMosaic/index.js";
