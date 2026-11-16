@@ -1,5 +1,5 @@
 "use client";
-import { Children, useState, type ReactNode } from "react";
+import { Children, useEffect, useRef, useState, type ReactNode } from "react";
 import { cn } from "../../../lib/cn.js";
 import { IndexCounter } from "../../primitives/IndexCounter/IndexCounter.js";
 import { ProgressRule } from "../../primitives/ProgressRule/ProgressRule.js";
@@ -53,10 +53,26 @@ export function CarouselBase({
   const [inner, setInner] = useState(defaultIndex);
   const current = Math.min(Math.max(index ?? inner, 0), Math.max(count - 1, 0));
 
+  const controls = useRef<HTMLDivElement>(null);
+  const keepFocus = useRef(false);
+
   const go = (next: number) => {
+    // Only a move started from the controls may move focus afterwards.
+    keepFocus.current = controls.current?.contains(document.activeElement) ?? false;
     if (index === undefined) setInner(next);
     onIndexChange?.(next);
   };
+
+  // Reaching an end disables the button the user just pressed; hand focus to an enabled control
+  // instead of letting it drop to <body>.
+  useEffect(() => {
+    if (!keepFocus.current) return;
+    keepFocus.current = false;
+    const root = controls.current;
+    const active = document.activeElement as HTMLButtonElement | null;
+    if (!root || (active && root.contains(active) && !active.disabled)) return;
+    root.querySelector<HTMLElement>("button:not([disabled]), a[href]")?.focus();
+  }, [current]);
 
   return (
     <section aria-roledescription="carousel" aria-label={label} className={cn(classes.root, className)}>
@@ -80,7 +96,7 @@ export function CarouselBase({
           ))}
         </div>
       </div>
-      <div className={classes.controls}>
+      <div ref={controls} className={classes.controls}>
         {renderButton({ direction: "prev", label: "Previous slide", disabled: current <= 0, onClick: () => go(current - 1) })}
         <div className={classes.pager}>
           <IndexCounter current={count === 0 ? 0 : current + 1} total={count} />

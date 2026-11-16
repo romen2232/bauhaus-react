@@ -45,6 +45,37 @@ it("disables previous at the start and next at the end", async () => {
   expect(screen.getByText("Slide 1 of 2")).toBeInTheDocument();
 });
 
+it("keeps keyboard focus on the controls when an end button becomes disabled", async () => {
+  ui(2);
+  screen.getByRole("button", { name: "Next slide" }).focus();
+  await userEvent.keyboard("{Enter}");
+  expect(screen.getByRole("button", { name: "Next slide" })).toBeDisabled();
+  expect(screen.getByRole("button", { name: "Previous slide" })).toHaveFocus();
+});
+
+it("does not steal focus when the index changes from outside", () => {
+  const outside = document.createElement("button");
+  document.body.append(outside);
+  outside.focus();
+  const { rerender } = ui(3, { index: 0 });
+  rerender(
+    <CarouselBase
+      classes={k}
+      label="Projects"
+      index={2}
+      renderButton={({ label, disabled, onClick }) => (
+        <button type="button" aria-label={label} disabled={disabled} onClick={onClick} />
+      )}
+    >
+      <p>S1</p>
+      <p>S2</p>
+      <p>S3</p>
+    </CarouselBase>,
+  );
+  expect(outside).toHaveFocus();
+  outside.remove();
+});
+
 it("handles a single slide", () => {
   ui(1);
   expect(screen.getByRole("button", { name: "Previous slide" })).toBeDisabled();
