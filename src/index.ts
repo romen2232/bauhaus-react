@@ -69,6 +69,7 @@ export * from "./components/soft/MenuOverlaySoft/index.js";
 export * from "./components/soft/TabsSoft/index.js";
 export * from "./components/soft/DateStripSoft/index.js";
 export * from "./components/soft/CarouselSoft/index.js";
+export * from "./components/soft/AudioPlayerSoft/index.js";
 
 // Decoration
 export * from "./components/decoration/Shape/index.js";

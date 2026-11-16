@@ -87,3 +87,21 @@ it("passes children into the audio element and merges className", () => {
   expect(ref.current!.querySelector("track")).not.toBeNull();
   expect(container.querySelector(".r")).toHaveClass("x");
 });
+
+it("renderTime receives formatted elapsed and total", () => {
+  render(
+    <AudioPlayerBase
+      classes={a}
+      src="/a.mp3"
+      title="Intro"
+      renderTime={({ elapsed, total }) => (
+        <>
+          <b>{elapsed}</b>
+          <i>{total}</i>
+        </>
+      )}
+    />,
+  );
+  expect(screen.getByText("0:00").tagName).toBe("B");
+  expect(screen.getByText("--:--").tagName).toBe("I");
+});
