@@ -32,6 +32,8 @@ const expected = [
   "--radius-bh-soft:",
   "--font-bh-grotesk:",
   "@keyframes bh-slide",
+  "@keyframes bh-wordmark",
+  "animation-timeline: scroll()",
 ];
 
 let failed = false;

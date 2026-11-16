@@ -22,6 +22,7 @@ export * from "./components/primitives/Stepper/index.js";
 export * from "./components/primitives/Avatar/index.js";
 export * from "./components/primitives/MediaBlock/index.js";
 export * from "./components/primitives/QuoteBlock/index.js";
+export * from "./components/primitives/Wordmark/index.js";
 
 // Playful look
 export * from "./components/playful/ButtonPlayful/index.js";
