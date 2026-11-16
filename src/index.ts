@@ -40,6 +40,7 @@ export * from "./components/playful/MenuOverlayPlayful/index.js";
 export * from "./components/playful/CarouselPlayful/index.js";
 export * from "./components/playful/TabsPlayful/index.js";
 export * from "./components/playful/DateStripPlayful/index.js";
+export * from "./components/playful/AudioPlayerPlayful/index.js";
 
 // Decoration
 export * from "./components/decoration/Shape/index.js";
