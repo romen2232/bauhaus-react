@@ -10,6 +10,8 @@ export * from "./components/primitives/Grid/index.js";
 export * from "./components/primitives/DisplayHeading/index.js";
 export * from "./components/primitives/HighlightText/index.js";
 export * from "./components/primitives/ArrowLink/index.js";
+export * from "./components/primitives/IndexCounter/index.js";
+export * from "./components/primitives/SectionLabel/index.js";
 
 // Playful look
 export * from "./components/playful/ButtonPlayful/index.js";
