@@ -62,6 +62,9 @@ export * from "./components/soft/ChipSoft/index.js";
 export * from "./components/soft/CardSoft/index.js";
 export * from "./components/soft/StackCardSoft/index.js";
 export * from "./components/soft/ProjectCardSoft/index.js";
+export * from "./components/soft/TopBarSoft/index.js";
+export * from "./components/soft/FooterSoft/index.js";
+export * from "./components/soft/BottomNavSoft/index.js";
 
 // Decoration
 export * from "./components/decoration/Shape/index.js";
