@@ -39,6 +39,7 @@ export * from "./components/playful/BottomNavPlayful/index.js";
 export * from "./components/playful/MenuOverlayPlayful/index.js";
 export * from "./components/playful/CarouselPlayful/index.js";
 export * from "./components/playful/TabsPlayful/index.js";
+export * from "./components/playful/DateStripPlayful/index.js";
 
 // Decoration
 export * from "./components/decoration/Shape/index.js";
