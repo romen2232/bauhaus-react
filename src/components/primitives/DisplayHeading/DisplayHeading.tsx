@@ -1,5 +1,5 @@
 import type { ComponentProps } from "react";
-import { cn } from "../../../lib/cn";
+import { cn } from "../../../lib/cn.js";
 
 export type DisplayHeadingSize = "xl" | "2xl" | "3xl" | "4xl";
 

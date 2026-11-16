@@ -1,1 +1,1 @@
-export { TagPlayful, type TagPlayfulProps } from "./TagPlayful";
+export { TagPlayful, type TagPlayfulProps } from "./TagPlayful.js";

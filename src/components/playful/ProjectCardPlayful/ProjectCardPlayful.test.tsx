@@ -52,3 +52,9 @@ it("renders the tag label", () => {
   renderCard();
   expect(screen.getByText("New")).toHaveClass("bg-bh-yellow");
 });
+
+it("hover lift only animates when the user allows motion", () => {
+  renderCard();
+  const classes = Array.from(screen.getByRole("link").classList);
+  expect(classes.filter((c) => c.startsWith("transition") || c.startsWith("hover:-translate"))).toEqual([]);
+});

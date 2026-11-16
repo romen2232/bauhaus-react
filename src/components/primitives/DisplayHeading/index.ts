@@ -1,1 +1,1 @@
-export { DisplayHeading, type DisplayHeadingProps, type DisplayHeadingSize } from "./DisplayHeading";
+export { DisplayHeading, type DisplayHeadingProps, type DisplayHeadingSize } from "./DisplayHeading.js";

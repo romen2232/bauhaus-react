@@ -2,7 +2,7 @@
  * bauhaus-react design tokens (Tailwind CSS v4).
  * Import after `@import "tailwindcss";` and override any --*-bh-* variable after the import.
  */
-@theme {
+@theme static {
   /* Neutrals */
   --color-bh-paper: #f4efe6;
   --color-bh-paper-white: #ffffff;

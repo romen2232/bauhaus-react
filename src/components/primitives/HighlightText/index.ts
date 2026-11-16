@@ -1,1 +1,1 @@
-export { HighlightText, type HighlightTextProps, type HighlightMarkProps } from "./HighlightText";
+export { HighlightText, type HighlightTextProps, type HighlightMarkProps } from "./HighlightText.js";

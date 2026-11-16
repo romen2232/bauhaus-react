@@ -1,6 +1,6 @@
 import type { ComponentProps } from "react";
-import { cn } from "../../../lib/cn";
-import { BG_CLASSES, type FillColor } from "../../../lib/palette";
+import { cn } from "../../../lib/cn.js";
+import { BG_CLASSES, type FillColor } from "../../../lib/palette.js";
 
 export type ShapeKind = "circle" | "quarter" | "half" | "triangle" | "square" | "bar";
 export type ShapeRotation = 0 | 90 | 180 | 270;

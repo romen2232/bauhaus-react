@@ -61,3 +61,15 @@ it("className overrides the variant background", () => {
   expect(btn).toHaveClass("bg-bh-red");
   expect(btn).not.toHaveClass("bg-bh-ink");
 });
+
+it("a disabled link keeps its link role so it is announced as a disabled link", () => {
+  render(<ButtonPlayful href="/x" disabled>Closed</ButtonPlayful>);
+  expect(screen.getByRole("link", { name: "Closed" })).toHaveAttribute("aria-disabled", "true");
+});
+
+it("hover motion only animates when the user allows motion", () => {
+  render(<ButtonPlayful>Go</ButtonPlayful>);
+  const classes = Array.from(screen.getByRole("button").classList);
+  expect(classes.filter((c) => c.startsWith("transition") || c.startsWith("duration"))).toEqual([]);
+  expect(classes.some((c) => c.startsWith("motion-safe:transition"))).toBe(true);
+});

@@ -1,6 +1,6 @@
 import type { ComponentProps } from "react";
-import { cn } from "../../../lib/cn";
-import { FOCUS_RING } from "../../../lib/styles";
+import { cn } from "../../../lib/cn.js";
+import { FOCUS_RING } from "../../../lib/styles.js";
 
 export type ArrowLinkDirection = "right" | "up-right";
 export type ArrowLinkSize = "sm" | "md" | "lg" | "hero";
@@ -19,8 +19,8 @@ const SIZES: Record<ArrowLinkSize, string> = {
 };
 
 const ARROWS: Record<ArrowLinkDirection, { glyph: string; motion: string }> = {
-  right: { glyph: "→", motion: "group-hover:translate-x-1" },
-  "up-right": { glyph: "↗", motion: "group-hover:translate-x-1 group-hover:-translate-y-1" },
+  right: { glyph: "→", motion: "motion-safe:group-hover:translate-x-1" },
+  "up-right": { glyph: "↗", motion: "motion-safe:group-hover:translate-x-1 motion-safe:group-hover:-translate-y-1" },
 };
 
 /** Text link with a directional arrow ("Manifesto ↗"). */
@@ -37,7 +37,7 @@ export function ArrowLink({ direction = "right", size = "md", className, childre
       {...props}
     >
       {children}
-      <span aria-hidden="true" className={cn("inline-block transition-transform duration-150", arrow.motion)}>
+      <span aria-hidden="true" className={cn("inline-block motion-safe:transition-transform motion-safe:duration-150", arrow.motion)}>
         {arrow.glyph}
       </span>
     </a>

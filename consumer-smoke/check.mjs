@@ -9,6 +9,8 @@ const run = (cmd) => execSync(cmd, { cwd: root, stdio: "inherit" });
 
 run("pnpm build");
 run("pnpm exec tailwindcss -i consumer-smoke/input.css -o consumer-smoke/out.css");
+// Types must resolve for consumers on strict Node ESM resolution, not only bundlers.
+run("pnpm exec tsc -p consumer-smoke/types/tsconfig.json");
 
 const css = readFileSync(join(root, "consumer-smoke/out.css"), "utf8");
 const expected = [
@@ -22,6 +24,9 @@ const expected = [
   "@keyframes bh-spin",
   ".md\\:grid-cols-3",
   ".focus-visible\\:outline-bh-ink",
+  // Every token is a CSS variable, even if no utility uses it (README promise).
+  "--color-bh-teal:",
+  "--color-bh-khaki:",
 ];
 
 let failed = false;

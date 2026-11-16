@@ -1,6 +1,6 @@
 import type { ComponentProps, ReactNode } from "react";
-import { cn } from "../../../lib/cn";
-import { FOCUS_RING, HOVER_LIFT } from "../../../lib/styles";
+import { cn } from "../../../lib/cn.js";
+import { FOCUS_RING, HOVER_LIFT } from "../../../lib/styles.js";
 
 export type IconButtonPlayfulSize = "sm" | "md" | "lg";
 

@@ -1,25 +1,25 @@
 export const VERSION = "0.1.0";
 
 // Utilities and tokens
-export { cn } from "./lib/cn";
-export { FILL_CLASSES, BG_CLASSES, TEXT_ON, HEX, type FillColor } from "./lib/palette";
+export { cn } from "./lib/cn.js";
+export { FILL_CLASSES, BG_CLASSES, TEXT_ON, HEX, type FillColor } from "./lib/palette.js";
 
 // Look-agnostic primitives
-export * from "./components/primitives/Container";
-export * from "./components/primitives/Grid";
-export * from "./components/primitives/DisplayHeading";
-export * from "./components/primitives/HighlightText";
-export * from "./components/primitives/ArrowLink";
+export * from "./components/primitives/Container/index.js";
+export * from "./components/primitives/Grid/index.js";
+export * from "./components/primitives/DisplayHeading/index.js";
+export * from "./components/primitives/HighlightText/index.js";
+export * from "./components/primitives/ArrowLink/index.js";
 
 // Playful look
-export * from "./components/playful/ButtonPlayful";
-export * from "./components/playful/IconButtonPlayful";
-export * from "./components/playful/TagPlayful";
-export * from "./components/playful/ProjectCardPlayful";
-export * from "./components/playful/TopBarPlayful";
-export * from "./components/playful/FooterPlayful";
+export * from "./components/playful/ButtonPlayful/index.js";
+export * from "./components/playful/IconButtonPlayful/index.js";
+export * from "./components/playful/TagPlayful/index.js";
+export * from "./components/playful/ProjectCardPlayful/index.js";
+export * from "./components/playful/TopBarPlayful/index.js";
+export * from "./components/playful/FooterPlayful/index.js";
 
 // Decoration
-export * from "./components/decoration/Shape";
-export * from "./components/decoration/ShapeMosaic";
-export * from "./components/decoration/Stamp";
+export * from "./components/decoration/Shape/index.js";
+export * from "./components/decoration/ShapeMosaic/index.js";
+export * from "./components/decoration/Stamp/index.js";

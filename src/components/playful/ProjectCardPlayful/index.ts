@@ -1,1 +1,1 @@
-export { ProjectCardPlayful, type ProjectCardPlayfulProps } from "./ProjectCardPlayful";
+export { ProjectCardPlayful, type ProjectCardPlayfulProps } from "./ProjectCardPlayful.js";

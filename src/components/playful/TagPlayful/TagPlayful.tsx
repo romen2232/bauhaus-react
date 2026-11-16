@@ -1,6 +1,6 @@
 import type { ComponentProps } from "react";
-import { cn } from "../../../lib/cn";
-import { FILL_CLASSES, type FillColor } from "../../../lib/palette";
+import { cn } from "../../../lib/cn.js";
+import { FILL_CLASSES, type FillColor } from "../../../lib/palette.js";
 
 export type TagPlayfulProps = ComponentProps<"span"> & { color?: FillColor };
 

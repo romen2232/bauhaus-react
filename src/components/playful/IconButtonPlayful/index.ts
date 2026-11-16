@@ -1,1 +1,1 @@
-export { IconButtonPlayful, type IconButtonPlayfulProps, type IconButtonPlayfulSize } from "./IconButtonPlayful";
+export { IconButtonPlayful, type IconButtonPlayfulProps, type IconButtonPlayfulSize } from "./IconButtonPlayful.js";

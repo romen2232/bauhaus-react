@@ -1,1 +1,1 @@
-export { FooterPlayful, type FooterPlayfulProps } from "./FooterPlayful";
+export { FooterPlayful, type FooterPlayfulProps } from "./FooterPlayful.js";
