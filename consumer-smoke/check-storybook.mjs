@@ -16,6 +16,7 @@ const checks = [
   [".bg-bh-yellow", true],
   [".rounded-tl-full", true],
   ["--color-bh-paper", true],
+  ["color-mix(in srgb", true],
   ["@theme", false], // raw Tailwind source must not leak into the output
 ];
 

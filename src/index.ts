@@ -11,6 +11,7 @@ export {
   SOFT_TONE_CLASSES,
   SOFT_TONE_TEXT_ON,
   SOFT_HEX,
+  SOFT_HOVER_CLASSES,
   type SoftTone,
 } from "./lib/palette.js";
 

@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import {
   FILL_CLASSES, BG_CLASSES, HEX, TEXT_ON, type FillColor,
-  SOFT_TONE_CLASSES, SOFT_TONE_TEXT_ON, SOFT_HEX, CURRENT_COLOR_CLASSES,
+  SOFT_TONE_CLASSES, SOFT_TONE_TEXT_ON, SOFT_HEX, CURRENT_COLOR_CLASSES, SOFT_HOVER_CLASSES,
 } from "./palette";
 
 const luminance = (hex: string) => {
@@ -77,4 +77,27 @@ it("SOFT_HEX matches theme.css", () => {
 
 it("CURRENT_COLOR_CLASSES are literal text classes for every fill", () => {
   for (const c of colors) expect(CURRENT_COLOR_CLASSES[c]).toBe(`text-bh-${c}`);
+});
+
+const mixSrgb = (a: string, b: string, p: number) => {
+  const ch = (h: string) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+  const [x, y] = [ch(a), ch(b)];
+  return "#" + x.map((v, i) => Math.round(v * p + y[i]! * (1 - p)).toString(16).padStart(2, "0")).join("");
+};
+// [fill, mixed toward, text]
+const softHover = {
+  red: [SOFT_HEX.red, HEX.paper, HEX.ink],
+  yellow: [SOFT_HEX.yellow, HEX.ink, HEX.ink],
+  blue: [SOFT_HEX.blue, HEX.ink, HEX.paper],
+  neutral: [SOFT_HEX.neutral, HEX.ink, HEX.paper],
+  sand: [SOFT_HEX.sand, HEX.ink, HEX.ink],
+  paper: [HEX.paper, HEX.ink, HEX.ink],
+} as const;
+it.each(Object.entries(softHover))("soft hover %s keeps text at 4.5:1", (_k, [fill, toward, text]) => {
+  expect(contrast(mixSrgb(fill, toward, 0.9), text)).toBeGreaterThanOrEqual(4.5);
+});
+it("soft hover classes mix 10% toward the stated colour", () => {
+  expect(SOFT_HOVER_CLASSES.red).toBe("hover:bg-[color-mix(in_srgb,var(--color-bh-red)_90%,var(--color-bh-paper))]");
+  expect(SOFT_HOVER_CLASSES.neutral).toBe("hover:bg-[color-mix(in_srgb,var(--color-bh-charcoal)_90%,var(--color-bh-ink))]");
+  expect(Object.keys(SOFT_HOVER_CLASSES).sort()).toEqual(["blue", "neutral", "paper", "red", "sand", "yellow"]);
 });
