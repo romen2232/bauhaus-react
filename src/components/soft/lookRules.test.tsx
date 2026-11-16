@@ -8,6 +8,9 @@ import { ChipSoft } from "./ChipSoft/ChipSoft";
 import { CardSoft } from "./CardSoft/CardSoft";
 import { StackCardSoft } from "./StackCardSoft/StackCardSoft";
 import { ProjectCardSoft } from "./ProjectCardSoft/ProjectCardSoft";
+import { TopBarSoft } from "./TopBarSoft/TopBarSoft";
+import { FooterSoft } from "./FooterSoft/FooterSoft";
+import { BottomNavSoft } from "./BottomNavSoft/BottomNavSoft";
 
 // Soft look rules (spec §6.1): no borders, no hard shadow, no movement, yellow never as text.
 const FORBIDDEN = /^(border(-[xytrbl])?(-\d+)?|shadow-bh-hard.*|-?translate-.*|text-bh-yellow)$/;
@@ -28,6 +31,9 @@ const cases: [string, ReactElement][] = [
   ["CardSoft link", <CardSoft href="#" header="Head">Body</CardSoft>],
   ["StackCardSoft", <StackCardSoft action="+">Room</StackCardSoft>],
   ["ProjectCardSoft", <ProjectCardSoft href="#" initial="A" title="Room" tag={{ label: "Free" }} media="img" />],
+  ["TopBarSoft", <TopBarSoft brand="Rooms" meta={["Mon"]} action="Menu" />],
+  ["FooterSoft", <FooterSoft columns={["About", "Help"]} bottom="©" />],
+  ["BottomNavSoft", <BottomNavSoft label="Main" items={[{ href: "/", label: "Home", icon: "⌂", current: true }]} />],
 ];
 
 it.each(cases)("%s follows the Soft look rules", (_name, element) => {
