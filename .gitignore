@@ -1,7 +1,9 @@
-references/
-node_modules/
-dist/
-storybook-static/
-coverage/
 *.log
 .DS_Store
+.superpowers/
+consumer-smoke/out.css
+coverage/
+dist/
+node_modules/
+references/
+storybook-static/
