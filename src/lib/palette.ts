@@ -78,6 +78,16 @@ export const SOFT_TONE_CLASSES: Record<SoftTone, string> = {
   neutral: "bg-bh-charcoal text-bh-paper",
 };
 
+/** Hex values mirrored from theme.css for the Swiss look; used for contrast tests. */
+export const SWISS_HEX = {
+  white: "#FFFFFF",
+  ink: HEX.ink,
+  mutedText: "#6E6A64",
+  rule: "#E5E5E5",
+  accent: HEX.red,
+  charcoal: SOFT_HEX.neutral,
+} as const;
+
 /** Sets currentColor for decoration (patterns, strokes). Never use for readable text. */
 export const CURRENT_COLOR_CLASSES: Record<FillColor, string> = {
   red: "text-bh-red",
