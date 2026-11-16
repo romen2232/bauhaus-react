@@ -1,7 +1,7 @@
 import type { ComponentProps, ReactNode } from "react";
 import { cn } from "../../../lib/cn.js";
 import { FILL_CLASSES, type FillColor } from "../../../lib/palette.js";
-import { FOCUS_RING, HOVER_LIFT } from "../../../lib/styles.js";
+import { FOCUS_RING, HOVER_LIFT, PRESS } from "../../../lib/styles.js";
 
 export type ButtonPlayfulVariant = "solid" | "outline" | "color";
 export type ButtonPlayfulSize = "sm" | "md" | "lg";
@@ -42,7 +42,7 @@ export function ButtonPlayful(props: ButtonPlayfulProps) {
     BASE,
     SIZES[size],
     variant === "color" ? cn(FILL_CLASSES[color], "border-2 border-bh-ink") : VARIANTS[variant],
-    disabled ? "cursor-not-allowed opacity-50" : HOVER_LIFT,
+    disabled ? "cursor-not-allowed opacity-50" : cn(HOVER_LIFT, PRESS),
     FOCUS_RING,
     className,
   );
