@@ -22,3 +22,9 @@ it("passes native props through", () => {
   render(<Grid aria-label="Projects" role="list" />);
   expect(screen.getByRole("list", { name: "Projects" })).toBeInTheDocument();
 });
+
+it("a Swiss ground override wins over the ruled paper cells", () => {
+  const { container } = render(<Grid ruled className="[&>*]:bg-bh-paper-white" />);
+  expect(container.firstElementChild).toHaveClass("[&>*]:bg-bh-paper-white");
+  expect(container.firstElementChild).not.toHaveClass("[&>*]:bg-bh-paper");
+});

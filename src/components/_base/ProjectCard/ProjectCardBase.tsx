@@ -21,6 +21,8 @@ export type ProjectCardBaseProps = Omit<ComponentProps<"a">, "title" | "media"> 
   /** Illustration or image (decorative). */
   media?: ReactNode;
   headingLevel?: 2 | 3;
+  /** Derive the link name from visible content instead of the title alone. */
+  includeVisibleTextInName?: boolean;
   classes: ProjectCardBaseClasses;
 };
 
@@ -33,6 +35,7 @@ export function ProjectCardBase({
   tag,
   media,
   headingLevel = 3,
+  includeVisibleTextInName = false,
   classes,
   className,
   ...props
@@ -41,7 +44,12 @@ export function ProjectCardBase({
   const Heading = headingLevel === 2 ? "h2" : "h3";
 
   return (
-    <a href={href} aria-labelledby={titleId} className={cn(classes.root, className)} {...props}>
+    <a
+      href={href}
+      aria-labelledby={includeVisibleTextInName ? undefined : titleId}
+      className={cn(classes.root, className)}
+      {...props}
+    >
       {tag}
       <span aria-hidden="true" className={classes.initial}>
         {initial}

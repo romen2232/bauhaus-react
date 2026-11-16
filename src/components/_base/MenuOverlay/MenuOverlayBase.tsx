@@ -1,5 +1,5 @@
 "use client";
-import type { ReactNode } from "react";
+import type { ReactNode, Ref } from "react";
 import { Button, Dialog, DialogTrigger, Heading, Modal, ModalOverlay } from "react-aria-components";
 import { cn } from "../../../lib/cn.js";
 
@@ -29,6 +29,8 @@ export type MenuOverlayBaseProps = {
   onOpenChange?: (open: boolean) => void;
   /** Applied to the trigger: the overlay itself renders in a portal. */
   className?: string;
+  /** The trigger button. */
+  ref?: Ref<HTMLButtonElement>;
   classes: MenuOverlayBaseClasses;
 };
 
@@ -45,11 +47,12 @@ export function MenuOverlayBase({
   defaultOpen,
   onOpenChange,
   className,
+  ref,
   classes,
 }: MenuOverlayBaseProps) {
   return (
     <DialogTrigger isOpen={isOpen} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
-      <Button className={cn(classes.trigger, className)}>{triggerLabel}</Button>
+      <Button ref={ref} className={cn(classes.trigger, className)}>{triggerLabel}</Button>
       <ModalOverlay className={classes.overlay}>
         <Modal className={classes.panel}>
           <Dialog className="outline-none">
