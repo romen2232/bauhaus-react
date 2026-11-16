@@ -23,7 +23,7 @@ const ARROWS: Record<ArrowLinkDirection, { glyph: string; motion: string }> = {
   "up-right": { glyph: "↗", motion: "motion-safe:group-hover:translate-x-1 motion-safe:group-hover:-translate-y-1" },
 };
 
-/** Text link with a directional arrow ("Manifesto ↗"). */
+/** Text link with a directional arrow. */
 export function ArrowLink({ direction = "right", size = "md", className, children, ...props }: ArrowLinkProps) {
   const arrow = ARROWS[direction];
   return (

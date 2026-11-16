@@ -5,10 +5,10 @@ import { TopBarPlayful } from "./TopBarPlayful";
 const meta: Meta<typeof TopBarPlayful> = { title: "Playful/TopBarPlayful", component: TopBarPlayful };
 export default meta;
 
-export const Mijonju: StoryObj<typeof TopBarPlayful> = {
+export const Default: StoryObj<typeof TopBarPlayful> = {
   args: {
-    brand: <a href="#">mijonju.com</a>,
-    meta: ["Public notebook · creative database", "Version 0.71 · always in beta", "Index"],
+    brand: <a href="#">Brand</a>,
+    meta: ["Lorem ipsum dolor sit amet", "Consectetur adipiscing elit", "Menu"],
     action: <IconButtonPlayful aria-label="Open menu" variant="outline" size="sm">≡</IconButtonPlayful>,
   },
 };

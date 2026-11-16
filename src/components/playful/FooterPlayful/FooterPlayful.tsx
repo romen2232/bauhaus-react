@@ -10,7 +10,7 @@ export type FooterPlayfulProps = ComponentProps<"footer"> & {
 // One column on mobile; up to six from md. Literal classes for the consumer's Tailwind scan.
 const MD_COLS = ["md:grid-cols-1", "md:grid-cols-2", "md:grid-cols-3", "md:grid-cols-4", "md:grid-cols-5", "md:grid-cols-6"];
 
-/** Ruled grid footer (Mijonju). */
+/** Ruled grid footer. */
 export function FooterPlayful({ columns, bottom, className, ...props }: FooterPlayfulProps) {
   const count = Math.min(Math.max(columns.length, 1), 6);
   return (

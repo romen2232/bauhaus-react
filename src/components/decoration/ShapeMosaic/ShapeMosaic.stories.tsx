@@ -4,7 +4,7 @@ import { ShapeMosaic, type MosaicTile } from "./ShapeMosaic";
 const meta: Meta<typeof ShapeMosaic> = { title: "Decoration/ShapeMosaic", component: ShapeMosaic };
 export default meta;
 
-const moduloHero: MosaicTile[] = [
+const heroTiles: MosaicTile[] = [
   { kind: "quarter", color: "navy", background: "sky", rotate: 0 },
   { kind: "half", color: "orange", background: "sky", rotate: 180 },
   { kind: "quarter", color: "pink", background: "navy", rotate: 90 },
@@ -19,6 +19,6 @@ const moduloHero: MosaicTile[] = [
   { kind: "quarter", color: "pink", background: "sky", rotate: 180 },
 ];
 
-export const ModuloHero: StoryObj<typeof ShapeMosaic> = {
-  args: { cols: 4, tiles: moduloHero, className: "max-w-xl" },
+export const HeroMosaic: StoryObj<typeof ShapeMosaic> = {
+  args: { cols: 4, tiles: heroTiles, className: "max-w-xl" },
 };

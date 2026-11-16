@@ -8,18 +8,18 @@ export default meta;
 type Story = StoryObj<typeof ProjectCardPlayful>;
 
 export const Single: Story = {
-  args: { href: "#", initial: "T", title: "Tools", description: "Scripts, plugins and generators.", color: "pink" },
+  args: { href: "#", initial: "A", title: "Alpha", description: "Lorem ipsum dolor sit amet.", color: "pink" },
 };
 
 const row: Array<[string, string, FillColor]> = [
-  ["T", "Tools", "pink"],
-  ["A", "Archive", "yellow"],
-  ["P", "Projects", "orange"],
-  ["E", "Experiments", "blue"],
-  ["R", "Resources", "paper"],
+  ["A", "Alpha", "pink"],
+  ["B", "Beta", "yellow"],
+  ["C", "Gamma", "orange"],
+  ["D", "Delta", "blue"],
+  ["E", "Epsilon", "paper"],
 ];
 
-export const MijonjuRow: Story = {
+export const CardRow: Story = {
   render: () => (
     <Grid cols={5} gap="sm">
       {row.map(([initial, title, color]) => (

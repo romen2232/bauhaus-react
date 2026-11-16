@@ -18,7 +18,7 @@ export const AllKindsAndRotations: Story = {
   ),
 };
 
-export const Kandinsky: Story = {
+export const PrimaryShapes: Story = {
   render: () => (
     <div className="flex gap-6">
       <Shape kind="triangle" color="yellow" className="size-24" />

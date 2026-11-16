@@ -6,9 +6,9 @@ const meta: Meta<typeof ButtonPlayful> = { title: "Playful/ButtonPlayful", compo
 export default meta;
 type Story = StoryObj<typeof ButtonPlayful>;
 
-export const Solid: Story = { args: { children: "Apply now" } };
-export const Outline: Story = { args: { children: "View all", variant: "outline" } };
-export const AsLink: Story = { args: { children: "See the courses", href: "#" } };
+export const Solid: Story = { args: { children: "Primary action" } };
+export const Outline: Story = { args: { children: "Secondary action", variant: "outline" } };
+export const AsLink: Story = { args: { children: "Learn more", href: "#" } };
 export const Disabled: Story = { args: { children: "Closed", disabled: true } };
 
 export const Sizes: Story = {

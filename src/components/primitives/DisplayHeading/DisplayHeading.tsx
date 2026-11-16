@@ -6,7 +6,7 @@ export type DisplayHeadingSize = "xl" | "2xl" | "3xl" | "4xl";
 export type DisplayHeadingProps = ComponentProps<"h1"> & {
   as?: "h1" | "h2" | "h3";
   size?: DisplayHeadingSize;
-  /** Draw an offset copy behind the text (Modulo "GRAPHIC DESIGN" effect). Decorative only. */
+  /** Draw an offset copy behind the text. Decorative only. */
   echo?: boolean;
 };
 

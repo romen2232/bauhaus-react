@@ -6,5 +6,5 @@ export default meta;
 type Story = StoryObj<typeof DisplayHeading>;
 
 export const Default: Story = { args: { children: "Bauhaus" } };
-export const Echo: Story = { args: { children: "Graphic design", size: "xl", echo: true } };
-export const School: Story = { args: { as: "h1", size: "4xl", children: "School" } };
+export const Echo: Story = { args: { children: "Lorem ipsum", size: "xl", echo: true } };
+export const Hero: Story = { args: { as: "h1", size: "4xl", children: "Title" } };

@@ -7,10 +7,10 @@ export default meta;
 export const Default: StoryObj<typeof FooterPlayful> = {
   args: {
     columns: [
-      <p key="r">Ideas are cheap. Execution is expensive.</p>,
-      <p key="s">mijonju.com — always in beta.</p>,
+      <p key="r">Lorem ipsum dolor sit amet.</p>,
+      <p key="s">Consectetur adipiscing elit.</p>,
       <ul key="l"><li>About</li><li>Contact</li><li>Privacy</li></ul>,
     ],
-    bottom: "Collecting, connecting, building.",
+    bottom: "Sed do eiusmod tempor.",
   },
 };

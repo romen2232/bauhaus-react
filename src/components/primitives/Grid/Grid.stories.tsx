@@ -13,4 +13,4 @@ const cells = (n: number) =>
   ));
 
 export const Plain: Story = { args: { cols: 4, children: cells(8) } };
-export const RuledLikeAboutUs: Story = { args: { cols: 5, ruled: true, children: cells(20) } };
+export const RuledGrid: Story = { args: { cols: 5, ruled: true, children: cells(20) } };

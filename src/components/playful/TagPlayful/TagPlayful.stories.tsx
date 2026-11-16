@@ -7,9 +7,9 @@ export default meta;
 export const Set: StoryObj<typeof TagPlayful> = {
   render: () => (
     <div className="flex gap-2">
-      <TagPlayful color="pink">New script</TagPlayful>
-      <TagPlayful color="yellow">Daily sketch</TagPlayful>
-      <TagPlayful color="blue">WebGL toy</TagPlayful>
+      <TagPlayful color="pink">Label one</TagPlayful>
+      <TagPlayful color="yellow">Label two</TagPlayful>
+      <TagPlayful color="blue">Label three</TagPlayful>
     </div>
   ),
 };

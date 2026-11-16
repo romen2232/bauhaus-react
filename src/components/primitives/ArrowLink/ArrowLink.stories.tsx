@@ -5,5 +5,5 @@ const meta: Meta<typeof ArrowLink> = { title: "Primitives/ArrowLink", component:
 export default meta;
 type Story = StoryObj<typeof ArrowLink>;
 
-export const Default: Story = { args: { href: "#", children: "Read the manifesto" } };
-export const Hero: Story = { args: { href: "#", children: "Manifesto", direction: "up-right", size: "hero" } };
+export const Default: Story = { args: { href: "#", children: "Learn more" } };
+export const Hero: Story = { args: { href: "#", children: "Get started", direction: "up-right", size: "hero" } };

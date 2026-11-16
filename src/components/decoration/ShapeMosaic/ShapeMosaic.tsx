@@ -26,7 +26,7 @@ const COLS: Record<ShapeMosaicCols, string> = {
   6: "grid-cols-6",
 };
 
-/** Edge-to-edge grid of shape tiles (Modulo hero). Decorative. */
+/** Edge-to-edge grid of shape tiles. Decorative. */
 export function ShapeMosaic({ cols, tiles, className, ...props }: ShapeMosaicProps) {
   return (
     <div aria-hidden="true" className={cn("grid gap-0", COLS[cols], className)} {...props}>

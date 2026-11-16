@@ -8,7 +8,7 @@ function Mark({ className, ...props }: HighlightMarkProps) {
   return <strong className={cn("font-[inherit] text-bh-ink", className)} {...props} />;
 }
 
-/** Muted paragraph where `HighlightText.Mark` children stand out in ink (Manifesto reading pattern). */
+/** Muted paragraph where `HighlightText.Mark` children stand out in ink. */
 export function HighlightText({ className, ...props }: HighlightTextProps) {
   return <p className={cn("font-bh-body text-bh-muted-text", className)} {...props} />;
 }

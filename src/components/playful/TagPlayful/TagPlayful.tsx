@@ -4,7 +4,7 @@ import { FILL_CLASSES, type FillColor } from "../../../lib/palette.js";
 
 export type TagPlayfulProps = ComponentProps<"span"> & { color?: FillColor };
 
-/** Solid color label ("NEW SCRIPT", "DAILY SKETCH"). */
+/** Solid color label. */
 export function TagPlayful({ color = "yellow", className, ...props }: TagPlayfulProps) {
   return (
     <span

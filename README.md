@@ -57,10 +57,10 @@ import { ButtonPlayful, DisplayHeading, ProjectCardPlayful, Grid } from "bauhaus
 export function Hero() {
   return (
     <>
-      <DisplayHeading as="h1" size="4xl" echo>School</DisplayHeading>
-      <ButtonPlayful href="/apply">Apply now</ButtonPlayful>
+      <DisplayHeading as="h1" size="4xl" echo>Lorem ipsum</DisplayHeading>
+      <ButtonPlayful href="/start">Get started</ButtonPlayful>
       <Grid cols={3} gap="sm">
-        <ProjectCardPlayful href="/tools" initial="T" title="Tools" color="pink" />
+        <ProjectCardPlayful href="/alpha" initial="A" title="Alpha" color="pink" />
       </Grid>
     </>
   );
