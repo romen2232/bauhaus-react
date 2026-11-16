@@ -90,3 +90,16 @@ export const CURRENT_COLOR_CLASSES: Record<FillColor, string> = {
   ink: "text-bh-ink",
   paper: "text-bh-paper",
 };
+
+/**
+ * Soft look hover: a 10% tonal step. Every fill steps darker except `red`, which
+ * steps lighter, because a darker red drops ink text below WCAG AA (4.12:1).
+ */
+export const SOFT_HOVER_CLASSES: Record<SoftTone | "sand" | "paper", string> = {
+  red: "hover:bg-[color-mix(in_srgb,var(--color-bh-red)_90%,var(--color-bh-paper))]",
+  yellow: "hover:bg-[color-mix(in_srgb,var(--color-bh-yellow)_90%,var(--color-bh-ink))]",
+  blue: "hover:bg-[color-mix(in_srgb,var(--color-bh-blue)_90%,var(--color-bh-ink))]",
+  neutral: "hover:bg-[color-mix(in_srgb,var(--color-bh-charcoal)_90%,var(--color-bh-ink))]",
+  sand: "hover:bg-[color-mix(in_srgb,var(--color-bh-sand)_90%,var(--color-bh-ink))]",
+  paper: "hover:bg-[color-mix(in_srgb,var(--color-bh-paper)_90%,var(--color-bh-ink))]",
+};
