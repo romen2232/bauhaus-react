@@ -18,7 +18,7 @@ export type ProjectCardPlayfulProps = Omit<ComponentProps<"a">, "title" | "media
   headingLevel?: 2 | 3;
 };
 
-/** Full-bleed color card with a giant initial; the whole card is one link (Mijonju category cards). */
+/** Full-bleed color card with a giant initial; the whole card is one link. */
 export function ProjectCardPlayful({
   href,
   color = "orange",

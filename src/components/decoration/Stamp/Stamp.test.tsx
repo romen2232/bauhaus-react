@@ -2,12 +2,12 @@ import { render, screen } from "@testing-library/react";
 import { Stamp } from "./Stamp";
 
 it("exposes its text as an image label", () => {
-  render(<Stamp text="Open source mindset" />);
-  expect(screen.getByRole("img", { name: "Open source mindset" })).toBeInTheDocument();
+  render(<Stamp text="Lorem ipsum dolor" />);
+  expect(screen.getByRole("img", { name: "Lorem ipsum dolor" })).toBeInTheDocument();
 });
 
 it("hides the inner svg from assistive tech", () => {
-  render(<Stamp text="Open source mindset" />);
+  render(<Stamp text="Lorem ipsum dolor" />);
   expect(screen.getByRole("img").querySelector("svg")).toHaveAttribute("aria-hidden", "true");
 });
 

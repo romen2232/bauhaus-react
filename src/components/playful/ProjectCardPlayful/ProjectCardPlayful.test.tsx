@@ -4,10 +4,10 @@ import { ProjectCardPlayful } from "./ProjectCardPlayful";
 const renderCard = (props: Partial<Parameters<typeof ProjectCardPlayful>[0]> = {}) =>
   render(
     <ProjectCardPlayful
-      href="/tools"
-      initial="T"
-      title="Tools"
-      description="Scripts, plugins, generators."
+      href="/alpha"
+      initial="A"
+      title="Alpha"
+      description="Lorem ipsum dolor sit amet."
       tag={{ label: "New", color: "yellow" }}
       media={<img src="x.png" alt="" />}
       {...props}
@@ -18,13 +18,13 @@ it("is exactly one link named by its title, not the initial", () => {
   renderCard();
   const links = screen.getAllByRole("link");
   expect(links).toHaveLength(1);
-  expect(links[0]).toHaveAccessibleName("Tools");
-  expect(links[0]).toHaveAttribute("href", "/tools");
+  expect(links[0]).toHaveAccessibleName("Alpha");
+  expect(links[0]).toHaveAttribute("href", "/alpha");
 });
 
 it("contains a level-3 heading by default", () => {
   renderCard();
-  expect(screen.getByRole("heading", { level: 3, name: "Tools" })).toBeInTheDocument();
+  expect(screen.getByRole("heading", { level: 3, name: "Alpha" })).toBeInTheDocument();
 });
 
 it("respects headingLevel", () => {
@@ -34,7 +34,7 @@ it("respects headingLevel", () => {
 
 it("hides the initial and the media from assistive tech", () => {
   renderCard();
-  expect(screen.getByText("T")).toHaveAttribute("aria-hidden", "true");
+  expect(screen.getByText("A")).toHaveAttribute("aria-hidden", "true");
   expect(screen.getByRole("link").querySelector("img")!.closest('[aria-hidden="true"]')).not.toBeNull();
 });
 

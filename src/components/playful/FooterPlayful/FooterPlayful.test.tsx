@@ -16,6 +16,6 @@ it("clamps more than 6 columns to 6 per row", () => {
 });
 
 it("renders an optional bottom row", () => {
-  render(<FooterPlayful columns={[<p key="a">A</p>]} bottom="Made with too much caffeine" />);
-  expect(screen.getByText("Made with too much caffeine")).toHaveClass("uppercase");
+  render(<FooterPlayful columns={[<p key="a">A</p>]} bottom="Lorem ipsum dolor" />);
+  expect(screen.getByText("Lorem ipsum dolor")).toHaveClass("uppercase");
 });

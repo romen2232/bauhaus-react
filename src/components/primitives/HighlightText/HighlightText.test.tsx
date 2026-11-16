@@ -9,10 +9,10 @@ it("renders muted body text", () => {
 it("Mark renders semantic emphasis in ink", () => {
   render(
     <HighlightText>
-      Gropius championed <HighlightText.Mark>the school's mission</HighlightText.Mark>
+      Lorem ipsum dolor sit amet, <HighlightText.Mark>consectetur adipiscing</HighlightText.Mark>
     </HighlightText>,
   );
-  const mark = screen.getByText("the school's mission");
+  const mark = screen.getByText("consectetur adipiscing");
   expect(mark.tagName).toBe("STRONG");
   expect(mark).toHaveClass("text-bh-ink");
 });

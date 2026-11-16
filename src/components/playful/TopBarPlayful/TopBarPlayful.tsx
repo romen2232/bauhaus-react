@@ -9,7 +9,7 @@ export type TopBarPlayfulProps = ComponentProps<"header"> & {
   action?: ReactNode;
 };
 
-/** Site header made of ruled cells (Mijonju / Manifesto). */
+/** Site header made of ruled cells. */
 export function TopBarPlayful({ brand, meta = [], action, className, ...props }: TopBarPlayfulProps) {
   return (
     <header

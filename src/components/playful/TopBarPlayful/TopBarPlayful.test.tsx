@@ -4,16 +4,16 @@ import { TopBarPlayful } from "./TopBarPlayful";
 it("renders a banner with brand, meta cells and a trailing action", () => {
   render(
     <TopBarPlayful
-      brand={<a href="/">mijonju</a>}
-      meta={["Public notebook", "Version 0.71"]}
+      brand={<a href="/">Brand</a>}
+      meta={["Lorem ipsum", "Version 1.0"]}
       action={<button type="button">Menu</button>}
     />,
   );
   const banner = screen.getByRole("banner");
   expect(banner).toHaveClass("border-b", "border-bh-ink", "divide-x", "divide-bh-ink");
-  expect(screen.getByRole("link", { name: "mijonju" })).toBeInTheDocument();
-  expect(screen.getByText("Public notebook")).toBeInTheDocument();
-  expect(screen.getByText("Version 0.71")).toBeInTheDocument();
+  expect(screen.getByRole("link", { name: "Brand" })).toBeInTheDocument();
+  expect(screen.getByText("Lorem ipsum")).toBeInTheDocument();
+  expect(screen.getByText("Version 1.0")).toBeInTheDocument();
   const cells = banner.children;
   expect(cells[cells.length - 1]).toContainElement(screen.getByRole("button", { name: "Menu" }));
   expect(cells[cells.length - 1]).toHaveClass("ml-auto");

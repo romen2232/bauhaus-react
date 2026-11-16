@@ -18,15 +18,15 @@ it("maps size to a literal text class", () => {
 });
 
 it("echo is read once by screen readers", () => {
-  render(<DisplayHeading as="h1" echo>School</DisplayHeading>);
+  render(<DisplayHeading as="h1" echo>Title</DisplayHeading>);
   const headings = screen.getAllByRole("heading", { level: 1 });
   expect(headings).toHaveLength(1);
-  expect(headings[0]).toHaveAccessibleName("School");
+  expect(headings[0]).toHaveAccessibleName("Title");
 });
 
 it("echo copy is hidden from assistive tech", () => {
-  const { container } = render(<DisplayHeading echo>School</DisplayHeading>);
+  const { container } = render(<DisplayHeading echo>Title</DisplayHeading>);
   const echo = container.querySelector('[aria-hidden="true"]');
-  expect(echo).toHaveTextContent("School");
+  expect(echo).toHaveTextContent("Title");
   expect(echo).toHaveClass("text-bh-sky");
 });

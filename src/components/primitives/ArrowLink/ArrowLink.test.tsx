@@ -2,8 +2,8 @@ import { render, screen } from "@testing-library/react";
 import { ArrowLink } from "./ArrowLink";
 
 it("is a link named by its text only, not the arrow", () => {
-  render(<ArrowLink href="/manifesto">Manifesto</ArrowLink>);
-  expect(screen.getByRole("link", { name: "Manifesto" })).toHaveAttribute("href", "/manifesto");
+  render(<ArrowLink href="/label">Label</ArrowLink>);
+  expect(screen.getByRole("link", { name: "Label" })).toHaveAttribute("href", "/label");
 });
 
 it("renders a right arrow by default, hidden from assistive tech", () => {
@@ -13,12 +13,12 @@ it("renders a right arrow by default, hidden from assistive tech", () => {
 });
 
 it("renders a north-east arrow for up-right", () => {
-  render(<ArrowLink href="#" direction="up-right">Manifesto</ArrowLink>);
+  render(<ArrowLink href="#" direction="up-right">Label</ArrowLink>);
   expect(screen.getByText("↗")).toBeInTheDocument();
 });
 
 it("maps hero size to responsive display classes", () => {
-  render(<ArrowLink href="#" size="hero">Manifesto</ArrowLink>);
+  render(<ArrowLink href="#" size="hero">Label</ArrowLink>);
   expect(screen.getByRole("link")).toHaveClass("text-6xl", "md:text-8xl");
 });
 

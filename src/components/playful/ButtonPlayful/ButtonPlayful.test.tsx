@@ -4,8 +4,8 @@ import { vi } from "vitest";
 import { ButtonPlayful } from "./ButtonPlayful";
 
 it("renders a type=button pill by default", () => {
-  render(<ButtonPlayful>Apply now</ButtonPlayful>);
-  const btn = screen.getByRole("button", { name: "Apply now" });
+  render(<ButtonPlayful>Primary action</ButtonPlayful>);
+  const btn = screen.getByRole("button", { name: "Primary action" });
   expect(btn).toHaveAttribute("type", "button");
   expect(btn).toHaveClass("rounded-full", "bg-bh-ink", "text-bh-paper");
 });
@@ -16,14 +16,14 @@ it("keeps an explicit submit type", () => {
 });
 
 it("renders a link when href is given", () => {
-  render(<ButtonPlayful href="/courses">See the courses</ButtonPlayful>);
-  expect(screen.getByRole("link", { name: "See the courses" })).toHaveAttribute("href", "/courses");
+  render(<ButtonPlayful href="/learn-more">Learn more</ButtonPlayful>);
+  expect(screen.getByRole("link", { name: "Learn more" })).toHaveAttribute("href", "/learn-more");
 });
 
 it("a disabled link is not navigable or clickable", async () => {
   const onClick = vi.fn();
   render(
-    <ButtonPlayful href="/courses" disabled onClick={onClick}>
+    <ButtonPlayful href="/learn-more" disabled onClick={onClick}>
       Closed
     </ButtonPlayful>,
   );
@@ -41,7 +41,7 @@ it("a disabled button is disabled", () => {
 });
 
 it("outline variant has an ink border and transparent fill", () => {
-  render(<ButtonPlayful variant="outline">View all</ButtonPlayful>);
+  render(<ButtonPlayful variant="outline">Secondary action</ButtonPlayful>);
   expect(screen.getByRole("button")).toHaveClass("border-2", "border-bh-ink", "bg-transparent", "rounded-full");
 });
 
