@@ -29,3 +29,23 @@ export const PrimaryShapes: Story = {
 };
 
 export const Spinning: Story = { args: { kind: "half", color: "ink", spin: true, className: "size-24" } };
+
+export const Outlines: Story = {
+  render: () => (
+    <div className="flex gap-6">
+      {(["circle", "quarter", "half", "triangle", "square", "bar"] as const).map((k) => (
+        <Shape key={k} kind={k} fill="outline" color="ink" className="size-24" />
+      ))}
+    </div>
+  ),
+};
+
+export const PatternFills: Story = {
+  render: () => (
+    <div className="flex gap-6">
+      <Shape kind="circle" fill="pattern" pattern="halftone" color="red" className="size-24" />
+      <Shape kind="square" fill="pattern" pattern="hatch-vertical" color="ink" className="size-24" />
+      <Shape kind="triangle" fill="pattern" pattern="checker" color="blue" className="size-24" />
+    </div>
+  ),
+};

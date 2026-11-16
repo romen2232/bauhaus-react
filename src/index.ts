@@ -46,3 +46,4 @@ export * from "./components/playful/AudioPlayerPlayful/index.js";
 export * from "./components/decoration/Shape/index.js";
 export * from "./components/decoration/ShapeMosaic/index.js";
 export * from "./components/decoration/Stamp/index.js";
+export * from "./components/decoration/Pattern/index.js";

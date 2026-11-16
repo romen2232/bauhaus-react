@@ -34,6 +34,8 @@ const expected = [
   "@keyframes bh-slide",
   "@keyframes bh-wordmark",
   "animation-timeline: scroll()",
+  "conic-gradient(currentColor 25%",
+  ".text-bh-blue",
 ];
 
 let failed = false;

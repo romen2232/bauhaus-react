@@ -1,1 +1,1 @@
-export { Shape, type ShapeProps, type ShapeKind, type ShapeRotation } from "./Shape.js";
+export { Shape, type ShapeProps, type ShapeKind, type ShapeRotation, type ShapeFill } from "./Shape.js";
