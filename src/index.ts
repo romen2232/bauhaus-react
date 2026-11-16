@@ -33,6 +33,9 @@ export * from "./components/playful/TopBarPlayful/index.js";
 export * from "./components/playful/FooterPlayful/index.js";
 export * from "./components/playful/TextLinkPlayful/index.js";
 export * from "./components/playful/ChipPlayful/index.js";
+export * from "./components/playful/CardPlayful/index.js";
+export * from "./components/playful/StackCardPlayful/index.js";
+export * from "./components/playful/BottomNavPlayful/index.js";
 
 // Decoration
 export * from "./components/decoration/Shape/index.js";
