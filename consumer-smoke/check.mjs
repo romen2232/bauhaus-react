@@ -53,5 +53,27 @@ for (const file of walk(join(root, "dist")).filter((f) => f.endsWith(".js"))) {
   }
 }
 
+// Client components must keep their "use client" directive after the build (RSC consumers rely on it).
+const isClient = (code) => /^\s*(["'])use client\1;?/.test(code);
+const sources = walk(join(root, "src")).filter((f) => f.endsWith(".tsx") && !/\.(test|stories)\.tsx$/.test(f));
+for (const src of sources) {
+  if (!isClient(readFileSync(src, "utf8"))) continue;
+  const built = src.replace(join(root, "src"), join(root, "dist")).replace(/\.tsx$/, ".js");
+  let code = "";
+  try {
+    code = readFileSync(built, "utf8");
+  } catch {
+    console.log(`MISSING BUILD OUTPUT ${built}`);
+    failed = true;
+    continue;
+  }
+  if (isClient(code)) {
+    console.log(`directive kept ${built}`);
+  } else {
+    console.log(`MISSING DIRECTIVE ${built}`);
+    failed = true;
+  }
+}
+
 if (failed) process.exit(1);
 console.log("consumer smoke: OK");
