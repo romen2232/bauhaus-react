@@ -1,7 +1,7 @@
 import * as lib from "./index";
 
 it("exposes the package version", () => {
-  expect(lib.VERSION).toBe("0.2.0");
+  expect(lib.VERSION).toBe("0.3.0");
 });
 
 it("does not export internal bases", () => {
@@ -58,4 +58,15 @@ it.each([
 
 it("exports the Soft tone palette", () => {
   expect(lib.SOFT_TONE_CLASSES.neutral).toBe("bg-bh-charcoal text-bh-paper");
+});
+
+it.each([
+  "Button", "IconButton", "TextLink", "Tag", "Chip", "ProjectCard", "Card", "StackCard",
+  "TopBar", "Footer", "BottomNav", "Tabs", "MenuOverlay", "Carousel", "DateStrip", "AudioPlayer",
+])("exports %sSoft", (name) => {
+  expect(typeof (lib as Record<string, unknown>)[`${name}Soft`]).toBe("function");
+});
+
+it("exports the Soft hover classes", () => {
+  expect(Object.keys(lib.SOFT_HOVER_CLASSES)).toHaveLength(6);
 });
