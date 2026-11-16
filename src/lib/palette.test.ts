@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 import {
   FILL_CLASSES, BG_CLASSES, HEX, TEXT_ON, type FillColor,
   SOFT_TONE_CLASSES, SOFT_TONE_TEXT_ON, SOFT_HEX, CURRENT_COLOR_CLASSES, SOFT_HOVER_CLASSES,
+  SWISS_HEX,
 } from "./palette";
 
 const luminance = (hex: string) => {
@@ -100,4 +101,27 @@ it("soft hover classes mix 10% toward the stated colour", () => {
   expect(SOFT_HOVER_CLASSES.red).toBe("hover:bg-[color-mix(in_srgb,var(--color-bh-red)_90%,var(--color-bh-paper))]");
   expect(SOFT_HOVER_CLASSES.neutral).toBe("hover:bg-[color-mix(in_srgb,var(--color-bh-charcoal)_90%,var(--color-bh-ink))]");
   expect(Object.keys(SOFT_HOVER_CLASSES).sort()).toEqual(["blue", "neutral", "paper", "red", "sand", "yellow"]);
+});
+
+it("SWISS_HEX matches theme.css", () => {
+  const css = readFileSync(resolve(import.meta.dirname, "../theme.css"), "utf8").toLowerCase();
+  expect(css).toContain(`--color-bh-paper-white: ${SWISS_HEX.white.toLowerCase()}`);
+  expect(css).toContain(`--color-bh-muted-text: ${SWISS_HEX.mutedText.toLowerCase()}`);
+  expect(css).toContain(`--color-bh-rule: ${SWISS_HEX.rule.toLowerCase()}`);
+  expect(css).toContain("--color-bh-accent: var(--color-bh-red)");
+});
+it.each([
+  ["ink on white", SWISS_HEX.ink, SWISS_HEX.white],
+  ["muted-text on white", SWISS_HEX.mutedText, SWISS_HEX.white],
+  ["white on ink (hover flip)", SWISS_HEX.white, SWISS_HEX.ink],
+  ["white on charcoal (solid hover)", SWISS_HEX.white, SWISS_HEX.charcoal],
+  ["ink on the default accent", SWISS_HEX.ink, SWISS_HEX.accent],
+])("swiss pair %s meets 4.5:1", (_n, text, fill) => {
+  expect(contrast(text, fill)).toBeGreaterThanOrEqual(4.5);
+});
+it("documents the limits: accent on white is large-text only, rule is decorative", () => {
+  expect(contrast(SWISS_HEX.accent, SWISS_HEX.white)).toBeLessThan(4.5);
+  expect(contrast(SWISS_HEX.accent, SWISS_HEX.white)).toBeGreaterThanOrEqual(3);
+  expect(contrast(SWISS_HEX.mutedText, SWISS_HEX.ink)).toBeLessThan(4.5); // never put muted-text on ink
+  expect(contrast(SWISS_HEX.rule, SWISS_HEX.white)).toBeLessThan(3);
 });

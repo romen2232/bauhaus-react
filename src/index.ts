@@ -13,6 +13,7 @@ export {
   SOFT_HEX,
   SOFT_HOVER_CLASSES,
   type SoftTone,
+  SWISS_HEX,
 } from "./lib/palette.js";
 
 // Look-agnostic primitives

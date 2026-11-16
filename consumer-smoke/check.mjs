@@ -38,6 +38,10 @@ const expected = [
   ".text-bh-blue",
   ".motion-safe\\:animate-bh-slide",
   "@keyframes bh-grow",
+  ".bg-bh-paper-white",
+  ".text-bh-muted-text",
+  ".font-bh-grotesk",
+  ".bg-bh-accent",
 ];
 
 let failed = false;
