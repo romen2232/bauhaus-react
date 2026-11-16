@@ -11,6 +11,7 @@ import { ProjectCardSoft } from "./ProjectCardSoft/ProjectCardSoft";
 import { TopBarSoft } from "./TopBarSoft/TopBarSoft";
 import { FooterSoft } from "./FooterSoft/FooterSoft";
 import { BottomNavSoft } from "./BottomNavSoft/BottomNavSoft";
+import { MenuOverlaySoft } from "./MenuOverlaySoft/MenuOverlaySoft";
 
 // Soft look rules (spec §6.1): no borders, no hard shadow, no movement, yellow never as text.
 const FORBIDDEN = /^(border(-[xytrbl])?(-\d+)?|shadow-bh-hard.*|-?translate-.*|text-bh-yellow)$/;
@@ -34,11 +35,12 @@ const cases: [string, ReactElement][] = [
   ["TopBarSoft", <TopBarSoft brand="Rooms" meta={["Mon"]} action="Menu" />],
   ["FooterSoft", <FooterSoft columns={["About", "Help"]} bottom="©" />],
   ["BottomNavSoft", <BottomNavSoft label="Main" items={[{ href: "/", label: "Home", icon: "⌂", current: true }]} />],
+  ["MenuOverlaySoft", <MenuOverlaySoft triggerLabel="Menu" title="Menu" links={[{ href: "#", label: "A", current: true }]} secondary="IG" defaultOpen />],
 ];
 
 it.each(cases)("%s follows the Soft look rules", (_name, element) => {
   const { container } = render(element);
-  const tokens = [...container.querySelectorAll("*")].flatMap((el) =>
+  const tokens = [...container.ownerDocument.body.querySelectorAll("*")].flatMap((el) =>
     (el.getAttribute("class") ?? "").split(/\s+/).filter(Boolean),
   );
   const offending = tokens.filter((t) => FORBIDDEN.test(t.split(":").pop()!));
