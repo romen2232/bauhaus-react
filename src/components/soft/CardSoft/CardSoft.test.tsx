@@ -18,3 +18,8 @@ it("forwards className and ref", () => {
   expect(screen.getByRole("article")).toHaveClass("mt-4");
   expect(ref.current).toBe(screen.getByRole("article"));
 });
+
+it("turns focus rings of nested controls paper, since ink is invisible on charcoal", () => {
+  render(<CardSoft>Body</CardSoft>);
+  expect(screen.getByRole("article")).toHaveClass("[&_:focus-visible]:outline-bh-paper");
+});

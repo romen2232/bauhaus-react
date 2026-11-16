@@ -15,3 +15,8 @@ it("forwards className and ref", () => {
   expect(screen.getByRole("contentinfo")).toHaveClass("mt-8");
   expect(ref.current).toBe(screen.getByRole("contentinfo"));
 });
+
+it("turns focus rings of nested links paper, since ink is invisible on charcoal", () => {
+  render(<FooterSoft columns={["About"]} />);
+  expect(screen.getByRole("contentinfo")).toHaveClass("[&_:focus-visible]:outline-bh-paper");
+});

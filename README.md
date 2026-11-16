@@ -111,7 +111,7 @@ Soft components use colour only to encode meaning (status, category, step), thro
 | `blue` | `bh-blue` | `bh-paper` |
 | `neutral` | `bh-charcoal` | `bh-paper` |
 
-`SOFT_TONE_CLASSES` gives each pair as classes. Soft hover is a 10% tonal step (`SOFT_HOVER_CLASSES`): every fill gets darker except `red`, which gets lighter, because a darker red drops ink text below AA contrast.
+`SOFT_TONE_CLASSES` gives each pair as classes. Soft surfaces that are `charcoal` (`CardSoft`, `FooterSoft`) switch nested focus rings to paper; put paper-text content inside them, since ink text is not readable on charcoal. Soft hover is a 10% tonal step (`SOFT_HOVER_CLASSES`): every fill gets darker except `red`, which gets lighter, because a darker red drops ink text below AA contrast.
 
 ## Components
 
@@ -161,7 +161,7 @@ Soft components use colour only to encode meaning (status, category, step), thro
 | `StackCardSoft` | Rounded list card with a `tone` spine |
 | `TopBarSoft` | Sand header bar with a rounded bottom |
 | `FooterSoft` | Rounded charcoal footer |
-| `BottomNavSoft` | Rounded charcoal bar; the current page is paper with a `tone` dot |
+| `BottomNavSoft` | Rounded charcoal bar; the current page is paper with a yellow dot |
 | `TabsSoft` | Tonal segmented control |
 | `MenuOverlaySoft` | Fullscreen menu dialog on a rounded sand sheet |
 | `CarouselSoft` | Slide carousel with rounded slides and an index + progress pager |

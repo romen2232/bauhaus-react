@@ -14,7 +14,8 @@ const SLOTS = {
 /** Soft content panel: rounded charcoal surface with paper text. */
 export function CardSoft(props: CardSoftProps) {
   const root = cn(
-    "flex flex-col rounded-bh-soft bg-bh-charcoal text-bh-paper",
+    // Nested controls default to an ink focus ring, invisible on charcoal: switch them to paper.
+    "flex flex-col rounded-bh-soft bg-bh-charcoal text-bh-paper [&_:focus-visible]:outline-bh-paper",
     props.href !== undefined &&
       cn(SOFT_HOVER_CLASSES.neutral, "motion-safe:transition-colors motion-safe:duration-200 motion-safe:ease-out", FOCUS_RING),
   );

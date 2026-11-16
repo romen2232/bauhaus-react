@@ -11,7 +11,8 @@ export type FooterSoftProps = ComponentProps<"footer"> & {
 const MD_COLS = ["md:grid-cols-1", "md:grid-cols-2", "md:grid-cols-3", "md:grid-cols-4", "md:grid-cols-5", "md:grid-cols-6"];
 
 const SLOTS = {
-  root: "rounded-t-bh-soft bg-bh-charcoal text-bh-paper",
+  // Nested links default to an ink focus ring, invisible on charcoal: switch them to paper.
+  root: "rounded-t-bh-soft bg-bh-charcoal text-bh-paper [&_:focus-visible]:outline-bh-paper",
   column: "font-bh-body text-sm",
   bottom: "px-6 pb-6 font-bh-body text-xs text-bh-muted",
 };
