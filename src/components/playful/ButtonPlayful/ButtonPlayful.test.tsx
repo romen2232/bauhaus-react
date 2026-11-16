@@ -1,0 +1,63 @@
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { vi } from "vitest";
+import { ButtonPlayful } from "./ButtonPlayful";
+
+it("renders a type=button pill by default", () => {
+  render(<ButtonPlayful>Apply now</ButtonPlayful>);
+  const btn = screen.getByRole("button", { name: "Apply now" });
+  expect(btn).toHaveAttribute("type", "button");
+  expect(btn).toHaveClass("rounded-full", "bg-bh-ink", "text-bh-paper");
+});
+
+it("keeps an explicit submit type", () => {
+  render(<ButtonPlayful type="submit">Send</ButtonPlayful>);
+  expect(screen.getByRole("button")).toHaveAttribute("type", "submit");
+});
+
+it("renders a link when href is given", () => {
+  render(<ButtonPlayful href="/courses">See the courses</ButtonPlayful>);
+  expect(screen.getByRole("link", { name: "See the courses" })).toHaveAttribute("href", "/courses");
+});
+
+it("a disabled link is not navigable or clickable", async () => {
+  const onClick = vi.fn();
+  render(
+    <ButtonPlayful href="/courses" disabled onClick={onClick}>
+      Closed
+    </ButtonPlayful>,
+  );
+  const link = screen.getByText("Closed").closest("a")!;
+  expect(link).not.toHaveAttribute("href");
+  expect(link).toHaveAttribute("aria-disabled", "true");
+  expect(link).toHaveAttribute("tabindex", "-1");
+  await userEvent.click(link);
+  expect(onClick).not.toHaveBeenCalled();
+});
+
+it("a disabled button is disabled", () => {
+  render(<ButtonPlayful disabled>Nope</ButtonPlayful>);
+  expect(screen.getByRole("button")).toBeDisabled();
+});
+
+it("outline variant has an ink border and transparent fill", () => {
+  render(<ButtonPlayful variant="outline">View all</ButtonPlayful>);
+  expect(screen.getByRole("button")).toHaveClass("border-2", "border-bh-ink", "bg-transparent", "rounded-full");
+});
+
+it("color variant uses the contrast-safe fill pair", () => {
+  render(<ButtonPlayful variant="color" color="blue">Go</ButtonPlayful>);
+  expect(screen.getByRole("button")).toHaveClass("bg-bh-blue", "text-bh-paper");
+});
+
+it("maps size to height classes", () => {
+  render(<ButtonPlayful size="lg">Big</ButtonPlayful>);
+  expect(screen.getByRole("button")).toHaveClass("h-14");
+});
+
+it("className overrides the variant background", () => {
+  render(<ButtonPlayful className="bg-bh-red">Red</ButtonPlayful>);
+  const btn = screen.getByRole("button");
+  expect(btn).toHaveClass("bg-bh-red");
+  expect(btn).not.toHaveClass("bg-bh-ink");
+});
