@@ -50,3 +50,43 @@ export const FILL_CLASSES: Record<FillColor, string> = {
   ink: "bg-bh-ink text-bh-paper",
   paper: "bg-bh-paper text-bh-ink",
 };
+
+/** Soft look: the triad encodes meaning only (status, category, step). */
+export type SoftTone = "red" | "yellow" | "blue" | "neutral";
+
+/** Hex values mirrored from theme.css for the Soft look; used for contrast tests. */
+export const SOFT_HEX: Record<SoftTone | "sand", string> = {
+  red: HEX.red,
+  yellow: HEX.yellow,
+  blue: HEX.blue,
+  neutral: "#464646",
+  sand: "#F5CF8A",
+};
+
+/** Text color that passes WCAG AA on each Soft tone. */
+export const SOFT_TONE_TEXT_ON: Record<SoftTone, "ink" | "paper"> = {
+  red: "ink",
+  yellow: "ink",
+  blue: "paper",
+  neutral: "paper",
+};
+
+export const SOFT_TONE_CLASSES: Record<SoftTone, string> = {
+  red: "bg-bh-red text-bh-ink",
+  yellow: "bg-bh-yellow text-bh-ink",
+  blue: "bg-bh-blue text-bh-paper",
+  neutral: "bg-bh-charcoal text-bh-paper",
+};
+
+/** Sets currentColor for decoration (patterns, strokes). Never use for readable text. */
+export const CURRENT_COLOR_CLASSES: Record<FillColor, string> = {
+  red: "text-bh-red",
+  yellow: "text-bh-yellow",
+  blue: "text-bh-blue",
+  navy: "text-bh-navy",
+  sky: "text-bh-sky",
+  pink: "text-bh-pink",
+  orange: "text-bh-orange",
+  ink: "text-bh-ink",
+  paper: "text-bh-paper",
+};
