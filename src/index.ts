@@ -31,6 +31,8 @@ export * from "./components/playful/TagPlayful/index.js";
 export * from "./components/playful/ProjectCardPlayful/index.js";
 export * from "./components/playful/TopBarPlayful/index.js";
 export * from "./components/playful/FooterPlayful/index.js";
+export * from "./components/playful/TextLinkPlayful/index.js";
+export * from "./components/playful/ChipPlayful/index.js";
 
 // Decoration
 export * from "./components/decoration/Shape/index.js";
