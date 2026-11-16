@@ -1,1 +1,1 @@
-export { BottomNavSoft, type BottomNavSoftProps, type BottomNavSoftTone } from "./BottomNavSoft.js";
+export { BottomNavSoft, type BottomNavSoftProps } from "./BottomNavSoft.js";

@@ -4,7 +4,8 @@ import { DateStripBase, type DateStripBaseProps } from "../../_base/DateStrip/Da
 export type DateStripSoftProps = Omit<DateStripBaseProps, "classes">;
 
 const CLASSES = {
-  root: "flex gap-2 overflow-x-auto",
+  // overflow-x clips at the padding box; p-1.5 leaves room for the 2px ring + 2px offset.
+  root: "flex gap-2 overflow-x-auto p-1.5",
   day: [
     "flex min-w-16 cursor-pointer flex-col items-center gap-1 rounded-bh-soft bg-bh-sand px-3 py-4 text-bh-ink",
     "motion-safe:transition-colors motion-safe:duration-200 motion-safe:ease-out",

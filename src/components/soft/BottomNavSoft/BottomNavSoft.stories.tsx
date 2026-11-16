@@ -15,4 +15,4 @@ const items = [
   { href: "#", label: "Calendar", icon: "▦" },
 ];
 export const Default: Story = { args: { label: "Main", items, className: "max-w-sm" } };
-export const WithLabels: Story = { args: { ...Default.args, showLabels: true, tone: "red" } };
+export const WithLabels: Story = { args: { ...Default.args, showLabels: true } };

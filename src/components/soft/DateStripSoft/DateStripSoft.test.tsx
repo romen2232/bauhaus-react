@@ -31,3 +31,8 @@ it("merges className onto the root", () => {
   render(<DateStripSoft label="Pick" start={start} className="mt-2" />);
   expect(screen.getByRole("radiogroup")).toHaveClass("mt-2");
 });
+
+it("pads the scroll root so the 4px focus ring on a day is not clipped", () => {
+  render(<DateStripSoft label="Pick" start={start} />);
+  expect(screen.getByRole("radiogroup")).toHaveClass("p-1.5");
+});
