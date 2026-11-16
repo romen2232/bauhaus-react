@@ -1,0 +1,47 @@
+/*
+ * bauhaus-react design tokens (Tailwind CSS v4).
+ * Import after `@import "tailwindcss";` and override any --*-bh-* variable after the import.
+ */
+@theme {
+  /* Neutrals */
+  --color-bh-paper: #f4efe6;
+  --color-bh-paper-white: #ffffff;
+  --color-bh-ink: #111111;
+  --color-bh-charcoal: #464646;
+  --color-bh-rule: #e5e5e5;
+  --color-bh-muted: #b5b5b5; /* decoration only: fails text contrast */
+  --color-bh-muted-text: #6e6a64;
+
+  /* Primary triad */
+  --color-bh-red: #ea4535;
+  --color-bh-yellow: #f5b62a; /* fill only, never text */
+  --color-bh-blue: #1f5fd8;
+
+  /* Playful extended */
+  --color-bh-navy: #1a2340;
+  --color-bh-sky: #00a8fc;
+  --color-bh-pink: #ff77a8;
+  --color-bh-orange: #f06030;
+
+  /* Reserved for later looks */
+  --color-bh-teal: #0c3c54;
+  --color-bh-khaki: #b4a890;
+
+  /* Typography */
+  --font-bh-display: "Outfit", "Jost", ui-sans-serif, system-ui, sans-serif;
+  --font-bh-body: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-bh-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Elevation: hard offset, never blurred */
+  --shadow-bh-hard: 4px 4px 0 0 var(--color-bh-ink);
+  --shadow-bh-hard-lg: 8px 8px 0 0 var(--color-bh-ink);
+
+  /* Kinetic decoration */
+  --animate-bh-spin: bh-spin 8s linear infinite;
+
+  @keyframes bh-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
