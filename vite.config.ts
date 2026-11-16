@@ -18,7 +18,16 @@ export default defineConfig({
     lib: { entry: resolve(import.meta.dirname, "src/index.ts"), formats: ["es"] },
     sourcemap: true,
     rollupOptions: {
-      external: ["react", "react-dom", "react/jsx-runtime", "clsx", "tailwind-merge"],
+      external: [
+        "react",
+        "react-dom",
+        "react/jsx-runtime",
+        "clsx",
+        "tailwind-merge",
+        /^react-aria-components/,
+        /^@internationalized\//,
+        /^@react-aria\//,
+      ],
       output: { preserveModules: true, preserveModulesRoot: "src", entryFileNames: "[name].js" },
     },
   },
