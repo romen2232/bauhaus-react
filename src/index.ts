@@ -59,6 +59,9 @@ export * from "./components/soft/IconButtonSoft/index.js";
 export * from "./components/soft/TextLinkSoft/index.js";
 export * from "./components/soft/TagSoft/index.js";
 export * from "./components/soft/ChipSoft/index.js";
+export * from "./components/soft/CardSoft/index.js";
+export * from "./components/soft/StackCardSoft/index.js";
+export * from "./components/soft/ProjectCardSoft/index.js";
 
 // Decoration
 export * from "./components/decoration/Shape/index.js";
