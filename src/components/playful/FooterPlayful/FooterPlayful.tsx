@@ -1,6 +1,7 @@
 import type { ComponentProps, ReactNode } from "react";
 import { cn } from "../../../lib/cn.js";
-import { Grid } from "../../primitives/Grid/Grid.js";
+import { FooterBase } from "../../_base/Footer/FooterBase.js";
+import { GRID_RULED } from "../../primitives/Grid/Grid.js";
 
 export type FooterPlayfulProps = ComponentProps<"footer"> & {
   columns: ReactNode[];
@@ -10,23 +11,15 @@ export type FooterPlayfulProps = ComponentProps<"footer"> & {
 // One column on mobile; up to six from md. Literal classes for the consumer's Tailwind scan.
 const MD_COLS = ["md:grid-cols-1", "md:grid-cols-2", "md:grid-cols-3", "md:grid-cols-4", "md:grid-cols-5", "md:grid-cols-6"];
 
+const SLOTS = {
+  root: "bg-bh-paper text-bh-ink",
+  column: "p-6 font-bh-body text-sm",
+  bottom: "border-x border-b border-bh-rule px-6 py-3 font-bh-body text-[11px] uppercase tracking-[0.1em]",
+};
+
 /** Ruled grid footer. */
-export function FooterPlayful({ columns, bottom, className, ...props }: FooterPlayfulProps) {
-  const count = Math.min(Math.max(columns.length, 1), 6);
-  return (
-    <footer className={cn("bg-bh-paper text-bh-ink", className)} {...props}>
-      <Grid ruled cols={1} className={MD_COLS[count - 1]}>
-        {columns.map((col, i) => (
-          <div key={i} className="p-6 font-bh-body text-sm">
-            {col}
-          </div>
-        ))}
-      </Grid>
-      {bottom && (
-        <div className="border-x border-b border-bh-rule px-6 py-3 font-bh-body text-[11px] uppercase tracking-[0.1em]">
-          {bottom}
-        </div>
-      )}
-    </footer>
-  );
+export function FooterPlayful(props: FooterPlayfulProps) {
+  const count = Math.min(Math.max(props.columns.length, 1), 6);
+  const grid = cn("grid grid-cols-1", GRID_RULED, MD_COLS[count - 1]);
+  return <FooterBase {...props} classes={{ ...SLOTS, grid }} />;
 }
