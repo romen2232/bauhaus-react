@@ -2,6 +2,7 @@ import type { ComponentProps, ReactNode } from "react";
 import { cn } from "../../../lib/cn.js";
 import { FILL_CLASSES, type FillColor } from "../../../lib/palette.js";
 import { FOCUS_RING, HOVER_LIFT, PRESS } from "../../../lib/styles.js";
+import { ButtonBase, type ButtonBaseProps } from "../../_base/Button/ButtonBase.js";
 
 export type ButtonPlayfulVariant = "solid" | "outline" | "color";
 export type ButtonPlayfulSize = "sm" | "md" | "lg";
@@ -37,25 +38,13 @@ const BASE =
 
 /** Playful pill button. Renders an `<a>` when `href` is given. */
 export function ButtonPlayful(props: ButtonPlayfulProps) {
-  const { variant = "solid", color = "yellow", size = "md", disabled = false, className } = props;
-  const classes = cn(
+  const { variant = "solid", color = "yellow", size = "md", ...rest } = props;
+  const root = cn(
     BASE,
     SIZES[size],
     variant === "color" ? cn(FILL_CLASSES[color], "border-2 border-bh-ink") : VARIANTS[variant],
-    disabled ? "cursor-not-allowed opacity-50" : cn(HOVER_LIFT, PRESS),
+    rest.disabled ? "cursor-not-allowed opacity-50" : cn(HOVER_LIFT, PRESS),
     FOCUS_RING,
-    className,
   );
-
-  if (props.href !== undefined) {
-    const { variant: _v, color: _c, size: _s, disabled: _d, className: _cl, href, onClick, ...rest } = props;
-    return disabled ? (
-      <a {...rest} role="link" aria-disabled="true" tabIndex={-1} className={classes} />
-    ) : (
-      <a {...rest} href={href} onClick={onClick} className={classes} />
-    );
-  }
-
-  const { variant: _v, color: _c, size: _s, disabled: _d, className: _cl, href: _h, type = "button", ...rest } = props;
-  return <button {...rest} type={type} disabled={disabled} className={classes} />;
+  return <ButtonBase {...(rest as ButtonBaseProps)} classes={{ root }} />;
 }
