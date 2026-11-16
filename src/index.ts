@@ -53,6 +53,10 @@ export * from "./components/playful/TabsPlayful/index.js";
 export * from "./components/playful/DateStripPlayful/index.js";
 export * from "./components/playful/AudioPlayerPlayful/index.js";
 
+// Soft look
+export * from "./components/soft/ButtonSoft/index.js";
+export * from "./components/soft/IconButtonSoft/index.js";
+
 // Decoration
 export * from "./components/decoration/Shape/index.js";
 export * from "./components/decoration/ShapeMosaic/index.js";
