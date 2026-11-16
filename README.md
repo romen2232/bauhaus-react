@@ -8,7 +8,7 @@ The library mixes several Bauhaus-derived looks. Each look has its own component
 |---|---|---|
 | Playful geometric | ✅ v0.2 | `*Playful` |
 | Swiss editorial | planned | `*Swiss` |
-| Warm soft | planned | `*Soft` |
+| Warm soft | ✅ v0.3 | `*Soft` |
 
 Look-agnostic pieces (layout, type, decoration) have no suffix.
 
@@ -17,7 +17,7 @@ Look-agnostic pieces (layout, type, decoration) have no suffix.
 - React 19
 - Tailwind CSS 4 in the consuming app
 
-Interactive widgets (`TabsPlayful`, `MenuOverlayPlayful`, `DateStripPlayful`, `AudioPlayerPlayful`) are built on [React Aria Components](https://react-spectrum.adobe.com/react-aria/) and use `@internationalized/date` for dates. Both install automatically as dependencies. These components are marked `"use client"`; everything else is server-component safe.
+Interactive widgets (`Tabs*`, `MenuOverlay*`, `DateStrip*`, `AudioPlayer*`) are built on [React Aria Components](https://react-spectrum.adobe.com/react-aria/) and use `@internationalized/date` for dates. Both install automatically as dependencies. These components are marked `"use client"`; everything else is server-component safe.
 
 ## Install
 
@@ -46,6 +46,8 @@ pnpm add @fontsource/outfit @fontsource-variable/inter @fontsource/inter-tight
 ```
 
 ```css
+@import "@fontsource/outfit/300.css"; /* Soft look: light weights */
+@import "@fontsource/outfit/400.css";
 @import "@fontsource/outfit/700.css";
 @import "@fontsource/outfit/800.css";
 @import "@fontsource-variable/inter";
@@ -90,13 +92,26 @@ Fill colours: `red`, `yellow`, `blue`, `navy`, `sky`, `pink`, `orange`, `ink`, `
 
 Other tokens:
 
-- `bh-sand`: a surface colour for the upcoming Soft look.
+- `bh-sand`: a Soft surface colour (takes ink text).
 - `bh-accent` (red by default): the Swiss look's single accent. Use it for fills, rules and text of 24px or larger only. It fails AA contrast for small text.
 - `rounded-bh-soft` (20px): a radius for Soft panels.
 - `font-bh-grotesk`: Inter Tight.
 - `animate-bh-slide` and `animate-bh-grow`: kinetic decoration loops.
 
 Hard shadows take any colour: `shadow-bh-hard shadow-bh-red`.
+
+### Soft tones
+
+Soft components use colour only to encode meaning (status, category, step), through a `tone` prop of type `SoftTone`:
+
+| Tone | Fill | Text |
+|---|---|---|
+| `red` | `bh-red` | `bh-ink` |
+| `yellow` | `bh-yellow` | `bh-ink` |
+| `blue` | `bh-blue` | `bh-paper` |
+| `neutral` | `bh-charcoal` | `bh-paper` |
+
+`SOFT_TONE_CLASSES` gives each pair as classes. Soft hover is a 10% tonal step (`SOFT_HOVER_CLASSES`): every fill gets darker except `red`, which gets lighter, because a darker red drops ink text below AA contrast.
 
 ## Components
 
@@ -136,6 +151,22 @@ Hard shadows take any colour: `shadow-bh-hard shadow-bh-red`.
 | `CarouselPlayful` | Slide carousel with arrows and an index + progress pager |
 | `DateStripPlayful` | Single-select strip of days |
 | `AudioPlayerPlayful` | Play/pause, seek slider and time |
+| `ButtonSoft` | Pill button: `solid` (charcoal), `outline` (sand fill), `color` (`tone`); renders `<a>` with `href` |
+| `IconButtonSoft` | Circular icon button (`aria-label` required); `size="lg"` is the FAB |
+| `TextLinkSoft` | Text link without underline; always shows an arrow (default `→`) |
+| `TagSoft` | Pill label with a `tone` |
+| `ChipSoft` | Ink metadata pill |
+| `ProjectCardSoft` | Rounded card with a `tone` header block and black-and-white media; the whole card is a link |
+| `CardSoft` | Rounded charcoal content panel; a link with `href` |
+| `StackCardSoft` | Rounded list card with a `tone` spine |
+| `TopBarSoft` | Sand header bar with a rounded bottom |
+| `FooterSoft` | Rounded charcoal footer |
+| `BottomNavSoft` | Rounded charcoal bar; the current page is paper with a `tone` dot |
+| `TabsSoft` | Tonal segmented control |
+| `MenuOverlaySoft` | Fullscreen menu dialog on a rounded sand sheet |
+| `CarouselSoft` | Slide carousel with rounded slides and an index + progress pager |
+| `DateStripSoft` | Single-select strip of rounded day tiles |
+| `AudioPlayerSoft` | Charcoal player with the elapsed time as a big numeral |
 | `Shape` | Circle, quarter, half, triangle, square, bar; `fill`: solid, outline, pattern; optional `spin` |
 | `ShapeMosaic` | Edge-to-edge grid of shape tiles |
 | `Stamp` | Circular rotating text badge |
