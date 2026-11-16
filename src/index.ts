@@ -12,6 +12,9 @@ export * from "./components/primitives/HighlightText/index.js";
 export * from "./components/primitives/ArrowLink/index.js";
 export * from "./components/primitives/IndexCounter/index.js";
 export * from "./components/primitives/SectionLabel/index.js";
+export * from "./components/primitives/BigNumber/index.js";
+export * from "./components/primitives/NumberStepper/index.js";
+export * from "./components/primitives/StatColumns/index.js";
 
 // Playful look
 export * from "./components/playful/ButtonPlayful/index.js";
