@@ -73,3 +73,16 @@ it("hover motion only animates when the user allows motion", () => {
   expect(classes.filter((c) => c.startsWith("transition") || c.startsWith("duration"))).toEqual([]);
   expect(classes.some((c) => c.startsWith("motion-safe:transition"))).toBe(true);
 });
+
+it("pressing cancels the hover lift: it drops flat and loses its shadow", () => {
+  render(<ButtonPlayful>Press</ButtonPlayful>);
+  const btn = screen.getByRole("button");
+  expect(btn).toHaveClass("active:shadow-none", "motion-safe:active:translate-x-0", "motion-safe:active:translate-y-0");
+});
+
+it("a disabled button has no press effect", () => {
+  render(<ButtonPlayful disabled>Press</ButtonPlayful>);
+  expect(btn(screen.getByRole("button"))).not.toContain("active:shadow-none");
+});
+
+const btn = (el: HTMLElement) => Array.from(el.classList);
