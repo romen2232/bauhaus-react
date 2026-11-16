@@ -15,6 +15,7 @@ export * from "./components/primitives/SectionLabel/index.js";
 export * from "./components/primitives/BigNumber/index.js";
 export * from "./components/primitives/NumberStepper/index.js";
 export * from "./components/primitives/StatColumns/index.js";
+export * from "./components/primitives/ProgressRule/index.js";
 
 // Playful look
 export * from "./components/playful/ButtonPlayful/index.js";
