@@ -45,15 +45,15 @@ export function AudioPlayerBase({ src, title, children, ref, className, classes 
     [ref],
   );
 
+  // `playing` follows the media's own events, so pauses from the ref, media keys or a refused
+  // play() (autoplay policy, bad src) keep the button honest.
   const toggle = () => {
     const el = audio.current;
     if (!el) return;
     if (playing) {
       el.pause();
-      setPlaying(false);
     } else {
-      void el.play();
-      setPlaying(true);
+      el.play()?.catch(() => setPlaying(false));
     }
   };
 
@@ -73,7 +73,14 @@ export function AudioPlayerBase({ src, title, children, ref, className, classes 
         onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
         onDurationChange={(e) => setDuration(e.currentTarget.duration)}
         onTimeUpdate={(e) => setCurrent(e.currentTarget.currentTime)}
+        onPlay={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
         onEnded={() => setPlaying(false)}
+        onEmptied={() => {
+          setPlaying(false);
+          setCurrent(0);
+          setDuration(Number.NaN);
+        }}
       >
         {children}
       </audio>

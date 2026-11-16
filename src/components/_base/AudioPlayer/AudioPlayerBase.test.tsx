@@ -6,9 +6,40 @@ import { AudioPlayerBase } from "./AudioPlayerBase";
 
 const a = { root: "r", play: "", scrubber: "", track: "", thumb: "", time: "" };
 
+// jsdom has no media playback: emulate a real element, which fires `play`/`pause` events.
 beforeEach(() => {
-  vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
-  vi.spyOn(HTMLMediaElement.prototype, "pause").mockImplementation(() => {});
+  vi.spyOn(HTMLMediaElement.prototype, "play").mockImplementation(function (this: HTMLMediaElement) {
+    this.dispatchEvent(new Event("play"));
+    return Promise.resolve();
+  });
+  vi.spyOn(HTMLMediaElement.prototype, "pause").mockImplementation(function (this: HTMLMediaElement) {
+    this.dispatchEvent(new Event("pause"));
+  });
+});
+
+it("follows the media when it is paused from outside (ref, media keys)", async () => {
+  const ref = createRef<HTMLAudioElement>();
+  render(<AudioPlayerBase classes={a} src="t.mp3" title="T" ref={ref} />);
+  await userEvent.click(screen.getByRole("button", { name: "Play T" }));
+  fireEvent(ref.current!, new Event("pause"));
+  expect(screen.getByRole("button", { name: "Play T" })).toBeInTheDocument();
+});
+
+it("stays on Play when playback is refused, without an unhandled rejection", async () => {
+  vi.mocked(HTMLMediaElement.prototype.play).mockImplementation(() =>
+    Promise.reject(new DOMException("blocked", "NotAllowedError")),
+  );
+  render(<AudioPlayerBase classes={a} src="t.mp3" title="T" />);
+  await userEvent.click(screen.getByRole("button", { name: "Play T" }));
+  expect(screen.getByRole("button", { name: "Play T" })).toBeInTheDocument();
+});
+
+it("resets to Play when the source is emptied", async () => {
+  const ref = createRef<HTMLAudioElement>();
+  render(<AudioPlayerBase classes={a} src="t.mp3" title="T" ref={ref} />);
+  await userEvent.click(screen.getByRole("button", { name: "Play T" }));
+  fireEvent(ref.current!, new Event("emptied"));
+  expect(screen.getByRole("button", { name: "Play T" })).toBeInTheDocument();
 });
 
 it("toggles play and pause", async () => {
