@@ -11,7 +11,10 @@ import { ProjectCardSoft } from "./ProjectCardSoft/ProjectCardSoft";
 import { TopBarSoft } from "./TopBarSoft/TopBarSoft";
 import { FooterSoft } from "./FooterSoft/FooterSoft";
 import { BottomNavSoft } from "./BottomNavSoft/BottomNavSoft";
+import { CalendarDate } from "@internationalized/date";
 import { MenuOverlaySoft } from "./MenuOverlaySoft/MenuOverlaySoft";
+import { TabsSoft } from "./TabsSoft/TabsSoft";
+import { DateStripSoft } from "./DateStripSoft/DateStripSoft";
 
 // Soft look rules (spec §6.1): no borders, no hard shadow, no movement, yellow never as text.
 const FORBIDDEN = /^(border(-[xytrbl])?(-\d+)?|shadow-bh-hard.*|-?translate-.*|text-bh-yellow)$/;
@@ -36,6 +39,8 @@ const cases: [string, ReactElement][] = [
   ["FooterSoft", <FooterSoft columns={["About", "Help"]} bottom="©" />],
   ["BottomNavSoft", <BottomNavSoft label="Main" items={[{ href: "/", label: "Home", icon: "⌂", current: true }]} />],
   ["MenuOverlaySoft", <MenuOverlaySoft triggerLabel="Menu" title="Menu" links={[{ href: "#", label: "A", current: true }]} secondary="IG" defaultOpen />],
+  ["TabsSoft", <TabsSoft label="View" items={[{ id: "a", title: "Day", content: "P" }]} />],
+  ["DateStripSoft", <DateStripSoft label="Pick" start={new CalendarDate(2026, 11, 16)} />],
 ];
 
 it.each(cases)("%s follows the Soft look rules", (_name, element) => {

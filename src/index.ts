@@ -66,6 +66,8 @@ export * from "./components/soft/TopBarSoft/index.js";
 export * from "./components/soft/FooterSoft/index.js";
 export * from "./components/soft/BottomNavSoft/index.js";
 export * from "./components/soft/MenuOverlaySoft/index.js";
+export * from "./components/soft/TabsSoft/index.js";
+export * from "./components/soft/DateStripSoft/index.js";
 
 // Decoration
 export * from "./components/decoration/Shape/index.js";
