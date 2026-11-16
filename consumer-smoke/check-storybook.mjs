@@ -29,3 +29,5 @@ for (const [needle, shouldExist] of checks) {
 }
 if (failed) process.exit(1);
 console.log("storybook css: OK");
+
+execSync("node consumer-smoke/check-storybook-a11y.mjs", { cwd: root, stdio: "inherit" });
