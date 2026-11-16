@@ -18,3 +18,14 @@ it("does not treat a bh text color and a font size as conflicting", () => {
 it("drops falsy values", () => {
   expect(cn("a", false, undefined, "b")).toBe("a b");
 });
+
+it.each([
+  [["bg-bh-red", "bg-bh-sand"], "bg-bh-sand"],
+  [["text-bh-ink", "text-bh-accent"], "text-bh-accent"],
+  [["rounded-full", "rounded-bh-soft"], "rounded-bh-soft"],
+  [["font-bh-display", "font-bh-grotesk"], "font-bh-grotesk"],
+  [["animate-bh-spin", "animate-bh-slide"], "animate-bh-slide"],
+  [["animate-bh-slide", "animate-bh-grow"], "animate-bh-grow"],
+])("0.2 tokens merge: %j", (input, expected) => {
+  expect(cn(...input)).toBe(expected);
+});

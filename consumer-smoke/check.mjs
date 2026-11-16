@@ -27,6 +27,11 @@ const expected = [
   // Every token is a CSS variable, even if no utility uses it (README promise).
   "--color-bh-teal:",
   "--color-bh-khaki:",
+  "--color-bh-sand:",
+  "--color-bh-accent:",
+  "--radius-bh-soft:",
+  "--font-bh-grotesk:",
+  "@keyframes bh-slide",
 ];
 
 let failed = false;

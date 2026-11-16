@@ -7,10 +7,12 @@ const twMerge = extendTailwindMerge({
       color: [
         "bh-paper", "bh-paper-white", "bh-ink", "bh-charcoal", "bh-rule", "bh-muted", "bh-muted-text",
         "bh-red", "bh-yellow", "bh-blue", "bh-navy", "bh-sky", "bh-pink", "bh-orange", "bh-teal", "bh-khaki",
+        "bh-sand", "bh-accent",
       ],
-      font: ["bh-display", "bh-body", "bh-mono"],
+      font: ["bh-display", "bh-body", "bh-mono", "bh-grotesk"],
+      radius: ["bh-soft"],
       shadow: ["bh-hard", "bh-hard-lg"],
-      animate: ["bh-spin"],
+      animate: ["bh-spin", "bh-slide", "bh-grow", "bh-wordmark"],
     },
   },
 });

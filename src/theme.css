@@ -23,6 +23,12 @@
   --color-bh-pink: #ff77a8;
   --color-bh-orange: #f06030;
 
+  /* Soft look surface */
+  --color-bh-sand: #f5cf8a;
+
+  /* Swiss single accent: fills, rules and text >= 24px only (fails AA for small text) */
+  --color-bh-accent: var(--color-bh-red);
+
   /* Reserved for later looks */
   --color-bh-teal: #0c3c54;
   --color-bh-khaki: #b4a890;
@@ -30,7 +36,11 @@
   /* Typography */
   --font-bh-display: "Outfit", "Jost", ui-sans-serif, system-ui, sans-serif;
   --font-bh-body: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-bh-grotesk: "Inter Tight", "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-bh-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Radius: Soft look panels */
+  --radius-bh-soft: 20px;
 
   /* Elevation: hard offset, never blurred */
   --shadow-bh-hard: 4px 4px 0 0 var(--color-bh-ink);
@@ -38,10 +48,39 @@
 
   /* Kinetic decoration */
   --animate-bh-spin: bh-spin 8s linear infinite;
+  --animate-bh-slide: bh-slide 6s linear infinite;
+  --animate-bh-grow: bh-grow 6s linear infinite;
+  --animate-bh-wordmark: bh-wordmark linear both;
 
   @keyframes bh-spin {
     to {
       transform: rotate(360deg);
+    }
+  }
+
+  @keyframes bh-slide {
+    0%,
+    100% {
+      left: 0%;
+    }
+    50% {
+      left: 100%;
+    }
+  }
+
+  @keyframes bh-grow {
+    0%,
+    100% {
+      scale: 0.4 1;
+    }
+    50% {
+      scale: 1 1;
+    }
+  }
+
+  @keyframes bh-wordmark {
+    to {
+      scale: 0.25;
     }
   }
 }
