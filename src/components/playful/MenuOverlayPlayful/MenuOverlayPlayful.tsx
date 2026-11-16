@@ -6,7 +6,9 @@ import { MenuOverlayBase, type MenuOverlayBaseProps } from "../../_base/MenuOver
 export type MenuOverlayPlayfulProps = Omit<MenuOverlayBaseProps, "classes">;
 
 // React Aria sets data-focus-visible instead of :focus-visible on its Buttons.
-const RAC_FOCUS = "outline-none data-[focus-visible]:outline-2 data-[focus-visible]:outline-offset-2 data-[focus-visible]:outline-bh-ink";
+// outline-hidden zeroes --tw-outline-style in Tailwind 4, so the style is restored explicitly on focus.
+const RAC_FOCUS =
+  "outline-hidden data-[focus-visible]:outline-solid data-[focus-visible]:outline-2 data-[focus-visible]:outline-offset-2 data-[focus-visible]:outline-bh-ink";
 
 const CLASSES = {
   trigger: cn(
