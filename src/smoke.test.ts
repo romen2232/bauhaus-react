@@ -1,7 +1,11 @@
 import * as lib from "./index";
 
 it("exposes the package version", () => {
-  expect(lib.VERSION).toBe("0.1.0");
+  expect(lib.VERSION).toBe("0.2.0");
+});
+
+it("does not export internal bases", () => {
+  expect(Object.keys(lib).filter((k) => k.endsWith("Base"))).toEqual([]);
 });
 
 it.each([
@@ -10,16 +14,48 @@ it.each([
   "DisplayHeading",
   "HighlightText",
   "ArrowLink",
+  "IndexCounter",
+  "SectionLabel",
+  "BigNumber",
+  "NumberStepper",
+  "StatColumns",
+  "ProgressRule",
+  "RuledList",
+  "Timeline",
+  "Stepper",
+  "Avatar",
+  "MediaBlock",
+  "QuoteBlock",
+  "Wordmark",
   "ButtonPlayful",
   "IconButtonPlayful",
   "TagPlayful",
   "ProjectCardPlayful",
   "TopBarPlayful",
   "FooterPlayful",
+  "TextLinkPlayful",
+  "ChipPlayful",
+  "CardPlayful",
+  "StackCardPlayful",
+  "BottomNavPlayful",
+  "MenuOverlayPlayful",
+  "CarouselPlayful",
+  "TabsPlayful",
+  "DateStripPlayful",
+  "AudioPlayerPlayful",
   "Shape",
   "ShapeMosaic",
   "Stamp",
+  "Pattern",
+  "Ribbon",
+  "SkewBar",
+  "KineticRule",
+  "Composition",
   "cn",
 ])("exports %s", (name) => {
   expect(typeof (lib as Record<string, unknown>)[name]).toBe("function");
+});
+
+it("exports the Soft tone palette", () => {
+  expect(lib.SOFT_TONE_CLASSES.neutral).toBe("bg-bh-charcoal text-bh-paper");
 });
