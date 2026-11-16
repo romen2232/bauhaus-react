@@ -19,6 +19,9 @@ export * from "./components/primitives/ProgressRule/index.js";
 export * from "./components/primitives/RuledList/index.js";
 export * from "./components/primitives/Timeline/index.js";
 export * from "./components/primitives/Stepper/index.js";
+export * from "./components/primitives/Avatar/index.js";
+export * from "./components/primitives/MediaBlock/index.js";
+export * from "./components/primitives/QuoteBlock/index.js";
 
 // Playful look
 export * from "./components/playful/ButtonPlayful/index.js";
