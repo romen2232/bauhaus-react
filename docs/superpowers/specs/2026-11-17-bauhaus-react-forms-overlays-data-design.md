@@ -79,7 +79,7 @@ Derived from catalogue §6.1. A combination not listed here is designed from tha
 
 | | Playful | Soft | Swiss |
 |---|---|---|---|
-| **Field surface** | `paper-white` fill, 2px `ink` border, `rounded-none`; focus adds `shadow-bh-hard` | Tonal `sand` fill, no border, `rounded-full` (single-line) or `rounded-bh-soft` (TextArea) | Transparent, 1px `ink` bottom rule only |
+| **Field surface** | `paper-white` fill, 2px `ink` border, `rounded-none`; focus adds `shadow-bh-hard` | Tonal `sand` fill with a 1px `charcoal` outline (author decision: sand on paper is 1.29:1, below 1.4.11's 3:1), `rounded-full` (single-line) or `rounded-bh-soft` (TextArea). Unchecked checkbox, radio and Switch track get the same outline; popovers and panels stay borderless | Transparent, 1px `ink` bottom rule only |
 | **Labels** | Display, black weight, uppercase | Display, regular, `charcoal` | `SWISS_LABEL` in `muted-text` |
 | **Checked / on state** | Fill from `color: FillColor` (default `ink`), 2px border | Fill from `tone` (default `neutral`) | `ink` fill; Switch track `ink` |
 | **Invalid state** | Border stays `ink`; a `red` 4px bar on the field's leading edge; message in `ink` with a red square marker | Red tone dot before an `ink` message; field fill unchanged | 1px rule turns `bh-accent` (the component's single accent); message in `ink` |
@@ -181,7 +181,7 @@ Strict TDD, as in catalogue §6.7. Tests check behaviour, not classes.
 
 - **Base tests:** label/description/error association, required and invalid states, keyboard use (Select arrow keys and typeahead, RadioGroup arrows, Switch/Checkbox Space), Modal focus trap + `Esc` + focus return + `alertdialog` not dismissable, Toast auto-dismiss timing (fake timers), no auto-dismiss with an action, max 3 visible, Table sort cycles and `aria-sort`, row header, empty state.
 - **`lib/chart.ts` unit tests:** nice ticks for awkward ranges (0–7, 0–1234, negative values, all zeros), band layout, arc angles summing to 360°.
-- **Chart tests:** hidden data table matches the data, title is the figure's name, arrow-key focus moves between marks.
+- **Chart tests:** hidden data table matches the data, title is the figure's name, the SVG contains nothing focusable.
 - **Skin tests:** role and name, `className` and `ref` forwarding, the skin's colour prop.
 - **Palette tests:** every new pairing used for text, plus 1.4.11 checks for meaningful marks and borders.
 - **Storybook:** one story per variant per look with the a11y addon, and each look's overview story gains a small dashboard composition (table + chart + form + toast trigger + modal trigger).
