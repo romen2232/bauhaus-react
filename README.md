@@ -93,7 +93,7 @@ Fill colours: `red`, `yellow`, `blue`, `navy`, `sky`, `pink`, `orange`, `ink`, `
 Other tokens:
 
 - `bh-sand`: a Soft surface colour (takes ink text).
-- `bh-accent` (red by default): the Swiss look's single accent, used only as a fill or rule, never as text.
+- `bh-accent` (red by default): the Swiss look's single accent. Against white, it fails AA for small text (3.89:1) but passes for large text (24px+); Swiss components use it only as a fill or rule, with ink text. If you override `--color-bh-accent`, keep ink text readable on it.
 - `rounded-bh-soft` (20px): a radius for Soft panels.
 - `font-bh-grotesk`: Inter Tight.
 - `animate-bh-slide` and `animate-bh-grow`: kinetic decoration loops.
