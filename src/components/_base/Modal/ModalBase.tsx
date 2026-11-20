@@ -97,7 +97,7 @@ export function ModalBase({
                   {title}
                 </Heading>
               </div>
-              <div className={cn("min-h-0 flex-1 overflow-y-auto", classes.body)}>
+              <div tabIndex={0} className={cn("min-h-0 flex-1 overflow-y-auto", classes.body)}>
                 {resolve(children, { close })}
               </div>
               {footer !== undefined && (
