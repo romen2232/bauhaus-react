@@ -1,4 +1,5 @@
-import { RAC_FOCUS, SWISS_LABEL, SWISS_MOTION } from "./styles.js";
+import type { FillColor, SoftTone } from "./palette.js";
+import { BOX_FOCUS, RAC_FOCUS, SWISS_LABEL, SWISS_MOTION } from "./styles.js";
 
 export type FieldClassSet = {
   root: string;
@@ -56,5 +57,76 @@ export const FIELD_CLASSES: Record<
     textarea: `${SWISS_INPUT} h-auto min-h-24 py-3`,
     error: "font-bh-grotesk text-sm text-bh-ink",
     errorMarker: "",
+  },
+};
+
+/** Playful checked state: `FILL_CLASSES` behind a `data-[checked]:` prefix (static literals). */
+export const PLAYFUL_CHECKED: Record<FillColor, string> = {
+  red: "data-[checked]:bg-bh-red data-[checked]:text-bh-ink",
+  yellow: "data-[checked]:bg-bh-yellow data-[checked]:text-bh-ink",
+  blue: "data-[checked]:bg-bh-blue data-[checked]:text-bh-paper",
+  navy: "data-[checked]:bg-bh-navy data-[checked]:text-bh-paper",
+  sky: "data-[checked]:bg-bh-sky data-[checked]:text-bh-ink",
+  pink: "data-[checked]:bg-bh-pink data-[checked]:text-bh-ink",
+  orange: "data-[checked]:bg-bh-orange data-[checked]:text-bh-ink",
+  ink: "data-[checked]:bg-bh-ink data-[checked]:text-bh-paper",
+  paper: "data-[checked]:bg-bh-paper data-[checked]:text-bh-ink",
+};
+
+/** Soft checked state: `SOFT_TONE_CLASSES` behind a `data-[checked]:` prefix (static literals). */
+export const SOFT_CHECKED: Record<SoftTone, string> = {
+  red: "data-[checked]:bg-bh-red data-[checked]:text-bh-ink",
+  yellow: "data-[checked]:bg-bh-yellow data-[checked]:text-bh-ink",
+  blue: "data-[checked]:bg-bh-blue data-[checked]:text-bh-paper",
+  neutral: "data-[checked]:bg-bh-charcoal data-[checked]:text-bh-paper",
+};
+
+/** Soft unchecked controls: 1px charcoal outline so the boundary reaches 3:1 (WCAG 1.4.11). */
+export const SOFT_OFF = {
+  checkbox: "border border-bh-charcoal bg-bh-sand",
+  radio: "border border-bh-charcoal bg-bh-sand",
+  track: "border border-bh-charcoal bg-bh-sand",
+  thumb: "bg-bh-charcoal",
+};
+
+const TOGGLE_BUTTON = "group flex items-start gap-3 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50";
+const BOX_BASE = `mt-0.5 flex size-6 shrink-0 items-center justify-center ${BOX_FOCUS}`;
+
+export type CheckboxClassSet = FieldClassSet & { button: string; box: string; indicator: string };
+
+/** Class maps for Checkbox, one per look. The Playful and Soft checked fill is added by the skin. */
+export const CHECKBOX_CLASSES: Record<FormLook, CheckboxClassSet> = {
+  playful: {
+    root: "flex flex-col gap-2",
+    button: TOGGLE_BUTTON,
+    box: `${BOX_BASE} rounded-none border-2 border-bh-ink bg-bh-paper-white`,
+    indicator: "font-bh-body text-base font-black leading-none",
+    label: "font-bh-display text-sm font-black uppercase tracking-wide text-bh-ink",
+    required: "ml-1 font-bh-body text-xs font-normal normal-case tracking-normal text-bh-muted-text",
+    description: "font-bh-body text-sm text-bh-muted-text",
+    error: "flex items-start gap-2 font-bh-body text-sm text-bh-ink",
+    errorMarker: "mt-1 size-3 shrink-0 bg-bh-red",
+  },
+  soft: {
+    root: "flex flex-col gap-2",
+    button: TOGGLE_BUTTON,
+    box: `${BOX_BASE} rounded-md ${SOFT_OFF.checkbox}`,
+    indicator: "font-bh-body text-base font-bold leading-none",
+    label: "font-bh-display text-sm font-normal text-bh-charcoal",
+    required: "ml-1 font-bh-body text-xs font-normal normal-case tracking-normal text-bh-muted-text",
+    description: "font-bh-body text-sm text-bh-muted-text",
+    error: "flex items-start gap-2 font-bh-body text-sm text-bh-ink",
+    errorMarker: "mt-1.5 size-2 shrink-0 rounded-full bg-bh-red",
+  },
+  swiss: {
+    root: "flex flex-col gap-2",
+    button: TOGGLE_BUTTON,
+    box: `${BOX_BASE} rounded-none border border-bh-ink bg-transparent data-[checked]:bg-bh-ink data-[checked]:text-bh-paper-white ${SWISS_MOTION}`,
+    indicator: "font-bh-grotesk text-base font-normal leading-none",
+    label: `${SWISS_LABEL} text-bh-muted-text`,
+    required: "ml-1 normal-case tracking-normal",
+    description: "font-bh-grotesk text-sm text-bh-muted-text",
+    error: "flex items-start gap-2 font-bh-grotesk text-sm text-bh-ink",
+    errorMarker: "mt-1.5 size-2 shrink-0 bg-bh-accent",
   },
 };

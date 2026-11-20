@@ -6,6 +6,7 @@ import { TabsSoft } from "./TabsSoft/TabsSoft";
 import { DateStripSoft } from "./DateStripSoft/DateStripSoft";
 import { TextFieldSoft } from "./TextFieldSoft/TextFieldSoft";
 import { TextAreaSoft } from "./TextAreaSoft/TextAreaSoft";
+import { CheckboxSoft } from "./CheckboxSoft/CheckboxSoft";
 
 // Same guard as playful/focusRing.test.tsx: in Tailwind 4.3, `outline-none`/`outline-hidden` set
 // --tw-outline-style: none, so a React Aria control that hides the outline must restore the style.
@@ -48,4 +49,11 @@ it("TextFieldSoft keeps a visible focus ring", () => {
 it("TextAreaSoft keeps a visible focus ring", () => {
   render(<TextAreaSoft label="Notes" />);
   expect(killsFocusRing(screen.getByRole("textbox"))).toBe(false);
+});
+
+it("CheckboxSoft keeps a visible focus ring on its box", () => {
+  const { container } = render(<CheckboxSoft label="Terms" />);
+  const box = container.querySelector("[aria-hidden]")!;
+  expect(box.className).toContain("group-data-[focus-visible]:outline-bh-ink");
+  expect(killsFocusRing(screen.getByRole("checkbox").closest("label")!)).toBe(false);
 });

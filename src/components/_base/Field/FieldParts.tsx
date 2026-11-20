@@ -18,15 +18,18 @@ export function FieldLabel({
   classes,
   hideLabel,
   isRequired,
+  elementType,
   children,
 }: {
   classes: Pick<FieldClassSet, "label" | "required">;
   hideLabel?: boolean;
   isRequired?: boolean;
+  /** Use `"span"` when the label sits inside another label (toggle controls). */
+  elementType?: "label" | "span";
   children: ReactNode;
 }) {
   return (
-    <Label className={cn(classes.label, hideLabel && "sr-only")}>
+    <Label elementType={elementType} className={cn(classes.label, hideLabel && "sr-only")}>
       {children}
       {isRequired ? <span className={classes.required}> (required)</span> : null}
     </Label>
