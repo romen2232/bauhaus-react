@@ -4,6 +4,8 @@ import { SelectSwiss } from "./SelectSwiss";
 const meta: Meta<typeof SelectSwiss> = {
   title: "Swiss/SelectSwiss",
   component: SelectSwiss,
+  tags: ["swiss"],
+  parameters: { backgrounds: { default: "white" } },
 };
 export default meta;
 type Story = StoryObj<typeof SelectSwiss>;
