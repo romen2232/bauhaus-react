@@ -5,6 +5,7 @@ import { MenuOverlaySoft } from "./MenuOverlaySoft/MenuOverlaySoft";
 import { TabsSoft } from "./TabsSoft/TabsSoft";
 import { DateStripSoft } from "./DateStripSoft/DateStripSoft";
 import { TextFieldSoft } from "./TextFieldSoft/TextFieldSoft";
+import { TextAreaSoft } from "./TextAreaSoft/TextAreaSoft";
 
 // Same guard as playful/focusRing.test.tsx: in Tailwind 4.3, `outline-none`/`outline-hidden` set
 // --tw-outline-style: none, so a React Aria control that hides the outline must restore the style.
@@ -41,5 +42,10 @@ it("DateStripSoft keeps a visible focus ring on every day", () => {
 
 it("TextFieldSoft keeps a visible focus ring", () => {
   render(<TextFieldSoft label="Name" />);
+  expect(killsFocusRing(screen.getByRole("textbox"))).toBe(false);
+});
+
+it("TextAreaSoft keeps a visible focus ring", () => {
+  render(<TextAreaSoft label="Notes" />);
   expect(killsFocusRing(screen.getByRole("textbox"))).toBe(false);
 });

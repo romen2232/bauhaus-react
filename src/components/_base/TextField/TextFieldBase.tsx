@@ -1,5 +1,5 @@
 "use client";
-import type { Ref } from "react";
+import type { ReactNode, Ref } from "react";
 import { Input, TextField } from "react-aria-components";
 import { cn } from "../../../lib/cn.js";
 import type { FieldClassSet } from "../../../lib/fields.js";
@@ -14,6 +14,8 @@ export type TextFieldBaseClasses = FieldClassSet & { control: string; input: str
 
 export type TextFieldBaseProps = FieldCommonProps & {
   type?: "text" | "email" | "password" | "search" | "url" | "tel";
+  /** Set at mount; toggling it later is not linked via aria-describedby (React Aria slot registration). */
+  description?: ReactNode;
   /** Participates in native `FormData`. */
   name?: string;
   value?: string;

@@ -18,6 +18,7 @@ import { DateStripSoft } from "./DateStripSoft/DateStripSoft";
 import { CarouselSoft } from "./CarouselSoft/CarouselSoft";
 import { AudioPlayerSoft } from "./AudioPlayerSoft/AudioPlayerSoft";
 import { TextFieldSoft } from "./TextFieldSoft/TextFieldSoft";
+import { TextAreaSoft } from "./TextAreaSoft/TextAreaSoft";
 
 // Soft look rules (spec §6.1): no borders, no hard shadow, no movement, yellow never as text.
 const FORBIDDEN = /^(border(-[xytrbl])?(-\d+)?|shadow-bh-hard.*|-?translate-.*|text-bh-yellow)$/;
@@ -50,6 +51,8 @@ const cases: LookCase[] = [
   ["AudioPlayerSoft", <AudioPlayerSoft src="/a.mp3" title="Intro" />],
   ["TextFieldSoft", <TextFieldSoft label="Name" />, { outline: true }],
   ["TextFieldSoft invalid", <TextFieldSoft label="Name" isInvalid errorMessage="Required" />, { outline: true }],
+  ["TextAreaSoft", <TextAreaSoft label="Notes" />, { outline: true }],
+  ["TextAreaSoft invalid", <TextAreaSoft label="Notes" isInvalid errorMessage="Required" />, { outline: true }],
 ];
 
 it.each(cases)("%s follows the Soft look rules", (_name, element, options) => {
