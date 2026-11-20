@@ -27,6 +27,12 @@ export const SWISS_RAC_FOCUS =
 /** Ink focus outline for every look's React Aria inputs that hide the native outline. */
 export const RAC_FOCUS = SWISS_RAC_FOCUS;
 
-/** Focus outline for toggle boxes: the focused element is the label wrapper, so the box reads its group. */
+/**
+ * Focus outline for toggle boxes: the focused element is the label wrapper, so the box reads its group.
+ * Un-named `group-data-[focus-visible]` matches the nearest `group` ancestor. This is safe for
+ * RadioGroup only because its root (also a `group`) emits no `data-focus-visible`; add a named
+ * group (`group/radio`) before putting `group-data-[invalid]` or `group-data-[disabled]` on a
+ * radio-level class, or it would match the root and leak to every radio.
+ */
 export const BOX_FOCUS =
   "group-data-[focus-visible]:outline-solid group-data-[focus-visible]:outline-2 group-data-[focus-visible]:outline-offset-2 group-data-[focus-visible]:outline-bh-ink";

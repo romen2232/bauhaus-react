@@ -1,0 +1,224 @@
+import { createRef } from "react";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { SelectBase } from "./SelectBase";
+
+const t = {
+  root: "r",
+  label: "",
+  required: "",
+  description: "",
+  error: "",
+  errorMarker: "",
+  control: "ctl",
+  trigger: "tr",
+  value: "val",
+  chevron: "chev",
+  popover: "pop",
+  listbox: "lb",
+  option: "opt",
+  check: "chk",
+};
+
+const items = [
+  { id: "banana", label: "Banana" },
+  { id: "cherry", label: "Cherry", isDisabled: true },
+  { id: "apple", label: "Apple" },
+];
+const trigger = () => screen.getByRole("button", { name: /Fruit/ });
+
+it("shows the placeholder, named by its label, until something is picked", () => {
+  render(<SelectBase classes={t} label="Fruit" items={items} placeholder="Choose a fruit" />);
+  expect(trigger()).toHaveTextContent("Choose a fruit");
+  expect(trigger()).toHaveAttribute("aria-haspopup", "listbox");
+});
+
+it("falls back to a default placeholder", () => {
+  render(<SelectBase classes={t} label="Fruit" items={items} />);
+  expect(trigger()).toHaveTextContent("Select an option");
+});
+
+it("opens a listbox on click and selects with the pointer", async () => {
+  const onSelectionChange = vi.fn();
+  render(<SelectBase classes={t} label="Fruit" items={items} onSelectionChange={onSelectionChange} />);
+  await userEvent.click(trigger());
+  await userEvent.click(screen.getByRole("option", { name: "Apple" }));
+  expect(onSelectionChange).toHaveBeenLastCalledWith("apple");
+  expect(trigger()).toHaveTextContent("Apple");
+  expect(screen.queryByRole("listbox")).toBeNull();
+});
+
+it("opens with ArrowDown and picks with Enter, skipping the disabled option", async () => {
+  const onSelectionChange = vi.fn();
+  render(<SelectBase classes={t} label="Fruit" items={items} onSelectionChange={onSelectionChange} />);
+  await userEvent.tab();
+  expect(trigger()).toHaveFocus();
+  await userEvent.keyboard("{ArrowDown}");
+  expect(screen.getByRole("listbox")).toBeInTheDocument();
+  await userEvent.keyboard("{ArrowDown}");
+  await userEvent.keyboard("{Enter}");
+  expect(onSelectionChange).toHaveBeenLastCalledWith("apple");
+  expect(trigger()).toHaveTextContent("Apple");
+  expect(screen.queryByRole("listbox")).toBeNull();
+});
+
+it("jumps by typeahead", async () => {
+  const onSelectionChange = vi.fn();
+  render(<SelectBase classes={t} label="Fruit" items={items} onSelectionChange={onSelectionChange} />);
+  await userEvent.click(trigger());
+  await userEvent.keyboard("a");
+  expect(screen.getByRole("option", { name: "Apple" })).toHaveAttribute("data-focused");
+  await userEvent.keyboard("{Enter}");
+  expect(onSelectionChange).toHaveBeenLastCalledWith("apple");
+});
+
+it("Escape closes and returns focus to the trigger", async () => {
+  render(<SelectBase classes={t} label="Fruit" items={items} />);
+  await userEvent.click(trigger());
+  expect(screen.getByRole("listbox")).toBeInTheDocument();
+  await userEvent.keyboard("{Escape}");
+  expect(screen.queryByRole("listbox")).toBeNull();
+  await waitFor(() => expect(trigger()).toHaveFocus());
+});
+
+it("marks the selected option with a check and aria-selected", async () => {
+  render(<SelectBase classes={t} label="Fruit" items={items} defaultSelectedKey="banana" />);
+  await userEvent.click(trigger());
+  const banana = screen.getByRole("option", { name: /Banana/ });
+  expect(banana).toHaveAttribute("aria-selected", "true");
+  expect(banana.querySelector(".chk")).toHaveTextContent("✓");
+  expect(banana.querySelector(".chk")).toHaveAttribute("aria-hidden", "true");
+  expect(screen.getByRole("option", { name: "Apple" }).querySelector(".chk")).toBeNull();
+});
+
+it("does not select a disabled option", async () => {
+  const onSelectionChange = vi.fn();
+  render(<SelectBase classes={t} label="Fruit" items={items} onSelectionChange={onSelectionChange} />);
+  await userEvent.click(trigger());
+  const cherry = screen.getByRole("option", { name: "Cherry" });
+  expect(cherry).toHaveAttribute("aria-disabled", "true");
+  await userEvent.click(cherry);
+  expect(onSelectionChange).not.toHaveBeenCalled();
+});
+
+it("is controlled by selectedKey", async () => {
+  const onSelectionChange = vi.fn();
+  render(
+    <SelectBase classes={t} label="Fruit" items={items} selectedKey="banana" onSelectionChange={onSelectionChange} />,
+  );
+  await userEvent.click(trigger());
+  await userEvent.click(screen.getByRole("option", { name: "Apple" }));
+  expect(onSelectionChange).toHaveBeenLastCalledWith("apple");
+  expect(trigger()).toHaveTextContent("Banana");
+});
+
+it("reports null when the controlled selection is cleared", () => {
+  render(<SelectBase classes={t} label="Fruit" items={items} selectedKey={null} placeholder="Choose" />);
+  expect(trigger()).toHaveTextContent("Choose");
+});
+
+it("shows the placeholder for a selectedKey that matches no item", () => {
+  render(<SelectBase classes={t} label="Fruit" items={items} selectedKey="zzz" placeholder="Choose a fruit" />);
+  expect(trigger()).toHaveTextContent("Choose a fruit");
+});
+
+it("opens with empty items without throwing", async () => {
+  render(<SelectBase classes={t} label="Fruit" items={[]} />);
+  await userEvent.click(trigger());
+  expect(screen.queryAllByRole("option")).toHaveLength(0);
+});
+
+it("disabled select does not open", async () => {
+  render(<SelectBase classes={t} label="Fruit" items={items} isDisabled />);
+  expect(trigger()).toBeDisabled();
+  await userEvent.click(trigger());
+  expect(screen.queryByRole("listbox")).toBeNull();
+});
+
+it("links the description to the trigger", () => {
+  render(<SelectBase classes={t} label="Fruit" items={items} description="Pick your favourite" />);
+  const ids = trigger().getAttribute("aria-describedby")!.split(" ");
+  expect(ids.map((id) => document.getElementById(id)?.textContent)).toContain("Pick your favourite");
+});
+
+it("links the error to the trigger only while invalid", () => {
+  const { unmount } = render(<SelectBase classes={t} label="Fruit" items={items} isInvalid errorMessage="Pick one" />);
+  const ids = trigger().getAttribute("aria-describedby")!.split(" ");
+  expect(ids.map((id) => document.getElementById(id)?.textContent)).toEqual(
+    expect.arrayContaining([expect.stringContaining("Pick one")]),
+  );
+  unmount();
+  render(<SelectBase classes={t} label="Fruit" items={items} errorMessage="Pick one" />);
+  expect(screen.queryByText("Pick one")).toBeNull();
+});
+
+it("falls back to React Aria's own validation errors", () => {
+  render(
+    <SelectBase classes={t} label="Fruit" items={items} validate={() => "Not allowed"} defaultSelectedKey="apple" />,
+  );
+  expect(screen.getByText("Not allowed")).toBeInTheDocument();
+});
+
+it("passes the validation result to an errorMessage function", () => {
+  render(
+    <SelectBase
+      classes={t}
+      label="Fruit"
+      items={items}
+      isInvalid
+      errorMessage={(v) => `fn:${String(v.isInvalid)}`}
+    />,
+  );
+  expect(screen.getByText("fn:true")).toBeInTheDocument();
+});
+
+it("marks required with (required)", () => {
+  render(<SelectBase classes={t} label="Fruit" items={items} isRequired />);
+  expect(screen.getByText("(required)")).toBeInTheDocument();
+  expect(trigger()).toBeInTheDocument();
+});
+
+it("hides the chevron from assistive tech", () => {
+  const { container } = render(<SelectBase classes={t} label="Fruit" items={items} />);
+  expect(container.querySelector(".chev")).toHaveAttribute("aria-hidden", "true");
+});
+
+it("posts the chosen key in a form under name", () => {
+  const { container } = render(
+    <form>
+      <SelectBase classes={t} label="Fruit" items={items} name="fruit" defaultSelectedKey="apple" />
+    </form>,
+  );
+  expect(new FormData(container.querySelector("form")!).get("fruit")).toBe("apple");
+});
+
+it("posts nothing under name while nothing is chosen", () => {
+  const { container } = render(
+    <form>
+      <SelectBase classes={t} label="Fruit" items={items} name="fruit" />
+    </form>,
+  );
+  expect(new FormData(container.querySelector("form")!).get("fruit")).toBeFalsy();
+});
+
+it("shows keyboard focus on the trigger", async () => {
+  render(<SelectBase classes={t} label="Fruit" items={items} />);
+  await userEvent.tab();
+  expect(trigger()).toHaveAttribute("data-focus-visible");
+});
+
+it("merges className onto the root and forwards ref", () => {
+  const ref = createRef<HTMLDivElement>();
+  render(<SelectBase classes={t} label="Fruit" items={items} className="mt-4" ref={ref} />);
+  const root = trigger().closest(".r");
+  expect(root).toHaveClass("r", "mt-4");
+  expect(ref.current).toBe(root);
+});
+
+it("applies the popover, listbox and option slots when open", async () => {
+  render(<SelectBase classes={t} label="Fruit" items={items} />);
+  await userEvent.click(trigger());
+  expect(screen.getByRole("listbox")).toHaveClass("lb");
+  expect(screen.getByRole("listbox").closest(".pop")).not.toBeNull();
+  expect(screen.getByRole("option", { name: "Apple" })).toHaveClass("opt");
+});
