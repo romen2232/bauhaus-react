@@ -19,6 +19,7 @@ import { CarouselSwiss } from "./CarouselSwiss/CarouselSwiss";
 import { AudioPlayerSwiss } from "./AudioPlayerSwiss/AudioPlayerSwiss";
 import { TextFieldSwiss } from "./TextFieldSwiss/TextFieldSwiss";
 import { TextAreaSwiss } from "./TextAreaSwiss/TextAreaSwiss";
+import { CheckboxSwiss } from "./CheckboxSwiss/CheckboxSwiss";
 
 const FORBIDDEN =
   /^(border(-[xytrbl])?-(2|4|8)|divide-[xy]-(2|4|8)|shadow(-.*)?|-?translate-.*|text-bh-yellow|text-bh-accent|rounded-bh-soft|font-bh-(display|body)|font-(medium|semibold|bold|extrabold|black)|(bg|text|border|divide)-bh-(red|yellow|blue|navy|sky|pink|orange|sand|paper|teal|khaki))$/;
@@ -82,6 +83,9 @@ const cases: LookCase[] = [
   ["TextFieldSwiss invalid", <TextFieldSwiss label="Name" isInvalid errorMessage="Required" />],
   ["TextAreaSwiss", <TextAreaSwiss label="Notes" />],
   ["TextAreaSwiss invalid", <TextAreaSwiss label="Notes" isInvalid errorMessage="Required" />],
+  ["CheckboxSwiss", <CheckboxSwiss label="Terms" />],
+  ["CheckboxSwiss invalid", <CheckboxSwiss label="Terms" isInvalid errorMessage="Required" />],
+  ["CheckboxSwiss selected", <CheckboxSwiss label="Terms" defaultSelected />],
 ];
 
 it.each(cases)("%s follows the Swiss look rules", (_name, element, options) => {
