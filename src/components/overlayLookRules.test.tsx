@@ -1,5 +1,6 @@
 import type { ReactElement } from "react";
 import { render } from "@testing-library/react";
+import { ModalSoft } from "./soft/ModalSoft/ModalSoft";
 import { ModalPlayful } from "./playful/ModalPlayful/ModalPlayful";
 
 type Look = "playful" | "soft" | "swiss";
@@ -11,7 +12,9 @@ const cases: Record<Look, LookCase[]> = {
   playful: [
     ["ModalPlayful", <ModalPlayful title="T" defaultOpen footer={footer}>Body</ModalPlayful>],
   ],
-  soft: [],
+  soft: [
+    ["ModalSoft", <ModalSoft title="T" defaultOpen footer={footer}>Body</ModalSoft>],
+  ],
   swiss: [],
 };
 

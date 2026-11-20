@@ -110,6 +110,7 @@ export * from "./components/swiss/SelectSwiss/index.js";
 
 // Overlays
 export * from "./components/playful/ModalPlayful/index.js";
+export * from "./components/soft/ModalSoft/index.js";
 
 // Decoration
 export * from "./components/decoration/Shape/index.js";
