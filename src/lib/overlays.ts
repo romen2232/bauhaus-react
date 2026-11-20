@@ -36,6 +36,10 @@ const RING_BASE =
 const PLAYFUL_TOAST_RING = `${RING_BASE} data-[focus-visible]:outline-current`;
 const SOFT_TOAST_RING = `${RING_BASE} data-[focus-visible]:outline-bh-paper`;
 
+// Focus ring for the scrolling modal body (a plain focusable div). Inset so the panel never clips it.
+const BODY_FOCUS =
+  "outline-hidden focus-visible:outline-solid focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-bh-ink";
+
 /** Modal class maps, one per look. Static literals only. */
 export const MODAL_CLASSES: Record<OverlayLook, ModalClassSet> = {
   playful: {
@@ -43,16 +47,16 @@ export const MODAL_CLASSES: Record<OverlayLook, ModalClassSet> = {
     panel: "bg-bh-paper text-bh-ink border-2 border-bh-ink shadow-bh-hard-lg",
     header: "px-6 py-4 border-b-2 border-bh-ink",
     title: "font-bh-display font-black uppercase text-2xl",
-    body: "px-6 py-4 font-bh-body text-base",
+    body: `px-6 py-4 font-bh-body text-base ${BODY_FOCUS}`,
     footer: "flex flex-wrap justify-end gap-3 px-6 py-4 border-t-2 border-bh-ink",
     motion: PLAYFUL_MOTION,
   },
   soft: {
     scrim: "bg-bh-charcoal/60",
-    panel: "bg-bh-paper text-bh-ink rounded-bh-soft",
+    panel: "bg-bh-paper text-bh-ink rounded-bh-soft overflow-hidden",
     header: "px-8 pt-6 pb-2",
     title: "font-bh-display font-light text-2xl",
-    body: "px-8 py-2 font-bh-body text-base",
+    body: `px-8 py-2 font-bh-body text-base ${BODY_FOCUS}`,
     footer: "flex flex-wrap justify-end gap-3 px-8 pt-2 pb-6",
     motion: SOFT_MOTION,
   },
@@ -61,7 +65,7 @@ export const MODAL_CLASSES: Record<OverlayLook, ModalClassSet> = {
     panel: "bg-bh-paper-white text-bh-ink border-t-2 border-bh-ink",
     header: "px-6 py-4 border-b border-bh-rule",
     title: `${SWISS_DISPLAY} text-3xl`,
-    body: "px-6 py-4 font-bh-grotesk text-base",
+    body: `px-6 py-4 font-bh-grotesk text-base ${BODY_FOCUS}`,
     footer: "flex flex-wrap justify-end gap-3 px-6 py-4 border-t border-bh-rule",
     motion: SWISS_WIPE,
   },
