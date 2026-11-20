@@ -23,3 +23,10 @@ export const SWISS_DISPLAY = "font-bh-grotesk font-normal tracking-[-0.03em]";
 /** Swiss look: focus ring for React Aria elements that hide their outline. */
 export const SWISS_RAC_FOCUS =
   "outline-hidden data-[focus-visible]:outline-solid data-[focus-visible]:outline-2 data-[focus-visible]:outline-offset-2 data-[focus-visible]:outline-bh-ink";
+
+/** Ink focus outline for every look's React Aria inputs that hide the native outline. */
+export const RAC_FOCUS = SWISS_RAC_FOCUS;
+
+/** Focus outline for toggle boxes: the focused element is the label wrapper, so the box reads its group. */
+export const BOX_FOCUS =
+  "group-data-[focus-visible]:outline-solid group-data-[focus-visible]:outline-2 group-data-[focus-visible]:outline-offset-2 group-data-[focus-visible]:outline-bh-ink";
