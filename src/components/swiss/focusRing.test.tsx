@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { DateStripSwiss } from "./DateStripSwiss/DateStripSwiss";
 import { MenuOverlaySwiss } from "./MenuOverlaySwiss/MenuOverlaySwiss";
 import { TabsSwiss } from "./TabsSwiss/TabsSwiss";
+import { TextFieldSwiss } from "./TextFieldSwiss/TextFieldSwiss";
 
 // Tailwind 4.3 hides outlines through --tw-outline-style, so React Aria controls
 // that hide their outline must explicitly restore a solid style on focus.
@@ -40,4 +41,9 @@ it("DateStripSwiss keeps a visible focus ring on every day", () => {
   for (const radio of screen.getAllByRole("radio")) {
     expect(killsFocusRing(radio.closest("label")!)).toBe(false);
   }
+});
+
+it("TextFieldSwiss keeps a visible focus ring", () => {
+  render(<TextFieldSwiss label="Name" />);
+  expect(killsFocusRing(screen.getByRole("textbox"))).toBe(false);
 });
