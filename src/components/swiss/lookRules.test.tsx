@@ -21,11 +21,17 @@ import { TextFieldSwiss } from "./TextFieldSwiss/TextFieldSwiss";
 import { TextAreaSwiss } from "./TextAreaSwiss/TextAreaSwiss";
 import { CheckboxSwiss } from "./CheckboxSwiss/CheckboxSwiss";
 import { SwitchSwiss } from "./SwitchSwiss/SwitchSwiss";
+import { RadioGroupSwiss } from "./RadioGroupSwiss/RadioGroupSwiss";
 
 const FORBIDDEN =
   /^(border(-[xytrbl])?-(2|4|8)|divide-[xy]-(2|4|8)|shadow(-.*)?|-?translate-.*|text-bh-yellow|text-bh-accent|rounded-bh-soft|font-bh-(display|body)|font-(medium|semibold|bold|extrabold|black)|(bg|text|border|divide)-bh-(red|yellow|blue|navy|sky|pink|orange|sand|paper|teal|khaki))$/;
 
 type LookCase = [string, ReactElement, { pill?: boolean }?];
+
+const radioOptions = [
+  { value: "a", label: "Email" },
+  { value: "b", label: "Phone" },
+];
 
 const cases: LookCase[] = [
   ["ButtonSwiss solid", <ButtonSwiss>Transfer</ButtonSwiss>],
@@ -90,6 +96,9 @@ const cases: LookCase[] = [
   ["SwitchSwiss", <SwitchSwiss label="Alerts" />],
   ["SwitchSwiss invalid", <SwitchSwiss label="Alerts" isInvalid errorMessage="Required" />],
   ["SwitchSwiss on", <SwitchSwiss label="Alerts" defaultSelected />],
+  ["RadioGroupSwiss", <RadioGroupSwiss label="Via" options={radioOptions} />, { pill: true }],
+  ["RadioGroupSwiss invalid", <RadioGroupSwiss label="Via" options={radioOptions} isInvalid errorMessage="Required" />, { pill: true }],
+  ["RadioGroupSwiss selected", <RadioGroupSwiss label="Via" options={radioOptions} defaultValue="a" />, { pill: true }],
 ];
 
 it.each(cases)("%s follows the Swiss look rules", (_name, element, options) => {
@@ -118,6 +127,7 @@ it.each(cases)("%s follows the Swiss look rules", (_name, element, options) => {
 it.each([
   ["CheckboxSwiss", <CheckboxSwiss label="Terms" isInvalid errorMessage="Required" />],
   ["SwitchSwiss", <SwitchSwiss label="Alerts" isInvalid errorMessage="Required" />],
+  ["RadioGroupSwiss", <RadioGroupSwiss label="Via" options={radioOptions} isInvalid errorMessage="Required" />],
 ])("Swiss invalid %s has exactly one bh-accent token", (_name, element) => {
   const { container } = render(element);
   const accents = [...container.ownerDocument.body.querySelectorAll("*")]
