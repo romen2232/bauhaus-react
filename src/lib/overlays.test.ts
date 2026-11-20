@@ -41,14 +41,40 @@ it("1.4.11: borders and rings that carry meaning reach 3:1", () => {
   expect(contrast(SWISS_HEX.ink, SWISS_HEX.white)).toBeGreaterThanOrEqual(3); // swiss 2px top rule
 });
 
-it("1.4.11: Playful and Soft panels stand out from the scrim painted over the page", () => {
+it("1.4.11: the Playful panel stands out from its scrim painted over a paper page", () => {
   expect(contrast(HEX.paper, over(HEX.ink, 0.6, HEX.paper))).toBeGreaterThanOrEqual(3);
-  expect(contrast(HEX.paper, over(SOFT_HEX.neutral, 0.6, HEX.paper))).toBeGreaterThanOrEqual(3);
 });
 
-it("1.4.11: the Swiss panel fill alone is below 3:1 against its 40% scrim, so the ink top rule marks the edge", () => {
+// The Soft panel has no border, so its edge is the paper fill against the scrimmed page behind it.
+// The 3:1 result depends on that page ground. Measured (paper panel vs charcoal/60 over the page):
+//   paper ~3.01 (passes, thin margin), paper-white ~2.79 (below 3:1), sand ~3.51 (passes).
+// Soft is only guaranteed on a `paper` or darker/warmer ground; on pure white the dimming still
+// reads, but the edge contrast is under 3:1 and we do not claim otherwise.
+describe("1.4.11: Soft panel edge vs scrim, by page ground", () => {
+  const softEdge = (page: string) => contrast(HEX.paper, over(SOFT_HEX.neutral, 0.6, page));
+
+  it("meets 3:1 on a paper page (the supported ground)", () => {
+    expect(softEdge(HEX.paper)).toBeGreaterThanOrEqual(3);
+    expect(softEdge(HEX.paper)).toBeCloseTo(3.008, 2);
+  });
+
+  it("meets 3:1 on a sand page", () => {
+    expect(softEdge(SOFT_HEX.sand)).toBeGreaterThanOrEqual(3);
+    expect(softEdge(SOFT_HEX.sand)).toBeCloseTo(3.51, 2);
+  });
+
+  it("is about 2.79:1 on a paper-white page, so 3:1 is not claimed there", () => {
+    // Recorded, not a requirement: documents the unsupported ground. Update this if the scrim opacity changes.
+    expect(softEdge(SWISS_HEX.white)).toBeCloseTo(2.79, 2);
+  });
+});
+
+// Swiss: the panel fill vs its 40% scrim over a white page is about 2.6:1. SC 1.4.11 does not strictly
+// require a modal panel edge to reach 3:1; the scrim dimming plus the 2px ink top rule are the cues.
+// The ink rule itself (a graphical object that carries meaning) does reach 3:1 and is asserted below.
+// The fill number is recorded for reference only, not asserted, so a future fix is never blocked by it.
+it("1.4.11: the Swiss panel is marked by a 2px ink top rule that reaches 3:1 against the scrimmed page", () => {
   const scrimmed = over(SWISS_HEX.ink, 0.4, SWISS_HEX.white);
-  expect(contrast(SWISS_HEX.white, scrimmed)).toBeLessThan(3); // pinned: why the rule is required
   expect(contrast(SWISS_HEX.ink, scrimmed)).toBeGreaterThanOrEqual(3);
   expect(MODAL_CLASSES.swiss.panel).toContain("border-t-2");
   expect(MODAL_CLASSES.swiss.panel).toContain("border-bh-ink");
@@ -59,13 +85,6 @@ it("1.4.11: every toast surface stands out from the page it floats on", () => {
   expect(contrast(SWISS_HEX.ink, SWISS_HEX.white)).toBeGreaterThanOrEqual(3); // swiss rule on white
   // playful fills carry a 2px ink border, which separates them from paper whatever the fill
   expect(contrast(HEX.ink, HEX.paper)).toBeGreaterThanOrEqual(3);
-});
-
-it("scrims are solid colours, never blurred", () => {
-  for (const look of looks) {
-    expect(MODAL_CLASSES[look].scrim).toMatch(/^bg-bh-(ink|charcoal)\/(40|60)$/);
-    expect(JSON.stringify(MODAL_CLASSES[look])).not.toMatch(/backdrop-blur/);
-  }
 });
 
 it("scrim classes match the spec per look", () => {
@@ -101,4 +120,19 @@ it("toast inner rings follow the surface: current (Playful), paper (Soft), ink (
   expect(TOAST_CLASSES.soft.close).toContain("data-[focus-visible]:outline-bh-paper");
   expect(TOAST_CLASSES.swiss.action).toContain("data-[focus-visible]:outline-bh-ink");
   expect(TOAST_CLASSES.swiss.action).toContain("underline");
+});
+
+it("the scrolling modal body carries an inset ink focus ring in every look", () => {
+  for (const look of looks) {
+    const tokens = MODAL_CLASSES[look].body.split(" ");
+    expect(tokens).toEqual(
+      expect.arrayContaining([
+        "outline-hidden",
+        "focus-visible:outline-solid",
+        "focus-visible:outline-2",
+        "focus-visible:-outline-offset-2",
+        "focus-visible:outline-bh-ink",
+      ]),
+    );
+  }
 });
