@@ -53,6 +53,7 @@ export * from "./components/playful/CarouselPlayful/index.js";
 export * from "./components/playful/TabsPlayful/index.js";
 export * from "./components/playful/DateStripPlayful/index.js";
 export * from "./components/playful/AudioPlayerPlayful/index.js";
+export * from "./components/playful/TextFieldPlayful/index.js";
 
 // Soft look
 export * from "./components/soft/ButtonSoft/index.js";
@@ -71,6 +72,7 @@ export * from "./components/soft/TabsSoft/index.js";
 export * from "./components/soft/DateStripSoft/index.js";
 export * from "./components/soft/CarouselSoft/index.js";
 export * from "./components/soft/AudioPlayerSoft/index.js";
+export * from "./components/soft/TextFieldSoft/index.js";
 
 // Swiss look
 export * from "./components/swiss/ButtonSwiss/index.js";
@@ -89,6 +91,7 @@ export * from "./components/swiss/TabsSwiss/index.js";
 export * from "./components/swiss/DateStripSwiss/index.js";
 export * from "./components/swiss/CarouselSwiss/index.js";
 export * from "./components/swiss/AudioPlayerSwiss/index.js";
+export * from "./components/swiss/TextFieldSwiss/index.js";
 
 // Decoration
 export * from "./components/decoration/Shape/index.js";

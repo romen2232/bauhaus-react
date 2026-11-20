@@ -17,6 +17,7 @@ import { DateStripSwiss } from "./DateStripSwiss/DateStripSwiss";
 import { CalendarDate } from "@internationalized/date";
 import { CarouselSwiss } from "./CarouselSwiss/CarouselSwiss";
 import { AudioPlayerSwiss } from "./AudioPlayerSwiss/AudioPlayerSwiss";
+import { TextFieldSwiss } from "./TextFieldSwiss/TextFieldSwiss";
 
 const FORBIDDEN =
   /^(border(-[xytrbl])?-(2|4|8)|divide-[xy]-(2|4|8)|shadow(-.*)?|-?translate-.*|text-bh-yellow|text-bh-accent|rounded-bh-soft|font-bh-(display|body)|font-(medium|semibold|bold|extrabold|black)|(bg|text|border|divide)-bh-(red|yellow|blue|navy|sky|pink|orange|sand|paper|teal|khaki))$/;
@@ -76,6 +77,8 @@ const cases: LookCase[] = [
     { pill: true },
   ],
   ["AudioPlayerSwiss", <AudioPlayerSwiss src="/a.mp3" title="Intro" />, { pill: true }],
+  ["TextFieldSwiss", <TextFieldSwiss label="Name" />],
+  ["TextFieldSwiss invalid", <TextFieldSwiss label="Name" isInvalid errorMessage="Required" />],
 ];
 
 it.each(cases)("%s follows the Swiss look rules", (_name, element, options) => {

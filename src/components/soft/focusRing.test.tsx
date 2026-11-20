@@ -4,6 +4,7 @@ import { CalendarDate } from "@internationalized/date";
 import { MenuOverlaySoft } from "./MenuOverlaySoft/MenuOverlaySoft";
 import { TabsSoft } from "./TabsSoft/TabsSoft";
 import { DateStripSoft } from "./DateStripSoft/DateStripSoft";
+import { TextFieldSoft } from "./TextFieldSoft/TextFieldSoft";
 
 // Same guard as playful/focusRing.test.tsx: in Tailwind 4.3, `outline-none`/`outline-hidden` set
 // --tw-outline-style: none, so a React Aria control that hides the outline must restore the style.
@@ -36,4 +37,9 @@ it("TabsSoft keeps a visible focus ring on tabs and panels", () => {
 it("DateStripSoft keeps a visible focus ring on every day", () => {
   render(<DateStripSoft label="Pick" start={new CalendarDate(2026, 11, 16)} />);
   for (const radio of screen.getAllByRole("radio")) expect(killsFocusRing(radio.closest("label")!)).toBe(false);
+});
+
+it("TextFieldSoft keeps a visible focus ring", () => {
+  render(<TextFieldSoft label="Name" />);
+  expect(killsFocusRing(screen.getByRole("textbox"))).toBe(false);
 });

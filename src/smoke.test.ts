@@ -81,3 +81,9 @@ it.each([
 it("exports the Swiss palette", () => {
   expect(lib.SWISS_HEX.white).toBe("#FFFFFF");
 });
+
+it.each(["TextField"])("exports %s in every look", (name) => {
+  for (const look of ["Playful", "Soft", "Swiss"]) {
+    expect(typeof (lib as Record<string, unknown>)[`${name}${look}`]).toBe("function");
+  }
+});

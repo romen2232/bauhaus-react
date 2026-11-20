@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MenuOverlayPlayful } from "./MenuOverlayPlayful/MenuOverlayPlayful";
 import { TabsPlayful } from "./TabsPlayful/TabsPlayful";
+import { TextFieldPlayful } from "./TextFieldPlayful/TextFieldPlayful";
 
 // In Tailwind 4.3, both `outline-none` and `outline-hidden` set --tw-outline-style: none, and
 // `data-[focus-visible]:outline-2` reads that variable, so the ring never shows (WCAG 2.4.7).
@@ -30,4 +31,9 @@ it("MenuOverlay trigger and close button keep a visible focus ring", async () =>
   expect(killsFocusRing(trigger)).toBe(false);
   await userEvent.click(trigger);
   expect(killsFocusRing(screen.getByRole("button", { name: "Close menu" }))).toBe(false);
+});
+
+it("TextFieldPlayful keeps a visible focus ring", () => {
+  render(<TextFieldPlayful label="Name" />);
+  expect(killsFocusRing(screen.getByRole("textbox"))).toBe(false);
 });
