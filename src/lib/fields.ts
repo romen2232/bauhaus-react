@@ -17,7 +17,8 @@ const DISABLED = "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
 const PLAYFUL_INPUT = `h-11 w-full rounded-none border-2 border-bh-ink bg-bh-paper-white px-4 font-bh-body text-base text-bh-ink placeholder:text-bh-muted-text data-[focused]:shadow-bh-hard ${DISABLED} ${RAC_FOCUS}`;
 const SOFT_BASE = `w-full border border-bh-charcoal bg-bh-sand px-5 font-bh-body text-base text-bh-ink placeholder:text-bh-charcoal ${DISABLED} ${RAC_FOCUS}`;
 const SOFT_INPUT = `h-11 rounded-full ${SOFT_BASE}`;
-const SWISS_INPUT = `h-11 w-full rounded-none border-0 border-b border-bh-ink bg-transparent px-0 font-bh-grotesk text-base font-normal text-bh-ink placeholder:text-bh-muted-text data-[invalid]:border-bh-accent ${DISABLED} ${SWISS_MOTION} ${RAC_FOCUS}`;
+const SWISS_INPUT_BASE = `h-11 w-full rounded-none border-0 border-b border-bh-ink bg-transparent px-0 font-bh-grotesk text-base font-normal text-bh-ink placeholder:text-bh-muted-text ${DISABLED} ${SWISS_MOTION} ${RAC_FOCUS}`;
+const SWISS_INPUT = `${SWISS_INPUT_BASE} data-[invalid]:border-bh-accent`;
 
 /** Class maps for text-like fields, one per look. Static literals only. */
 export const FIELD_CLASSES: Record<
@@ -252,9 +253,15 @@ export type SelectClassSet = FieldClassSet & {
   listbox: string;
   option: string;
   check: string;
+  empty: string;
 };
 
+// Layout shared by the trigger, chevron, popover, option, check and empty state of every look.
 const SELECT_TRIGGER = "flex items-center justify-between text-left";
+const SELECT_CHEVRON = "ml-2 shrink-0";
+const SELECT_POPOVER = "min-w-(--trigger-width) motion-safe:transition-opacity data-[entering]:opacity-0 data-[exiting]:opacity-0";
+const SELECT_OPTION = "flex items-center justify-between";
+const SELECT_CHECK = "ml-2";
 // The listbox only takes focus itself when it is empty; options carry focus otherwise.
 const SELECT_LISTBOX = `max-h-64 overflow-auto ${RAC_FOCUS}`;
 
@@ -266,40 +273,43 @@ const selectFieldParts = (look: FormLook): FieldClassSet & { control: string } =
 
 /**
  * Class maps for Select, one per look. The Select root is a `group` that carries `data-invalid`;
- * the popover renders in a portal, so nothing inside it can match that group. Option state reads
- * the option's own `data-[focused]`, `data-[selected]` and `data-[disabled]`.
- * Soft and Swiss keep empty look slots until the Soft and Swiss Select skins land.
+ * the trigger button does not emit it, so the Swiss invalid rule reads `group-data-[invalid]:` from
+ * the root. The popover renders in a portal, so nothing inside it can match that group. Option
+ * state reads the option's own `data-[focused]`, `data-[selected]` and `data-[disabled]`.
  */
 export const SELECT_CLASSES: Record<FormLook, SelectClassSet> = {
   playful: {
     ...selectFieldParts("playful"),
     trigger: `${FIELD_CLASSES.playful.input} ${SELECT_TRIGGER}`,
     value: "data-[placeholder]:text-bh-muted-text",
-    chevron: "ml-2 shrink-0",
-    popover:
-      "min-w-(--trigger-width) border-2 border-bh-ink bg-bh-paper-white shadow-bh-hard motion-safe:transition-opacity motion-safe:duration-150 motion-safe:ease-out data-[entering]:opacity-0 data-[exiting]:opacity-0",
+    chevron: SELECT_CHEVRON,
+    popover: `${SELECT_POPOVER} border-2 border-bh-ink bg-bh-paper-white shadow-bh-hard motion-safe:duration-150 motion-safe:ease-out`,
     listbox: SELECT_LISTBOX,
-    option: `flex items-center justify-between px-4 py-2 font-bh-body text-sm text-bh-ink data-[focused]:bg-bh-yellow ${DISABLED} ${RAC_FOCUS}`,
-    check: "ml-2",
+    option: `${SELECT_OPTION} px-4 py-2 font-bh-body text-sm text-bh-ink data-[focused]:bg-bh-yellow ${DISABLED} ${RAC_FOCUS}`,
+    check: SELECT_CHECK,
+    empty: "px-4 py-2 font-bh-body text-sm text-bh-muted-text",
   },
   soft: {
     ...selectFieldParts("soft"),
-    trigger: "",
-    value: "",
-    chevron: "",
-    popover: "",
-    listbox: "",
-    option: "",
-    check: "",
+    trigger: `${FIELD_CLASSES.soft.input} ${SELECT_TRIGGER}`,
+    value: "data-[placeholder]:text-bh-charcoal",
+    chevron: SELECT_CHEVRON,
+    popover: `${SELECT_POPOVER} rounded-bh-soft bg-bh-sand p-1 motion-safe:duration-200`,
+    listbox: SELECT_LISTBOX,
+    option: `${SELECT_OPTION} rounded-full px-4 py-2 font-bh-body text-sm text-bh-ink data-[focused]:bg-bh-charcoal data-[focused]:text-bh-paper ${DISABLED} ${RAC_FOCUS}`,
+    check: SELECT_CHECK,
+    empty: "px-4 py-2 font-bh-body text-sm text-bh-charcoal",
   },
   swiss: {
     ...selectFieldParts("swiss"),
-    trigger: "",
-    value: "",
-    chevron: "",
-    popover: "",
-    listbox: "",
-    option: "",
-    check: "",
+    // The trigger button never emits data-invalid; the root group does.
+    trigger: `${SWISS_INPUT_BASE} group-data-[invalid]:border-bh-accent ${SELECT_TRIGGER}`,
+    value: "data-[placeholder]:text-bh-muted-text",
+    chevron: SELECT_CHEVRON,
+    popover: `${SELECT_POPOVER} rounded-none border border-bh-rule bg-bh-paper-white motion-safe:duration-200`,
+    listbox: SELECT_LISTBOX,
+    option: `${SELECT_OPTION} px-3 py-2 font-bh-grotesk text-sm text-bh-muted-text data-[focused]:text-bh-ink data-[selected]:text-bh-ink ${DISABLED} ${RAC_FOCUS}`,
+    check: SELECT_CHECK,
+    empty: "px-3 py-2 font-bh-grotesk text-sm text-bh-muted-text",
   },
 };

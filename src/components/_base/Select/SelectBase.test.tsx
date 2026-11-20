@@ -1,5 +1,5 @@
 import { createRef } from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { SelectBase } from "./SelectBase";
 
@@ -18,6 +18,7 @@ const t = {
   listbox: "lb",
   option: "opt",
   check: "chk",
+  empty: "emp",
 };
 
 const items = [
@@ -112,9 +113,24 @@ it("is controlled by selectedKey", async () => {
   expect(trigger()).toHaveTextContent("Banana");
 });
 
-it("reports null when the controlled selection is cleared", () => {
+it("shows the placeholder for a null controlled selectedKey", () => {
   render(<SelectBase classes={t} label="Fruit" items={items} selectedKey={null} placeholder="Choose" />);
   expect(trigger()).toHaveTextContent("Choose");
+});
+
+it("reports null through onSelectionChange when a form reset clears an uncontrolled selection", async () => {
+  const onSelectionChange = vi.fn();
+  const { container } = render(
+    <form>
+      <SelectBase classes={t} label="Fruit" items={items} name="fruit" onSelectionChange={onSelectionChange} />
+    </form>,
+  );
+  await userEvent.click(trigger());
+  await userEvent.click(screen.getByRole("option", { name: "Apple" }));
+  expect(onSelectionChange).toHaveBeenLastCalledWith("apple");
+  act(() => container.querySelector("form")!.reset());
+  await waitFor(() => expect(onSelectionChange).toHaveBeenLastCalledWith(null));
+  expect(trigger()).toHaveTextContent("Select an option");
 });
 
 it("shows the placeholder for a selectedKey that matches no item", () => {
@@ -125,7 +141,21 @@ it("shows the placeholder for a selectedKey that matches no item", () => {
 it("opens with empty items without throwing", async () => {
   render(<SelectBase classes={t} label="Fruit" items={[]} />);
   await userEvent.click(trigger());
-  expect(screen.queryAllByRole("option")).toHaveLength(0);
+  expect(screen.getByRole("listbox")).toBeInTheDocument();
+  expect(screen.getByText("No options")).toHaveClass("emp");
+  expect(screen.queryByRole("option", { name: "Banana" })).toBeNull();
+});
+
+it("shows no empty-state text while there are options", async () => {
+  render(<SelectBase classes={t} label="Fruit" items={items} />);
+  await userEvent.click(trigger());
+  expect(screen.queryByText("No options")).toBeNull();
+});
+
+it("names the opened listbox by the field label", async () => {
+  render(<SelectBase classes={t} label="Fruit" items={items} />);
+  await userEvent.click(trigger());
+  expect(screen.getByRole("listbox", { name: /Fruit/ })).toBeInTheDocument();
 });
 
 it("disabled select does not open", async () => {
@@ -221,4 +251,55 @@ it("applies the popover, listbox and option slots when open", async () => {
   expect(screen.getByRole("listbox")).toHaveClass("lb");
   expect(screen.getByRole("listbox").closest(".pop")).not.toBeNull();
   expect(screen.getByRole("option", { name: "Apple" })).toHaveClass("opt");
+});
+
+describe("validate wrapper", () => {
+  it("receives the string key after a selection and surfaces its message", async () => {
+    const validate = vi.fn((key: string | null) => (key === "apple" ? "No apples today" : null));
+    render(<SelectBase classes={t} label="Fruit" items={items} validate={validate} />);
+    await userEvent.click(trigger());
+    await userEvent.click(screen.getByRole("option", { name: "Apple" }));
+    expect(validate).toHaveBeenLastCalledWith("apple");
+    expect(screen.getByText("No apples today")).toBeInTheDocument();
+  });
+
+  it("shows no error when validate returns null", async () => {
+    const validate = vi.fn((key: string | null) => (key === "apple" ? "No apples today" : null));
+    render(<SelectBase classes={t} label="Fruit" items={items} validate={validate} />);
+    await userEvent.click(trigger());
+    await userEvent.click(screen.getByRole("option", { name: "Banana" }));
+    expect(validate).toHaveBeenLastCalledWith("banana");
+    expect(screen.queryByText("No apples today")).toBeNull();
+    expect(trigger().closest(".r")).not.toHaveAttribute("data-invalid");
+  });
+});
+
+describe("required", () => {
+  it("blocks an empty submit with validationBehavior native and allows it once chosen", async () => {
+    const onSubmit = vi.fn((e: { preventDefault: () => void }) => e.preventDefault());
+    const { container } = render(
+      <form onSubmit={onSubmit}>
+        <SelectBase classes={t} label="Fruit" items={items} name="fruit" isRequired validationBehavior="native" />
+      </form>,
+    );
+    const form = container.querySelector("form")!;
+    act(() => form.requestSubmit());
+    expect(onSubmit).not.toHaveBeenCalled();
+    expect(form.checkValidity()).toBe(false);
+    await userEvent.click(trigger());
+    await userEvent.click(screen.getByRole("option", { name: "Apple" }));
+    act(() => form.requestSubmit());
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not block a submit with the default aria behavior", () => {
+    const onSubmit = vi.fn((e: { preventDefault: () => void }) => e.preventDefault());
+    const { container } = render(
+      <form onSubmit={onSubmit}>
+        <SelectBase classes={t} label="Fruit" items={items} name="fruit" isRequired />
+      </form>,
+    );
+    act(() => container.querySelector("form")!.requestSubmit());
+    expect(onSubmit).toHaveBeenCalledTimes(1);
+  });
 });

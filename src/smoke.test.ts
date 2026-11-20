@@ -82,13 +82,8 @@ it("exports the Swiss palette", () => {
   expect(lib.SWISS_HEX.white).toBe("#FFFFFF");
 });
 
-it.each(["TextField", "TextArea", "Checkbox", "Switch", "RadioGroup"])("exports %s in every look", (name) => {
+it.each(["TextField", "TextArea", "Checkbox", "Switch", "RadioGroup", "Select"])("exports %s in every look", (name) => {
   for (const look of ["Playful", "Soft", "Swiss"]) {
     expect(typeof (lib as Record<string, unknown>)[`${name}${look}`]).toBe("function");
   }
-});
-
-// Select ships look by look; Task 8 folds this into the every-look list above.
-it("exports SelectPlayful", () => {
-  expect(typeof (lib as Record<string, unknown>).SelectPlayful).toBe("function");
 });

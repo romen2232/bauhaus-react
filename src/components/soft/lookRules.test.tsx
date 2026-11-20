@@ -1,5 +1,5 @@
 import type { ReactElement } from "react";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { ButtonSoft } from "./ButtonSoft/ButtonSoft";
 import { IconButtonSoft } from "./IconButtonSoft/IconButtonSoft";
 import { TextLinkSoft } from "./TextLinkSoft/TextLinkSoft";
@@ -22,9 +22,13 @@ import { TextAreaSoft } from "./TextAreaSoft/TextAreaSoft";
 import { CheckboxSoft } from "./CheckboxSoft/CheckboxSoft";
 import { SwitchSoft } from "./SwitchSoft/SwitchSoft";
 import { RadioGroupSoft } from "./RadioGroupSoft/RadioGroupSoft";
+import { SelectSoft } from "./SelectSoft/SelectSoft";
+import userEvent from "@testing-library/user-event";
 
 // Soft look rules (spec §6.1): no borders, no hard shadow, no movement, yellow never as text.
 const FORBIDDEN = /^(border(-[xytrbl])?(-\d+)?|shadow-bh-hard.*|-?translate-.*|text-bh-yellow)$/;
+
+const selectItems = [{ id: "a", label: "Apple" }];
 
 type LookCase = [string, ReactElement, { outline?: boolean }?];
 
@@ -70,6 +74,9 @@ const cases: LookCase[] = [
   ["RadioGroupSoft", <RadioGroupSoft label="Via" options={radioOptions} />, { outline: true }],
   ["RadioGroupSoft invalid", <RadioGroupSoft label="Via" options={radioOptions} isInvalid errorMessage="Required" />, { outline: true }],
   ["RadioGroupSoft selected", <RadioGroupSoft label="Via" options={radioOptions} defaultValue="a" tone="yellow" />, { outline: true }],
+  ["SelectSoft", <SelectSoft label="Fruit" items={selectItems} />, { outline: true }],
+  ["SelectSoft invalid", <SelectSoft label="Fruit" items={selectItems} isInvalid errorMessage="Required" />, { outline: true }],
+  ["SelectSoft selected", <SelectSoft label="Fruit" items={selectItems} defaultSelectedKey="a" />, { outline: true }],
 ];
 
 it.each(cases)("%s follows the Soft look rules", (_name, element, options) => {
@@ -83,4 +90,14 @@ it.each(cases)("%s follows the Soft look rules", (_name, element, options) => {
     return FORBIDDEN.test(bare) && !(options?.outline && bare === "border");
   });
   expect(offending).toEqual([]);
+});
+
+it("SelectSoft popover follows the Soft look rules when open (no outline exemption)", async () => {
+  render(<SelectSoft label="Fruit" items={selectItems} defaultSelectedKey="a" />);
+  await userEvent.click(screen.getByRole("button", { name: /Fruit/ }));
+  const popover = screen.getByRole("listbox").closest("[data-trigger]")!;
+  const tokens = [popover, ...popover.querySelectorAll("*")].flatMap((el) =>
+    (el.getAttribute("class") ?? "").split(/\s+/).filter(Boolean),
+  );
+  expect(tokens.filter((t) => FORBIDDEN.test(t.split(":").pop()!))).toEqual([]);
 });

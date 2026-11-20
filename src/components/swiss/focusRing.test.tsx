@@ -9,6 +9,7 @@ import { TextAreaSwiss } from "./TextAreaSwiss/TextAreaSwiss";
 import { CheckboxSwiss } from "./CheckboxSwiss/CheckboxSwiss";
 import { SwitchSwiss } from "./SwitchSwiss/SwitchSwiss";
 import { RadioGroupSwiss } from "./RadioGroupSwiss/RadioGroupSwiss";
+import { SelectSwiss } from "./SelectSwiss/SelectSwiss";
 
 // Tailwind 4.3 hides outlines through --tw-outline-style, so React Aria controls
 // that hide their outline must explicitly restore a solid style on focus.
@@ -76,4 +77,15 @@ it("RadioGroupSwiss keeps a visible focus ring on its circles", () => {
   const circle = container.querySelector("[aria-hidden]")!;
   expect(circle.className).toContain("group-data-[focus-visible]:outline-bh-ink");
   expect(killsFocusRing(screen.getByRole("radio").closest("label")!)).toBe(false);
+});
+
+it("SelectSwiss keeps a visible focus ring on its trigger, options and empty listbox", async () => {
+  const { unmount } = render(<SelectSwiss label="Fruit" items={[{ id: "a", label: "Apple" }]} />);
+  const trigger = screen.getByRole("button", { name: /Fruit/ });
+  expect(killsFocusRing(trigger)).toBe(false);
+  expect(trigger.className).toContain("data-[focus-visible]:outline-bh-ink");
+  await userEvent.click(trigger);
+  expect(killsFocusRing(screen.getByRole("option", { name: "Apple" }))).toBe(false);
+  expect(killsFocusRing(screen.getByRole("listbox"))).toBe(false);
+  unmount();
 });
