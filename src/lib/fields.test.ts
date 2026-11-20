@@ -1,4 +1,4 @@
-import { FIELD_CLASSES } from "./fields";
+import { FIELD_CLASSES, SELECT_CLASSES } from "./fields";
 
 const looks = ["playful", "soft", "swiss"] as const;
 
@@ -123,4 +123,26 @@ it("radio classes define every slot and markers follow the look", () => {
   expect(RADIO_CLASSES.playful.errorMarker).toContain("bg-bh-red");
   expect(RADIO_CLASSES.soft.errorMarker).toContain("rounded-full");
   expect(RADIO_CLASSES.swiss.errorMarker).toContain("bg-bh-accent");
+});
+
+it("select classes define every slot and the Playful look follows the spec", () => {
+  for (const look of looks) {
+    for (const slot of [
+      "root", "label", "required", "description", "error", "errorMarker",
+      "control", "trigger", "value", "chevron", "popover", "listbox", "option", "check",
+    ] as const) {
+      expect(SELECT_CLASSES[look][slot]).toBeTypeOf("string");
+    }
+  }
+  const p = SELECT_CLASSES.playful;
+  expect(p.trigger).toContain(FIELD_CLASSES.playful.input);
+  expect(p.trigger).toContain("justify-between");
+  expect(p.value).toContain("data-[placeholder]:text-bh-muted-text");
+  for (const c of ["border-2", "border-bh-ink", "shadow-bh-hard", "bg-bh-paper-white", "min-w-(--trigger-width)"]) {
+    expect(p.popover).toContain(c);
+  }
+  expect(p.option).toContain("data-[focused]:bg-bh-yellow");
+  expect(p.option).toContain("data-[focus-visible]:outline-bh-ink");
+  expect(p.error).not.toMatch(/text-bh-(red|accent)/);
+  expect(p.errorMarker).toContain("bg-bh-red");
 });

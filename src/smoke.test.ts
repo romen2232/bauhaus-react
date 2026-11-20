@@ -87,3 +87,8 @@ it.each(["TextField", "TextArea", "Checkbox", "Switch", "RadioGroup"])("exports 
     expect(typeof (lib as Record<string, unknown>)[`${name}${look}`]).toBe("function");
   }
 });
+
+// Select ships look by look; Task 8 folds this into the every-look list above.
+it("exports SelectPlayful", () => {
+  expect(typeof (lib as Record<string, unknown>).SelectPlayful).toBe("function");
+});

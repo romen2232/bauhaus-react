@@ -7,6 +7,7 @@ import { TextAreaPlayful } from "./TextAreaPlayful/TextAreaPlayful";
 import { CheckboxPlayful } from "./CheckboxPlayful/CheckboxPlayful";
 import { SwitchPlayful } from "./SwitchPlayful/SwitchPlayful";
 import { RadioGroupPlayful } from "./RadioGroupPlayful/RadioGroupPlayful";
+import { SelectPlayful } from "./SelectPlayful/SelectPlayful";
 
 // In Tailwind 4.3, both `outline-none` and `outline-hidden` set --tw-outline-style: none, and
 // `data-[focus-visible]:outline-2` reads that variable, so the ring never shows (WCAG 2.4.7).
@@ -66,4 +67,14 @@ it("RadioGroupPlayful keeps a visible focus ring on its circles", () => {
   const circle = container.querySelector("[aria-hidden]")!;
   expect(circle.className).toContain("group-data-[focus-visible]:outline-bh-ink");
   expect(killsFocusRing(screen.getByRole("radio").closest("label")!)).toBe(false);
+});
+
+it("SelectPlayful keeps a visible focus ring on its trigger and options", async () => {
+  render(<SelectPlayful label="Fruit" items={[{ id: "a", label: "Apple" }]} />);
+  const trigger = screen.getByRole("button", { name: /Fruit/ });
+  expect(killsFocusRing(trigger)).toBe(false);
+  expect(trigger.className).toContain("data-[focus-visible]:outline-bh-ink");
+  await userEvent.click(trigger);
+  expect(killsFocusRing(screen.getByRole("option", { name: "Apple" }))).toBe(false);
+  expect(killsFocusRing(screen.getByRole("listbox"))).toBe(false);
 });
