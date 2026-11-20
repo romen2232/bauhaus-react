@@ -8,6 +8,7 @@ import { TextFieldSoft } from "./TextFieldSoft/TextFieldSoft";
 import { TextAreaSoft } from "./TextAreaSoft/TextAreaSoft";
 import { CheckboxSoft } from "./CheckboxSoft/CheckboxSoft";
 import { SwitchSoft } from "./SwitchSoft/SwitchSoft";
+import { RadioGroupSoft } from "./RadioGroupSoft/RadioGroupSoft";
 
 // Same guard as playful/focusRing.test.tsx: in Tailwind 4.3, `outline-none`/`outline-hidden` set
 // --tw-outline-style: none, so a React Aria control that hides the outline must restore the style.
@@ -64,4 +65,11 @@ it("SwitchSoft keeps a visible focus ring on its track", () => {
   const track = container.querySelector("[aria-hidden]")!;
   expect(track.className).toContain("group-data-[focus-visible]:outline-bh-ink");
   expect(killsFocusRing(screen.getByRole("switch").closest("label")!)).toBe(false);
+});
+
+it("RadioGroupSoft keeps a visible focus ring on its circles", () => {
+  const { container } = render(<RadioGroupSoft label="Via" options={[{ value: "a", label: "Email" }]} />);
+  const circle = container.querySelector("[aria-hidden]")!;
+  expect(circle.className).toContain("group-data-[focus-visible]:outline-bh-ink");
+  expect(killsFocusRing(screen.getByRole("radio").closest("label")!)).toBe(false);
 });

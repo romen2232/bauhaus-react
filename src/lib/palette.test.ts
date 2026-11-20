@@ -5,6 +5,7 @@ import {
   SOFT_TONE_CLASSES, SOFT_TONE_TEXT_ON, SOFT_HEX, CURRENT_COLOR_CLASSES, SOFT_HOVER_CLASSES,
   SWISS_HEX,
 } from "./palette";
+import { PLAYFUL_CHECKED, SOFT_CHECKED } from "./fields";
 
 const luminance = (hex: string) => {
   const [r, g, b] = [1, 3, 5].map((i) => {
@@ -156,4 +157,25 @@ it.each(softTones)("Soft switch thumb stays visible on the checked %s track (WCA
   expect(boundary).toBeGreaterThanOrEqual(3);
   // The outline always separates the thumb fill from the outline itself.
   expect(contrast(SOFT_HEX.neutral, HEX.paper)).toBeGreaterThanOrEqual(3);
+});
+
+// Radio: the checked circle is filled with the colour and the dot is `bg-current`, so the dot is the
+// checked text colour. Read it from the class maps so a change there cannot slip past this test.
+const checkedText = (classes: string) => /data-\[checked\]:text-bh-(ink|paper)\b/.exec(classes)![1] as "ink" | "paper";
+
+it.each(colors)("Playful radio dot is visible on the checked %s fill (WCAG 1.4.11)", (c) => {
+  expect(contrast(HEX[checkedText(PLAYFUL_CHECKED[c])], HEX[c])).toBeGreaterThanOrEqual(3);
+});
+
+it.each(softTones)("Soft radio dot is visible on the checked %s fill (WCAG 1.4.11)", (t) => {
+  expect(contrast(HEX[checkedText(SOFT_CHECKED[t])], SOFT_HEX[t])).toBeGreaterThanOrEqual(3);
+});
+
+it("Soft unchecked radio: the 1px charcoal outline is the boundary against paper (WCAG 1.4.11)", () => {
+  expect(contrast(SOFT_HEX.neutral, HEX.paper)).toBeGreaterThanOrEqual(3);
+});
+
+it("Swiss radio: white dot on the ink fill and the ink ring on white (WCAG 1.4.11)", () => {
+  expect(contrast(SWISS_HEX.white, SWISS_HEX.ink)).toBeGreaterThanOrEqual(3);
+  expect(contrast(SWISS_HEX.ink, SWISS_HEX.white)).toBeGreaterThanOrEqual(3);
 });

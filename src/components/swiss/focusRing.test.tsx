@@ -8,6 +8,7 @@ import { TextFieldSwiss } from "./TextFieldSwiss/TextFieldSwiss";
 import { TextAreaSwiss } from "./TextAreaSwiss/TextAreaSwiss";
 import { CheckboxSwiss } from "./CheckboxSwiss/CheckboxSwiss";
 import { SwitchSwiss } from "./SwitchSwiss/SwitchSwiss";
+import { RadioGroupSwiss } from "./RadioGroupSwiss/RadioGroupSwiss";
 
 // Tailwind 4.3 hides outlines through --tw-outline-style, so React Aria controls
 // that hide their outline must explicitly restore a solid style on focus.
@@ -68,4 +69,11 @@ it("SwitchSwiss keeps a visible focus ring on its track", () => {
   const track = container.querySelector("[aria-hidden]")!;
   expect(track.className).toContain("group-data-[focus-visible]:outline-bh-ink");
   expect(killsFocusRing(screen.getByRole("switch").closest("label")!)).toBe(false);
+});
+
+it("RadioGroupSwiss keeps a visible focus ring on its circles", () => {
+  const { container } = render(<RadioGroupSwiss label="Via" options={[{ value: "a", label: "Email" }]} />);
+  const circle = container.querySelector("[aria-hidden]")!;
+  expect(circle.className).toContain("group-data-[focus-visible]:outline-bh-ink");
+  expect(killsFocusRing(screen.getByRole("radio").closest("label")!)).toBe(false);
 });

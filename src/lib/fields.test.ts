@@ -41,7 +41,7 @@ it("Soft textarea is rounded-bh-soft, not a pill", () => {
 });
 
 import { FILL_CLASSES, SOFT_TONE_CLASSES, type FillColor, type SoftTone } from "./palette";
-import { CHECKBOX_CLASSES, PLAYFUL_CHECKED, SOFT_CHECKED, SOFT_OFF, SWITCH_CLASSES } from "./fields";
+import { CHECKBOX_CLASSES, PLAYFUL_CHECKED, SOFT_CHECKED, SOFT_OFF, SWITCH_CLASSES, RADIO_CLASSES } from "./fields";
 
 const prefix = (s: string) => s.split(" ").map((t) => `data-[checked]:${t}`).join(" ");
 
@@ -102,4 +102,25 @@ it("switch tracks follow the look and only Swiss avoids translate", () => {
   expect(SWITCH_CLASSES.swiss.track).toContain("data-[checked]:bg-bh-ink");
   expect(SWITCH_CLASSES.swiss.thumb).not.toMatch(/translate|rounded/);
   expect(SWITCH_CLASSES.soft.thumb).not.toContain("translate");
+});
+
+it("radio classes define every slot and markers follow the look", () => {
+  for (const look of looks) {
+    for (const slot of ["root", "options", "radio", "circle", "dot", "optionLabel", "label", "error"] as const) {
+      expect(RADIO_CLASSES[look][slot]).toBeTypeOf("string");
+    }
+    expect(RADIO_CLASSES[look].circle).toContain("group-data-[focus-visible]:outline-bh-ink");
+    expect(RADIO_CLASSES[look].circle).toContain("rounded-full");
+    expect(RADIO_CLASSES[look].dot.split(" ")).toEqual(expect.arrayContaining(["hidden", "data-[checked]:block"]));
+    expect(RADIO_CLASSES[look].dot).toContain("bg-current");
+    expect(RADIO_CLASSES[look].error).not.toMatch(/text-bh-(red|accent)/);
+    expect(RADIO_CLASSES[look].options).toContain("group-data-[orientation=horizontal]:flex-row");
+  }
+  expect(RADIO_CLASSES.playful.circle).toContain("border-2 border-bh-ink");
+  expect(RADIO_CLASSES.soft.circle).toContain(SOFT_OFF.radio);
+  expect(RADIO_CLASSES.swiss.circle).toContain("border border-bh-ink");
+  expect(RADIO_CLASSES.swiss.circle).toContain("data-[checked]:bg-bh-ink");
+  expect(RADIO_CLASSES.playful.errorMarker).toContain("bg-bh-red");
+  expect(RADIO_CLASSES.soft.errorMarker).toContain("rounded-full");
+  expect(RADIO_CLASSES.swiss.errorMarker).toContain("bg-bh-accent");
 });

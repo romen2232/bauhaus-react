@@ -175,3 +175,64 @@ export const SWITCH_CLASSES: Record<FormLook, SwitchClassSet> = {
     errorMarker: CHECKBOX_CLASSES.swiss.errorMarker,
   },
 };
+
+export type RadioClassSet = FieldClassSet & {
+  options: string;
+  radio: string;
+  circle: string;
+  dot: string;
+  optionLabel: string;
+};
+
+const RADIO_ROOT = "group flex flex-col gap-2";
+const RADIO_OPTIONS =
+  "flex flex-col gap-3 group-data-[orientation=horizontal]:flex-row group-data-[orientation=horizontal]:flex-wrap group-data-[orientation=horizontal]:gap-x-6";
+const RADIO_CIRCLE = `mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full ${BOX_FOCUS}`;
+// The checked circle is filled by the skin and sets the text colour; the dot is that colour.
+const RADIO_DOT = "hidden size-2.5 rounded-full bg-current data-[checked]:block";
+
+/**
+ * Class maps for RadioGroup, one per look. The Playful and Soft checked fill is added to
+ * `circle` by the skin. Swiss keeps a round radio (a square one reads as a checkbox).
+ */
+export const RADIO_CLASSES: Record<FormLook, RadioClassSet> = {
+  playful: {
+    root: RADIO_ROOT,
+    options: RADIO_OPTIONS,
+    radio: TOGGLE_BUTTON,
+    circle: `${RADIO_CIRCLE} border-2 border-bh-ink bg-bh-paper-white`,
+    dot: RADIO_DOT,
+    optionLabel: "font-bh-body text-base text-bh-ink",
+    label: CHECKBOX_CLASSES.playful.label,
+    required: CHECKBOX_CLASSES.playful.required,
+    description: CHECKBOX_CLASSES.playful.description,
+    error: CHECKBOX_CLASSES.playful.error,
+    errorMarker: CHECKBOX_CLASSES.playful.errorMarker,
+  },
+  soft: {
+    root: RADIO_ROOT,
+    options: RADIO_OPTIONS,
+    radio: TOGGLE_BUTTON,
+    circle: `${RADIO_CIRCLE} ${SOFT_OFF.radio}`,
+    dot: RADIO_DOT,
+    optionLabel: "font-bh-body text-base text-bh-ink",
+    label: CHECKBOX_CLASSES.soft.label,
+    required: CHECKBOX_CLASSES.soft.required,
+    description: CHECKBOX_CLASSES.soft.description,
+    error: CHECKBOX_CLASSES.soft.error,
+    errorMarker: CHECKBOX_CLASSES.soft.errorMarker,
+  },
+  swiss: {
+    root: RADIO_ROOT,
+    options: RADIO_OPTIONS,
+    radio: TOGGLE_BUTTON,
+    circle: `${RADIO_CIRCLE} border border-bh-ink bg-transparent data-[checked]:bg-bh-ink data-[checked]:text-bh-paper-white ${SWISS_MOTION}`,
+    dot: RADIO_DOT,
+    optionLabel: "font-bh-grotesk text-base text-bh-ink",
+    label: CHECKBOX_CLASSES.swiss.label,
+    required: CHECKBOX_CLASSES.swiss.required,
+    description: CHECKBOX_CLASSES.swiss.description,
+    error: CHECKBOX_CLASSES.swiss.error,
+    errorMarker: CHECKBOX_CLASSES.swiss.errorMarker,
+  },
+};
