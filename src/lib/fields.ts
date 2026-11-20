@@ -156,7 +156,7 @@ export const SWITCH_CLASSES: Record<FormLook, SwitchClassSet> = {
     root: CHECKBOX_CLASSES.soft.root,
     button: TOGGLE_BUTTON,
     track: `${TRACK_BASE} h-7 w-12 rounded-full ${SOFT_OFF.track}`,
-    thumb: `ml-1 size-4 rounded-full ${SOFT_OFF.thumb} data-[checked]:ml-auto data-[checked]:mr-1 data-[checked]:bg-bh-paper`,
+    thumb: `ml-1 size-4 rounded-full border border-bh-charcoal ${SOFT_OFF.thumb} data-[checked]:ml-auto data-[checked]:mr-1 data-[checked]:bg-bh-paper`,
     label: CHECKBOX_CLASSES.soft.label,
     required: CHECKBOX_CLASSES.soft.required,
     description: CHECKBOX_CLASSES.soft.description,
