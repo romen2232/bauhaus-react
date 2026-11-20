@@ -63,3 +63,8 @@ describe("disabled ButtonSoft trigger", () => {
     expect(screen.queryByRole("dialog")).toBeNull();
   });
 });
+
+it("panel clips the scrolling body to its rounded corners", () => {
+  render(<ModalSoft title="T" defaultOpen>Body</ModalSoft>);
+  expect(screen.getByRole("dialog").closest(".rounded-bh-soft")).toHaveClass("overflow-hidden");
+});
