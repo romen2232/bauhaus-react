@@ -149,3 +149,11 @@ it("documents the Soft limits: muted-text never on sand, sand has no 3:1 edge on
   expect(contrast(SOFT_HEX.sand, HEX.paper)).toBeLessThan(3);
   expect(contrast(HEX.red, SOFT_HEX.sand)).toBeLessThan(3); // markers sit on paper, never on sand
 });
+
+it.each(softTones)("Soft switch thumb stays visible on the checked %s track (WCAG 1.4.11)", (t) => {
+  // Thumb: paper fill with a 1px charcoal outline. Either the outline or the fill must carry 3:1 vs the track.
+  const boundary = Math.max(contrast(SOFT_HEX.neutral, SOFT_HEX[t]), contrast(HEX.paper, SOFT_HEX[t]));
+  expect(boundary).toBeGreaterThanOrEqual(3);
+  // The outline always separates the thumb fill from the outline itself.
+  expect(contrast(SOFT_HEX.neutral, HEX.paper)).toBeGreaterThanOrEqual(3);
+});

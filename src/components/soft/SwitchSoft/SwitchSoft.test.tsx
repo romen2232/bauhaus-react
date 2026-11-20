@@ -35,7 +35,7 @@ it("has the look track: 1px charcoal outline, sand when off, pill, no translate"
     expect(track(container)).toHaveClass(c);
   }
   expect(track(container).firstElementChild!.className).not.toContain("translate");
-  expect(track(container).firstElementChild!).toHaveClass("bg-bh-charcoal");
+  expect(track(container).firstElementChild!).toHaveClass("bg-bh-charcoal", "border", "border-bh-charcoal");
 });
 
 it("merges className onto the root", () => {

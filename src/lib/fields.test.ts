@@ -98,6 +98,7 @@ it("switch tracks follow the look and only Swiss avoids translate", () => {
   expect(SWITCH_CLASSES.playful.track).toContain("border-2 border-bh-ink");
   expect(SWITCH_CLASSES.soft.track).toContain(SOFT_OFF.track);
   expect(SWITCH_CLASSES.soft.thumb).toContain(SOFT_OFF.thumb);
+  expect(SWITCH_CLASSES.soft.thumb).toContain("border border-bh-charcoal");
   expect(SWITCH_CLASSES.swiss.track).toContain("data-[checked]:bg-bh-ink");
   expect(SWITCH_CLASSES.swiss.thumb).not.toMatch(/translate|rounded/);
   expect(SWITCH_CLASSES.soft.thumb).not.toContain("translate");
