@@ -185,3 +185,12 @@ it("size maps to a max width and className and ref land on the panel", () => {
   rerender(<ModalBase classes={c} title="T" defaultOpen size="lg">B</ModalBase>);
   expect(document.body.querySelector(".panel")).toHaveClass("max-w-2xl");
 });
+
+it("aria-describedby points the dialog at its description", () => {
+  render(
+    <ModalBase classes={c} title="Delete?" defaultOpen aria-describedby="why">
+      <p id="why">This cannot be undone.</p>
+    </ModalBase>,
+  );
+  expect(screen.getByRole("dialog", { name: "Delete?" })).toHaveAccessibleDescription("This cannot be undone.");
+});
