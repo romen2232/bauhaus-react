@@ -130,3 +130,48 @@ export const CHECKBOX_CLASSES: Record<FormLook, CheckboxClassSet> = {
     errorMarker: "mt-1.5 size-2 shrink-0 bg-bh-accent",
   },
 };
+
+export type SwitchClassSet = FieldClassSet & { button: string; track: string; thumb: string };
+
+const TRACK_BASE = `mt-0.5 flex shrink-0 items-center ${BOX_FOCUS}`;
+const THUMB_MOTION = "motion-safe:transition-transform motion-safe:duration-150 motion-safe:ease-out";
+
+/**
+ * Class maps for Switch, one per look. The Playful and Soft on-fill is added by the skin.
+ * Soft and Swiss move the thumb with `ml-auto` (their look rules forbid translate).
+ */
+export const SWITCH_CLASSES: Record<FormLook, SwitchClassSet> = {
+  playful: {
+    root: CHECKBOX_CLASSES.playful.root,
+    button: TOGGLE_BUTTON,
+    track: `${TRACK_BASE} h-7 w-12 rounded-full border-2 border-bh-ink bg-bh-paper-white`,
+    thumb: `ml-0.5 size-4 rounded-full border-2 border-bh-ink bg-bh-ink data-[checked]:translate-x-6 data-[checked]:bg-bh-paper-white ${THUMB_MOTION}`,
+    label: CHECKBOX_CLASSES.playful.label,
+    required: CHECKBOX_CLASSES.playful.required,
+    description: CHECKBOX_CLASSES.playful.description,
+    error: CHECKBOX_CLASSES.playful.error,
+    errorMarker: CHECKBOX_CLASSES.playful.errorMarker,
+  },
+  soft: {
+    root: CHECKBOX_CLASSES.soft.root,
+    button: TOGGLE_BUTTON,
+    track: `${TRACK_BASE} h-7 w-12 rounded-full ${SOFT_OFF.track}`,
+    thumb: `ml-1 size-4 rounded-full ${SOFT_OFF.thumb} data-[checked]:ml-auto data-[checked]:mr-1 data-[checked]:bg-bh-paper`,
+    label: CHECKBOX_CLASSES.soft.label,
+    required: CHECKBOX_CLASSES.soft.required,
+    description: CHECKBOX_CLASSES.soft.description,
+    error: CHECKBOX_CLASSES.soft.error,
+    errorMarker: CHECKBOX_CLASSES.soft.errorMarker,
+  },
+  swiss: {
+    root: CHECKBOX_CLASSES.swiss.root,
+    button: TOGGLE_BUTTON,
+    track: `${TRACK_BASE} h-6 w-11 rounded-none border border-bh-ink bg-transparent data-[checked]:bg-bh-ink ${SWISS_MOTION}`,
+    thumb: "ml-1 size-4 bg-bh-ink data-[checked]:ml-auto data-[checked]:mr-1 data-[checked]:bg-bh-paper-white",
+    label: CHECKBOX_CLASSES.swiss.label,
+    required: CHECKBOX_CLASSES.swiss.required,
+    description: CHECKBOX_CLASSES.swiss.description,
+    error: CHECKBOX_CLASSES.swiss.error,
+    errorMarker: CHECKBOX_CLASSES.swiss.errorMarker,
+  },
+};

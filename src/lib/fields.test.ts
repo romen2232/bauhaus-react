@@ -41,7 +41,7 @@ it("Soft textarea is rounded-bh-soft, not a pill", () => {
 });
 
 import { FILL_CLASSES, SOFT_TONE_CLASSES, type FillColor, type SoftTone } from "./palette";
-import { CHECKBOX_CLASSES, PLAYFUL_CHECKED, SOFT_CHECKED, SOFT_OFF } from "./fields";
+import { CHECKBOX_CLASSES, PLAYFUL_CHECKED, SOFT_CHECKED, SOFT_OFF, SWITCH_CLASSES } from "./fields";
 
 const prefix = (s: string) => s.split(" ").map((t) => `data-[checked]:${t}`).join(" ");
 
@@ -79,4 +79,26 @@ it("checkbox classes define every slot and markers follow the look", () => {
   expect(CHECKBOX_CLASSES.soft.errorMarker).toContain("rounded-full");
   expect(CHECKBOX_CLASSES.swiss.errorMarker).toContain("bg-bh-accent");
   expect(CHECKBOX_CLASSES.swiss.box).toContain("data-[checked]:bg-bh-ink");
+});
+
+it("switch classes define every slot and markers follow the look", () => {
+  for (const look of looks) {
+    for (const slot of ["root", "button", "track", "thumb", "label", "error"] as const) {
+      expect(SWITCH_CLASSES[look][slot]).toBeTypeOf("string");
+    }
+    expect(SWITCH_CLASSES[look].track).toContain("group-data-[focus-visible]:outline-bh-ink");
+    expect(SWITCH_CLASSES[look].error).not.toMatch(/text-bh-(red|accent)/);
+  }
+  expect(SWITCH_CLASSES.playful.errorMarker).toContain("bg-bh-red");
+  expect(SWITCH_CLASSES.soft.errorMarker).toContain("rounded-full");
+  expect(SWITCH_CLASSES.swiss.errorMarker).toContain("bg-bh-accent");
+});
+
+it("switch tracks follow the look and only Swiss avoids translate", () => {
+  expect(SWITCH_CLASSES.playful.track).toContain("border-2 border-bh-ink");
+  expect(SWITCH_CLASSES.soft.track).toContain(SOFT_OFF.track);
+  expect(SWITCH_CLASSES.soft.thumb).toContain(SOFT_OFF.thumb);
+  expect(SWITCH_CLASSES.swiss.track).toContain("data-[checked]:bg-bh-ink");
+  expect(SWITCH_CLASSES.swiss.thumb).not.toMatch(/translate|rounded/);
+  expect(SWITCH_CLASSES.soft.thumb).not.toContain("translate");
 });
