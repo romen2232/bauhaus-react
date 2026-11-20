@@ -112,6 +112,7 @@ export * from "./components/swiss/SelectSwiss/index.js";
 export * from "./components/playful/ModalPlayful/index.js";
 export * from "./components/soft/ModalSoft/index.js";
 export * from "./components/swiss/ModalSwiss/index.js";
+export { toast, createToastQueue, type ToastOptions, type ToastQueueHandle } from "./lib/toast.js";
 
 // Decoration
 export * from "./components/decoration/Shape/index.js";
