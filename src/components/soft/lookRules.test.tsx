@@ -20,6 +20,7 @@ import { AudioPlayerSoft } from "./AudioPlayerSoft/AudioPlayerSoft";
 import { TextFieldSoft } from "./TextFieldSoft/TextFieldSoft";
 import { TextAreaSoft } from "./TextAreaSoft/TextAreaSoft";
 import { CheckboxSoft } from "./CheckboxSoft/CheckboxSoft";
+import { SwitchSoft } from "./SwitchSoft/SwitchSoft";
 
 // Soft look rules (spec §6.1): no borders, no hard shadow, no movement, yellow never as text.
 const FORBIDDEN = /^(border(-[xytrbl])?(-\d+)?|shadow-bh-hard.*|-?translate-.*|text-bh-yellow)$/;
@@ -57,6 +58,9 @@ const cases: LookCase[] = [
   ["CheckboxSoft", <CheckboxSoft label="Terms" />, { outline: true }],
   ["CheckboxSoft invalid", <CheckboxSoft label="Terms" isInvalid errorMessage="Required" />, { outline: true }],
   ["CheckboxSoft selected", <CheckboxSoft label="Terms" defaultSelected />, { outline: true }],
+  ["SwitchSoft", <SwitchSoft label="Alerts" />, { outline: true }],
+  ["SwitchSoft invalid", <SwitchSoft label="Alerts" isInvalid errorMessage="Required" />, { outline: true }],
+  ["SwitchSoft on", <SwitchSoft label="Alerts" defaultSelected />, { outline: true }],
 ];
 
 it.each(cases)("%s follows the Soft look rules", (_name, element, options) => {

@@ -3,6 +3,7 @@ import { render } from "@testing-library/react";
 import { TextFieldPlayful } from "./TextFieldPlayful/TextFieldPlayful";
 import { TextAreaPlayful } from "./TextAreaPlayful/TextAreaPlayful";
 import { CheckboxPlayful } from "./CheckboxPlayful/CheckboxPlayful";
+import { SwitchPlayful } from "./SwitchPlayful/SwitchPlayful";
 
 // Playful look rules (spec §6.1): 2px/4px borders only, no soft radius, no grotesk, no blur,
 // yellow never as text.
@@ -18,6 +19,9 @@ const cases: [string, ReactElement][] = [
   ["CheckboxPlayful", <CheckboxPlayful label="Terms" />],
   ["CheckboxPlayful invalid", <CheckboxPlayful label="Terms" isInvalid errorMessage="Required" />],
   ["CheckboxPlayful selected", <CheckboxPlayful label="Terms" defaultSelected color="yellow" />],
+  ["SwitchPlayful", <SwitchPlayful label="Alerts" />],
+  ["SwitchPlayful invalid", <SwitchPlayful label="Alerts" isInvalid errorMessage="Required" />],
+  ["SwitchPlayful on", <SwitchPlayful label="Alerts" defaultSelected color="yellow" />],
 ];
 
 it.each(cases)("%s follows the Playful look rules", (_name, element) => {

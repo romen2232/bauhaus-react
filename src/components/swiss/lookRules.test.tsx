@@ -20,6 +20,7 @@ import { AudioPlayerSwiss } from "./AudioPlayerSwiss/AudioPlayerSwiss";
 import { TextFieldSwiss } from "./TextFieldSwiss/TextFieldSwiss";
 import { TextAreaSwiss } from "./TextAreaSwiss/TextAreaSwiss";
 import { CheckboxSwiss } from "./CheckboxSwiss/CheckboxSwiss";
+import { SwitchSwiss } from "./SwitchSwiss/SwitchSwiss";
 
 const FORBIDDEN =
   /^(border(-[xytrbl])?-(2|4|8)|divide-[xy]-(2|4|8)|shadow(-.*)?|-?translate-.*|text-bh-yellow|text-bh-accent|rounded-bh-soft|font-bh-(display|body)|font-(medium|semibold|bold|extrabold|black)|(bg|text|border|divide)-bh-(red|yellow|blue|navy|sky|pink|orange|sand|paper|teal|khaki))$/;
@@ -86,6 +87,9 @@ const cases: LookCase[] = [
   ["CheckboxSwiss", <CheckboxSwiss label="Terms" />],
   ["CheckboxSwiss invalid", <CheckboxSwiss label="Terms" isInvalid errorMessage="Required" />],
   ["CheckboxSwiss selected", <CheckboxSwiss label="Terms" defaultSelected />],
+  ["SwitchSwiss", <SwitchSwiss label="Alerts" />],
+  ["SwitchSwiss invalid", <SwitchSwiss label="Alerts" isInvalid errorMessage="Required" />],
+  ["SwitchSwiss on", <SwitchSwiss label="Alerts" defaultSelected />],
 ];
 
 it.each(cases)("%s follows the Swiss look rules", (_name, element, options) => {
@@ -109,4 +113,15 @@ it.each(cases)("%s follows the Swiss look rules", (_name, element, options) => {
     const classes = (el.getAttribute("class") ?? "").split(/\s+/).filter(Boolean);
     expect(classes.filter((token) => token.includes("bh-accent")).length).toBeLessThanOrEqual(1);
   }
+});
+
+it.each([
+  ["CheckboxSwiss", <CheckboxSwiss label="Terms" isInvalid errorMessage="Required" />],
+  ["SwitchSwiss", <SwitchSwiss label="Alerts" isInvalid errorMessage="Required" />],
+])("Swiss invalid %s has exactly one bh-accent token", (_name, element) => {
+  const { container } = render(element);
+  const accents = [...container.ownerDocument.body.querySelectorAll("*")]
+    .flatMap((el) => (el.getAttribute("class") ?? "").split(/\s+/))
+    .filter((token) => token.includes("bh-accent"));
+  expect(accents).toHaveLength(1);
 });

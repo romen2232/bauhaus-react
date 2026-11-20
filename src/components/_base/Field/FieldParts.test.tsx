@@ -100,3 +100,15 @@ it("FieldMessage marker is aria-hidden and omitted for an empty marker class", (
   );
   expect(container.querySelector("[aria-hidden]")).toBeNull();
 });
+
+it("FieldLabel elementType span renders no label element", () => {
+  const { container } = render(
+    <Wrap>
+      <FieldLabel classes={c} elementType="span">
+        Name
+      </FieldLabel>
+    </Wrap>,
+  );
+  expect(container.querySelectorAll("label")).toHaveLength(0);
+  expect(screen.getByText("Name").tagName).toBe("SPAN");
+});

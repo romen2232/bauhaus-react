@@ -38,3 +38,11 @@ it("forwards ref to the root element", () => {
   expect(ref.current).toBeInstanceOf(HTMLDivElement);
   expect(ref.current!.contains(screen.getByRole("checkbox"))).toBe(true);
 });
+
+it("has exactly one bh-accent token when invalid", () => {
+  const { container } = render(<CheckboxSwiss label="Terms" isInvalid errorMessage="Required" />);
+  const count = [...container.querySelectorAll("*")]
+    .flatMap((el) => (el.getAttribute("class") ?? "").split(/\s+/))
+    .filter((c) => c.includes("bh-accent")).length;
+  expect(count).toBe(1);
+});
