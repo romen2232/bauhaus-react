@@ -140,6 +140,10 @@ it.each([
   ["Swiss accent invalid rule on white (1.4.11)", SWISS_HEX.accent, SWISS_HEX.white, 3],
   ["Playful red bar on paper-white (1.4.11)", HEX.red, "#FFFFFF", 3],
   ["Soft red dot on paper (1.4.11)", HEX.red, HEX.paper, 3],
+  ["Playful focused option: ink on yellow", HEX.ink, HEX.yellow, 4.5],
+  ["Playful trigger chevron and option check: ink on paper-white (1.4.11)", HEX.ink, "#FFFFFF", 3],
+  ["Playful focused-option check: ink on yellow (1.4.11)", HEX.ink, HEX.yellow, 3],
+  ["Playful popover edge: ink border on paper (1.4.11)", HEX.ink, HEX.paper, 3],
   ["Soft Switch thumb: charcoal on sand (1.4.11)", SOFT_HEX.neutral, SOFT_HEX.sand, 3],
 ])("form pair %s meets %f:1", (_n, a, b, min) => {
   expect(contrast(a, b)).toBeGreaterThanOrEqual(min);

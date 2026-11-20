@@ -89,6 +89,10 @@ export const SOFT_OFF = {
   thumb: "bg-bh-charcoal",
 };
 
+// The root-level `group` on toggle controls is safe only while no ancestor element sets its own
+// `group` state that these `group-data-[...]` variants could match. A `group-data-[invalid]` or
+// `group-data-[disabled]` on a radio-level class would match the RadioGroup root and leak to
+// every radio; use a named group (`group/radio`) before adding such a variant.
 const TOGGLE_BUTTON = "group flex items-start gap-3 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50";
 const BOX_BASE = `mt-0.5 flex size-6 shrink-0 items-center justify-center ${BOX_FOCUS}`;
 
@@ -184,6 +188,8 @@ export type RadioClassSet = FieldClassSet & {
   optionLabel: string;
 };
 
+// RadioGroup root `group`: safe only because the root emits no `data-focus-visible`, so
+// `BOX_FOCUS` on a circle can only match its own radio label. Keep it that way.
 const RADIO_ROOT = "group flex flex-col gap-2";
 const RADIO_OPTIONS =
   "flex flex-col gap-3 group-data-[orientation=horizontal]:flex-row group-data-[orientation=horizontal]:flex-wrap group-data-[orientation=horizontal]:gap-x-6";
@@ -234,5 +240,66 @@ export const RADIO_CLASSES: Record<FormLook, RadioClassSet> = {
     description: CHECKBOX_CLASSES.swiss.description,
     error: CHECKBOX_CLASSES.swiss.error,
     errorMarker: CHECKBOX_CLASSES.swiss.errorMarker,
+  },
+};
+
+export type SelectClassSet = FieldClassSet & {
+  control: string;
+  trigger: string;
+  value: string;
+  chevron: string;
+  popover: string;
+  listbox: string;
+  option: string;
+  check: string;
+};
+
+const SELECT_TRIGGER = "flex items-center justify-between text-left";
+// The listbox only takes focus itself when it is empty; options carry focus otherwise.
+const SELECT_LISTBOX = `max-h-64 overflow-auto ${RAC_FOCUS}`;
+
+/** Field-level slots a Select shares with the text-like fields of the same look. */
+const selectFieldParts = (look: FormLook): FieldClassSet & { control: string } => {
+  const { root, label, required, description, error, errorMarker, control } = FIELD_CLASSES[look];
+  return { root, label, required, description, error, errorMarker, control };
+};
+
+/**
+ * Class maps for Select, one per look. The Select root is a `group` that carries `data-invalid`;
+ * the popover renders in a portal, so nothing inside it can match that group. Option state reads
+ * the option's own `data-[focused]`, `data-[selected]` and `data-[disabled]`.
+ * Soft and Swiss keep empty look slots until the Soft and Swiss Select skins land.
+ */
+export const SELECT_CLASSES: Record<FormLook, SelectClassSet> = {
+  playful: {
+    ...selectFieldParts("playful"),
+    trigger: `${FIELD_CLASSES.playful.input} ${SELECT_TRIGGER}`,
+    value: "data-[placeholder]:text-bh-muted-text",
+    chevron: "ml-2 shrink-0",
+    popover:
+      "min-w-(--trigger-width) border-2 border-bh-ink bg-bh-paper-white shadow-bh-hard motion-safe:transition-opacity motion-safe:duration-150 motion-safe:ease-out data-[entering]:opacity-0 data-[exiting]:opacity-0",
+    listbox: SELECT_LISTBOX,
+    option: `flex items-center justify-between px-4 py-2 font-bh-body text-sm text-bh-ink data-[focused]:bg-bh-yellow ${DISABLED} ${RAC_FOCUS}`,
+    check: "ml-2",
+  },
+  soft: {
+    ...selectFieldParts("soft"),
+    trigger: "",
+    value: "",
+    chevron: "",
+    popover: "",
+    listbox: "",
+    option: "",
+    check: "",
+  },
+  swiss: {
+    ...selectFieldParts("swiss"),
+    trigger: "",
+    value: "",
+    chevron: "",
+    popover: "",
+    listbox: "",
+    option: "",
+    check: "",
   },
 };
