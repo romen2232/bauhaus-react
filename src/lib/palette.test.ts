@@ -144,6 +144,14 @@ it.each([
   ["Playful trigger chevron and option check: ink on paper-white (1.4.11)", HEX.ink, "#FFFFFF", 3],
   ["Playful focused-option check: ink on yellow (1.4.11)", HEX.ink, HEX.yellow, 3],
   ["Playful popover edge: ink border on paper (1.4.11)", HEX.ink, HEX.paper, 3],
+  ["Soft select trigger outline: charcoal on paper (1.4.11)", SOFT_HEX.neutral, HEX.paper, 3],
+  ["Soft select chevron and option check: ink on sand (1.4.11)", HEX.ink, SOFT_HEX.sand, 3],
+  ["Soft select focused option: paper on charcoal", HEX.paper, SOFT_HEX.neutral, 4.5],
+  ["Soft select focused option fill: charcoal on sand (1.4.11)", SOFT_HEX.neutral, SOFT_HEX.sand, 3],
+  ["Soft select empty state: charcoal on sand", SOFT_HEX.neutral, SOFT_HEX.sand, 4.5],
+  ["Swiss select chevron and option check: ink on white (1.4.11)", SWISS_HEX.ink, SWISS_HEX.white, 3],
+  ["Swiss select option text: muted-text on white", SWISS_HEX.mutedText, SWISS_HEX.white, 4.5],
+  ["Swiss select selected option: ink on white", SWISS_HEX.ink, SWISS_HEX.white, 4.5],
   ["Soft Switch thumb: charcoal on sand (1.4.11)", SOFT_HEX.neutral, SOFT_HEX.sand, 3],
 ])("form pair %s meets %f:1", (_n, a, b, min) => {
   expect(contrast(a, b)).toBeGreaterThanOrEqual(min);

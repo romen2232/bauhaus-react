@@ -82,6 +82,7 @@ export * from "./components/soft/TextAreaSoft/index.js";
 export * from "./components/soft/CheckboxSoft/index.js";
 export * from "./components/soft/SwitchSoft/index.js";
 export * from "./components/soft/RadioGroupSoft/index.js";
+export * from "./components/soft/SelectSoft/index.js";
 
 // Swiss look
 export * from "./components/swiss/ButtonSwiss/index.js";
@@ -105,6 +106,7 @@ export * from "./components/swiss/TextAreaSwiss/index.js";
 export * from "./components/swiss/CheckboxSwiss/index.js";
 export * from "./components/swiss/SwitchSwiss/index.js";
 export * from "./components/swiss/RadioGroupSwiss/index.js";
+export * from "./components/swiss/SelectSwiss/index.js";
 
 // Decoration
 export * from "./components/decoration/Shape/index.js";
