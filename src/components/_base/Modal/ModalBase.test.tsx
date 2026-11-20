@@ -194,3 +194,12 @@ it("aria-describedby points the dialog at its description", () => {
   );
   expect(screen.getByRole("dialog", { name: "Delete?" })).toHaveAccessibleDescription("This cannot be undone.");
 });
+
+it("the scrolling body is keyboard reachable (scrollable-region-focusable)", async () => {
+  render(<ModalBase classes={c} title="T" trigger={opener}>Only text, nothing focusable</ModalBase>);
+  await userEvent.click(screen.getByRole("button", { name: "Open" }));
+  const body = document.body.querySelector(".body") as HTMLElement;
+  expect(body).toHaveAttribute("tabindex", "0");
+  await userEvent.tab();
+  expect(body).toHaveFocus();
+});
