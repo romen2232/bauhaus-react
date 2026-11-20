@@ -1,5 +1,5 @@
 import { createRef } from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ButtonSwiss } from "../ButtonSwiss/ButtonSwiss";
 import { ModalSwiss } from "./ModalSwiss";
@@ -46,4 +46,21 @@ it("forwards className and ref to the panel", () => {
   render(<ModalSwiss title="T" defaultOpen className="extra" ref={ref}>Body</ModalSwiss>);
   expect(panelOf()).toHaveClass("extra");
   expect(ref.current).toBe(panelOf());
+});
+
+describe("disabled ButtonSwiss trigger", () => {
+  it.each([
+    ["button", <ButtonSwiss disabled>Open</ButtonSwiss>],
+    ["link", <ButtonSwiss href="/x" disabled>Open</ButtonSwiss>],
+  ])("a disabled %s trigger cannot open the dialog by click or keyboard", async (_n, trigger) => {
+    render(<ModalSwiss title="Edit" trigger={trigger}>Body</ModalSwiss>);
+    const el = screen.getByText("Open").closest("button, a") as HTMLElement;
+    await userEvent.click(el);
+    expect(screen.queryByRole("dialog")).toBeNull();
+    act(() => el.focus());
+    await userEvent.keyboard("{Enter}");
+    await userEvent.keyboard(" ");
+    fireEvent.click(el);
+    expect(screen.queryByRole("dialog")).toBeNull();
+  });
 });

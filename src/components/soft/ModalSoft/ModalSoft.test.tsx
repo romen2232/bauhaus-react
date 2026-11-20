@@ -1,5 +1,5 @@
 import { createRef } from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ButtonSoft } from "../ButtonSoft/ButtonSoft";
 import { ModalSoft } from "./ModalSoft";
@@ -45,4 +45,21 @@ it("forwards className and ref to the panel", () => {
   const panel = screen.getByRole("dialog").closest(".rounded-bh-soft");
   expect(panel).toHaveClass("extra");
   expect(ref.current).toBe(panel);
+});
+
+describe("disabled ButtonSoft trigger", () => {
+  it.each([
+    ["button", <ButtonSoft disabled>Open</ButtonSoft>],
+    ["link", <ButtonSoft href="/x" disabled>Open</ButtonSoft>],
+  ])("a disabled %s trigger cannot open the dialog by click or keyboard", async (_n, trigger) => {
+    render(<ModalSoft title="Edit" trigger={trigger}>Body</ModalSoft>);
+    const el = screen.getByText("Open").closest("button, a") as HTMLElement;
+    await userEvent.click(el);
+    expect(screen.queryByRole("dialog")).toBeNull();
+    act(() => el.focus());
+    await userEvent.keyboard("{Enter}");
+    await userEvent.keyboard(" ");
+    fireEvent.click(el);
+    expect(screen.queryByRole("dialog")).toBeNull();
+  });
 });

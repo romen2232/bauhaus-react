@@ -59,6 +59,12 @@ const SIZE_CLASSES: Record<ModalSize, string> = {
 const resolve = (slot: ModalSlot, api: ModalRenderApi): ReactNode =>
   typeof slot === "function" ? slot(api) : slot;
 
+/** A trigger is inert when it is natively `disabled` or carries `aria-disabled` (a disabled link skin). */
+const isTriggerDisabled = (trigger: ReactElement): boolean => {
+  const p = trigger.props as { disabled?: boolean; "aria-disabled"?: boolean | "true" | "false" };
+  return Boolean(p.disabled) || p["aria-disabled"] === true || p["aria-disabled"] === "true";
+};
+
 /**
  * Internal: modal dialog on React Aria. Focus is trapped while open, `Esc` closes it
  * and focus returns to the trigger. The body scrolls while header and footer stay put.
@@ -113,7 +119,7 @@ export function ModalBase({
   if (!trigger) return overlay;
   return (
     <DialogTrigger isOpen={isOpen} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
-      <Pressable>{trigger as PressableChild}</Pressable>
+      <Pressable isDisabled={isTriggerDisabled(trigger)}>{trigger as PressableChild}</Pressable>
       {overlay}
     </DialogTrigger>
   );
