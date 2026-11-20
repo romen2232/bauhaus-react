@@ -17,11 +17,14 @@ import { TabsSoft } from "./TabsSoft/TabsSoft";
 import { DateStripSoft } from "./DateStripSoft/DateStripSoft";
 import { CarouselSoft } from "./CarouselSoft/CarouselSoft";
 import { AudioPlayerSoft } from "./AudioPlayerSoft/AudioPlayerSoft";
+import { TextFieldSoft } from "./TextFieldSoft/TextFieldSoft";
 
 // Soft look rules (spec §6.1): no borders, no hard shadow, no movement, yellow never as text.
 const FORBIDDEN = /^(border(-[xytrbl])?(-\d+)?|shadow-bh-hard.*|-?translate-.*|text-bh-yellow)$/;
 
-const cases: [string, ReactElement][] = [
+type LookCase = [string, ReactElement, { outline?: boolean }?];
+
+const cases: LookCase[] = [
   ["ButtonSoft solid", <ButtonSoft>Go</ButtonSoft>],
   ["ButtonSoft outline", <ButtonSoft variant="outline">Go</ButtonSoft>],
   ["ButtonSoft color", <ButtonSoft variant="color" tone="yellow">Go</ButtonSoft>],
@@ -45,13 +48,19 @@ const cases: [string, ReactElement][] = [
   ["DateStripSoft", <DateStripSoft label="Pick" start={new CalendarDate(2026, 11, 16)} />],
   ["CarouselSoft", <CarouselSoft label="Rooms"><div>A</div><div>B</div></CarouselSoft>],
   ["AudioPlayerSoft", <AudioPlayerSoft src="/a.mp3" title="Intro" />],
+  ["TextFieldSoft", <TextFieldSoft label="Name" />, { outline: true }],
+  ["TextFieldSoft invalid", <TextFieldSoft label="Name" isInvalid errorMessage="Required" />, { outline: true }],
 ];
 
-it.each(cases)("%s follows the Soft look rules", (_name, element) => {
+it.each(cases)("%s follows the Soft look rules", (_name, element, options) => {
   const { container } = render(element);
   const tokens = [...container.ownerDocument.body.querySelectorAll("*")].flatMap((el) =>
     (el.getAttribute("class") ?? "").split(/\s+/).filter(Boolean),
   );
-  const offending = tokens.filter((t) => FORBIDDEN.test(t.split(":").pop()!));
+  // Fields carry the 1px charcoal outline (plan decision A) so the boundary reaches 3:1 (WCAG 1.4.11).
+  const offending = tokens.filter((t) => {
+    const bare = t.split(":").pop()!;
+    return FORBIDDEN.test(bare) && !(options?.outline && bare === "border");
+  });
   expect(offending).toEqual([]);
 });

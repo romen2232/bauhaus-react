@@ -39,18 +39,23 @@ it("FieldLabel appends '(required)' only when required and hides visually on hid
 });
 
 it("FieldDescription renders nothing when empty", () => {
-  const { container, rerender } = render(
+  const { container } = render(
     <Wrap>
       <FieldDescription classes={c}>{null}</FieldDescription>
     </Wrap>,
   );
   expect(container.querySelector(".D")).toBeNull();
-  rerender(
+});
+
+it("FieldDescription links its text to the input as the accessible description", () => {
+  // Mounted with the description: React Aria resolves the slot id once on mount.
+  render(
     <Wrap>
       <FieldDescription classes={c}>Help</FieldDescription>
     </Wrap>,
   );
   expect(screen.getByText("Help")).toHaveClass("D");
+  expect(screen.getByRole("textbox")).toHaveAccessibleDescription("Help");
 });
 
 it("FieldMessage shows nothing while valid, the message while invalid, and falls back to validationErrors", () => {
@@ -66,6 +71,7 @@ it("FieldMessage shows nothing while valid, the message while invalid, and falls
     </Wrap>,
   );
   expect(screen.getByText("Bad")).toBeInTheDocument();
+  expect(screen.getByRole("textbox")).toHaveAccessibleDescription("Bad");
   rerender(
     <Wrap isInvalid>
       <FieldMessage classes={c} errorMessage={(v) => `n:${v.isInvalid}`} />
