@@ -42,6 +42,11 @@ const expected = [
   ".text-bh-muted-text",
   ".font-bh-grotesk",
   ".bg-bh-accent",
+  // Forms (0.5a): one literal per look plus the Select popover width.
+  ".data-\\[checked\\]\\:bg-bh-ink",
+  ".data-\\[checked\\]\\:bg-bh-charcoal",
+  ".data-\\[invalid\\]\\:border-bh-accent",
+  ".min-w-\\(--trigger-width\\)",
 ];
 
 let failed = false;

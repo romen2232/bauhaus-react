@@ -16,6 +16,12 @@ import { MenuOverlayPlayful } from "./MenuOverlayPlayful/MenuOverlayPlayful";
 import { CarouselPlayful } from "./CarouselPlayful/CarouselPlayful";
 import { DateStripPlayful } from "./DateStripPlayful/DateStripPlayful";
 import { AudioPlayerPlayful } from "./AudioPlayerPlayful/AudioPlayerPlayful";
+import { TextFieldPlayful } from "./TextFieldPlayful/TextFieldPlayful";
+import { TextAreaPlayful } from "./TextAreaPlayful/TextAreaPlayful";
+import { SelectPlayful } from "./SelectPlayful/SelectPlayful";
+import { CheckboxPlayful } from "./CheckboxPlayful/CheckboxPlayful";
+import { RadioGroupPlayful } from "./RadioGroupPlayful/RadioGroupPlayful";
+import { SwitchPlayful } from "./SwitchPlayful/SwitchPlayful";
 
 const meta: Meta = { title: "Playful/Overview" };
 export default meta;
@@ -83,6 +89,35 @@ export const AllComponents: StoryObj = {
           <div className="h-32 bg-bh-yellow" />
         </CarouselPlayful>
         <AudioPlayerPlayful src="" title="Lorem" className="max-w-md" />
+      </Section>
+      <Section title="Forms">
+        <div className="flex max-w-md flex-col gap-6">
+          <TextFieldPlayful label="Email" description="We only use it for receipts." />
+          <TextFieldPlayful label="Work email" defaultValue="name@" isInvalid errorMessage="Enter a valid email" />
+          <TextAreaPlayful label="Message" rows={3} />
+          <SelectPlayful
+            label="Plan"
+            placeholder="Choose a plan"
+            items={[
+              { id: "free", label: "Free" },
+              { id: "team", label: "Team" },
+              { id: "scale", label: "Scale" },
+            ]}
+          />
+          <CheckboxPlayful label="Send me product updates" defaultSelected />
+          <CheckboxPlayful label="Select all projects" isIndeterminate />
+          <RadioGroupPlayful
+            label="Billing cycle"
+            defaultValue="monthly"
+            options={[
+              { value: "monthly", label: "Monthly" },
+              { value: "quarterly", label: "Quarterly" },
+              { value: "yearly", label: "Yearly" },
+            ]}
+          />
+          <SwitchPlayful label="Email notifications" />
+          <SwitchPlayful label="Two-factor sign-in" defaultSelected />
+        </div>
       </Section>
       <BottomNavPlayful
         label="Main"
