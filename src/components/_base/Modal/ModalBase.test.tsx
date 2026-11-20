@@ -22,7 +22,7 @@ it("closes on Escape and returns focus to the trigger", async () => {
   await userEvent.click(trigger);
   expect(screen.getByRole("dialog")).toBeInTheDocument();
   await userEvent.keyboard("{Escape}");
-  expect(screen.queryByRole("dialog")).toBeNull();
+  await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
   await waitFor(() => expect(trigger).toHaveFocus());
 });
 
@@ -75,7 +75,7 @@ it("isDismissable={false} still closes on Escape", async () => {
   await userEvent.click(screen.getByRole("button", { name: "Open" }));
   expect(screen.getByRole("dialog")).toBeInTheDocument();
   await userEvent.keyboard("{Escape}");
-  expect(screen.queryByRole("dialog")).toBeNull();
+  await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
 });
 
 it("alertdialog is named by title, and scrim clicks never close it even with isDismissable", async () => {
@@ -139,7 +139,7 @@ it("a render-function footer receives close() and closes the dialog (onOpenChang
   expect(screen.getByRole("dialog")).toBeInTheDocument();
   await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
   expect(onOpenChange).toHaveBeenLastCalledWith(false);
-  expect(screen.queryByRole("dialog")).toBeNull();
+  await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
 });
 
 it("a render-function body receives close() too", async () => {
@@ -150,7 +150,7 @@ it("a render-function body receives close() too", async () => {
   );
   await userEvent.click(screen.getByRole("button", { name: "Open" }));
   await userEvent.click(screen.getByRole("button", { name: "Done" }));
-  expect(screen.queryByRole("dialog")).toBeNull();
+  await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
 });
 
 it("a disabled trigger cannot open the dialog", async () => {
@@ -160,7 +160,7 @@ it("a disabled trigger cannot open the dialog", async () => {
     </ModalBase>,
   );
   await userEvent.click(screen.getByRole("button", { name: "Open" }));
-  expect(screen.queryByRole("dialog")).toBeNull();
+  await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
 });
 
 it("body scrolls, header and footer do not", () => {
@@ -202,4 +202,115 @@ it("the scrolling body is keyboard reachable (scrollable-region-focusable)", asy
   expect(body).toHaveAttribute("tabindex", "0");
   await userEvent.tab();
   expect(body).toHaveFocus();
+});
+
+describe("open state wiring", () => {
+  it("controlled isOpen with a trigger: the trigger asks via onOpenChange(true) but the dialog stays closed until the parent flips it", async () => {
+    const onOpenChange = vi.fn();
+    function Harness() {
+      const [open, setOpen] = useState(false);
+      return (
+        <ModalBase
+          classes={c}
+          title="Edit"
+          trigger={opener}
+          isOpen={open}
+          onOpenChange={(o) => {
+            onOpenChange(o);
+            setOpen(o);
+          }}
+        >
+          Body
+        </ModalBase>
+      );
+    }
+    render(<Harness />);
+    expect(screen.queryByRole("dialog")).toBeNull();
+    await userEvent.click(screen.getByRole("button", { name: "Open" }));
+    expect(onOpenChange).toHaveBeenCalledWith(true);
+    expect(screen.getByRole("dialog", { name: "Edit" })).toBeInTheDocument();
+    await userEvent.keyboard("{Escape}");
+    expect(onOpenChange).toHaveBeenLastCalledWith(false);
+    await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
+  });
+
+  it("controlled isOpen={false} with a trigger ignores the click until the parent opens it", async () => {
+    const onOpenChange = vi.fn();
+    render(<ModalBase classes={c} title="Edit" trigger={opener} isOpen={false} onOpenChange={onOpenChange}>Body</ModalBase>);
+    await userEvent.click(screen.getByRole("button", { name: "Open" }));
+    expect(onOpenChange).toHaveBeenCalledWith(true);
+    expect(screen.queryByRole("dialog")).toBeNull();
+  });
+
+  it("controlled isOpen={true} with a trigger renders open", () => {
+    render(<ModalBase classes={c} title="Edit" trigger={opener} isOpen onOpenChange={() => {}}>Body</ModalBase>);
+    expect(screen.getByRole("dialog", { name: "Edit" })).toBeInTheDocument();
+  });
+
+  it("defaultOpen with a trigger renders open and closes on Escape", async () => {
+    render(<ModalBase classes={c} title="Edit" trigger={opener} defaultOpen>Body</ModalBase>);
+    expect(screen.getByRole("dialog", { name: "Edit" })).toBeInTheDocument();
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
+  });
+
+  it("onOpenChange(true) fires when a trigger opens the dialog", async () => {
+    const onOpenChange = vi.fn();
+    render(<ModalBase classes={c} title="Edit" trigger={opener} onOpenChange={onOpenChange}>Body</ModalBase>);
+    await userEvent.click(screen.getByRole("button", { name: "Open" }));
+    expect(onOpenChange).toHaveBeenCalledTimes(1);
+    expect(onOpenChange).toHaveBeenCalledWith(true);
+  });
+
+  it("a trigger-less uncontrolled dialog calls onOpenChange(false) and closes on Escape", async () => {
+    const onOpenChange = vi.fn();
+    render(<ModalBase classes={c} title="Edit" defaultOpen onOpenChange={onOpenChange}>Body</ModalBase>);
+    await userEvent.keyboard("{Escape}");
+    expect(onOpenChange).toHaveBeenCalledWith(false);
+    await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
+  });
+});
+
+describe("focus management", () => {
+  it("moves initial focus inside the dialog on open", async () => {
+    render(<ModalBase classes={c} title="Edit" trigger={opener}>Body</ModalBase>);
+    await userEvent.click(screen.getByRole("button", { name: "Open" }));
+    const dialog = screen.getByRole("dialog");
+    await waitFor(() => expect(dialog.contains(document.activeElement)).toBe(true));
+  });
+
+  it("returns focus to the trigger after close() from the footer", async () => {
+    render(
+      <ModalBase
+        classes={c}
+        title="Edit"
+        trigger={opener}
+        footer={({ close }) => <button type="button" onClick={close}>Cancel</button>}
+      >
+        Body
+      </ModalBase>,
+    );
+    const trigger = screen.getByRole("button", { name: "Open" });
+    await userEvent.click(trigger);
+    await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+    await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
+    await waitFor(() => expect(trigger).toHaveFocus());
+  });
+
+  it("returns focus to the trigger after a scrim click", async () => {
+    render(<ModalBase classes={c} title="Edit" trigger={opener}>Body</ModalBase>);
+    const trigger = screen.getByRole("button", { name: "Open" });
+    await userEvent.click(trigger);
+    await userEvent.click(document.body.querySelector(".scrim") as HTMLElement);
+    await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
+    await waitFor(() => expect(trigger).toHaveFocus());
+  });
+
+  it("alertdialog closes on Escape", async () => {
+    render(<ModalBase classes={c} title="Delete?" role="alertdialog" trigger={opener}>Cannot be undone</ModalBase>);
+    await userEvent.click(screen.getByRole("button", { name: "Open" }));
+    expect(screen.getByRole("alertdialog")).toBeInTheDocument();
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(screen.queryByRole("alertdialog")).toBeNull());
+  });
 });
