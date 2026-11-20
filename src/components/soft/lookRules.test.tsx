@@ -21,11 +21,17 @@ import { TextFieldSoft } from "./TextFieldSoft/TextFieldSoft";
 import { TextAreaSoft } from "./TextAreaSoft/TextAreaSoft";
 import { CheckboxSoft } from "./CheckboxSoft/CheckboxSoft";
 import { SwitchSoft } from "./SwitchSoft/SwitchSoft";
+import { RadioGroupSoft } from "./RadioGroupSoft/RadioGroupSoft";
 
 // Soft look rules (spec §6.1): no borders, no hard shadow, no movement, yellow never as text.
 const FORBIDDEN = /^(border(-[xytrbl])?(-\d+)?|shadow-bh-hard.*|-?translate-.*|text-bh-yellow)$/;
 
 type LookCase = [string, ReactElement, { outline?: boolean }?];
+
+const radioOptions = [
+  { value: "a", label: "Email" },
+  { value: "b", label: "Phone" },
+];
 
 const cases: LookCase[] = [
   ["ButtonSoft solid", <ButtonSoft>Go</ButtonSoft>],
@@ -61,6 +67,9 @@ const cases: LookCase[] = [
   ["SwitchSoft", <SwitchSoft label="Alerts" />, { outline: true }],
   ["SwitchSoft invalid", <SwitchSoft label="Alerts" isInvalid errorMessage="Required" />, { outline: true }],
   ["SwitchSoft on", <SwitchSoft label="Alerts" defaultSelected />, { outline: true }],
+  ["RadioGroupSoft", <RadioGroupSoft label="Via" options={radioOptions} />, { outline: true }],
+  ["RadioGroupSoft invalid", <RadioGroupSoft label="Via" options={radioOptions} isInvalid errorMessage="Required" />, { outline: true }],
+  ["RadioGroupSoft selected", <RadioGroupSoft label="Via" options={radioOptions} defaultValue="a" tone="yellow" />, { outline: true }],
 ];
 
 it.each(cases)("%s follows the Soft look rules", (_name, element, options) => {
