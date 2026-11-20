@@ -34,13 +34,50 @@ const tokensOf = (ui: ReactElement): string[] => {
   return [...out];
 };
 
+const BORDER_WIDTH = /^border(-([xytrblse]))?(-\d+)?$/;
+
+/** Every `border*` width token (border, border-N, border-{t,r,b,l,x,y,s,e}-N, with or without a width). */
+const borderWidthTokens = (tokens: string[]): string[] => tokens.filter((t) => BORDER_WIDTH.test(t));
+
+/**
+ * Swiss allow-list of border widths: the panel's single 2px `border-t-2` top rule, plus the 1px
+ * `border-b` (header) and `border-t` (footer) hairlines, which are exactly one 1px side each.
+ * Any other width (border, border-N, border-t-4, border-y-2, border-s-2, ...) is a violation.
+ */
+const SWISS_ALLOWED_BORDERS = new Set(["border-t-2", "border-b", "border-t"]);
+const swissBorderViolations = (tokens: string[]): string[] =>
+  borderWidthTokens(tokens).filter((t) => !SWISS_ALLOWED_BORDERS.has(t));
+
 const FORBIDDEN: Record<Look, RegExp> = {
   playful: /^(rounded(-(?!none$).*)?|font-(medium|semibold|bold)|backdrop-.*|text-bh-yellow)$/,
-  soft: /^(border(-.*)?|shadow-bh-hard.*|backdrop-.*|text-bh-yellow)$/,
-  // `border-t-2` is the one allowed 2px rule (the panel's top rule); see plan call 7.
+  // Soft has no border (width) and no shadow at all (spec 6.1), and no blur.
+  soft: /^(border(-.*)?|shadow(-.*)?|inset-shadow(-.*)?|drop-shadow(-.*)?|ring(-.*)?|backdrop-.*|blur(-.*)?|text-bh-yellow)$/,
   swiss:
-    /^(shadow(-.*)?|-?translate-.*|rounded(-.*)?|backdrop-.*|border-(2|4|8)|border-[xrbl]-(2|4|8)|text-bh-accent|(bg|text|border|divide)-bh-(red|yellow|blue|navy|sky|pink|orange|sand|paper|charcoal))$/,
+    /^(shadow(-.*)?|-?translate-.*|rounded(-.*)?|backdrop-.*|text-bh-accent|(bg|text|border|divide)-bh-(red|yellow|blue|navy|sky|pink|orange|sand|paper|charcoal))$/,
 };
+
+describe("Swiss border allow-list matcher", () => {
+  it("accepts the single allowed border-t-2 rule and colour-only border tokens", () => {
+    expect(swissBorderViolations(["border-t-2", "border-b", "border-t", "border-bh-ink", "border-bh-rule"])).toEqual([]);
+  });
+
+  it.each([
+    "border", "border-0", "border-2", "border-4", "border-8",
+    "border-t-4", "border-t-8", "border-b-4", "border-y", "border-y-2", "border-x-2",
+    "border-r-2", "border-b-2", "border-l-2", "border-s-2", "border-e-2", "border-l", "border-s", "border-e",
+  ])("flags %s", (token) => {
+    expect(swissBorderViolations(["border-t-2", token])).toEqual([token]);
+  });
+});
+
+describe("Soft look matcher", () => {
+  it.each([
+    "shadow", "shadow-sm", "shadow-lg", "shadow-bh-hard", "shadow-bh-hard-lg",
+    "inset-shadow-sm", "drop-shadow-md", "ring-2", "backdrop-blur-sm", "blur-sm", "border", "border-2", "border-t-2",
+  ])("flags %s", (token) => {
+    expect(FORBIDDEN.soft.test(token)).toBe(true);
+  });
+});
 
 for (const look of ["playful", "soft", "swiss"] as const) {
   describe(`${look} overlay look rules`, () => {
@@ -48,6 +85,7 @@ for (const look of ["playful", "soft", "swiss"] as const) {
       const tokens = tokensOf(ui);
       expect(tokens.length).toBeGreaterThan(0);
       expect(tokens.filter((t) => FORBIDDEN[look].test(t))).toEqual([]);
+      if (look === "swiss") expect(swissBorderViolations(tokens)).toEqual([]);
     });
   });
 }
