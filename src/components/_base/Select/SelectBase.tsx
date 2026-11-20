@@ -62,6 +62,8 @@ export function SelectBase({
       defaultSelectedKey={defaultSelectedKey}
       onSelectionChange={(key) => onSelectionChange?.(key === null ? null : String(key))}
       placeholder={placeholder}
+      // Without this React Aria never opens an empty select, so the "No options" state would be unreachable.
+      allowsEmptyCollection
       validate={validate ? (key) => validate(key === null ? null : String(key)) : undefined}
       validationBehavior={validationBehavior}
       disabledKeys={items.filter((item) => item.isDisabled).map((item) => item.id)}
@@ -81,7 +83,11 @@ export function SelectBase({
       <FieldDescription classes={classes}>{description}</FieldDescription>
       <FieldMessage classes={classes} errorMessage={errorMessage} />
       <Popover className={classes.popover}>
-        <ListBox className={classes.listbox} items={items}>
+        <ListBox
+          className={classes.listbox}
+          items={items}
+          renderEmptyState={() => <div className={classes.empty}>No options</div>}
+        >
           {(item) => (
             <ListBoxItem
               id={item.id}

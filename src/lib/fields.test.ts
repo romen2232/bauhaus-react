@@ -129,9 +129,13 @@ it("select classes define every slot and the Playful look follows the spec", () 
   for (const look of looks) {
     for (const slot of [
       "root", "label", "required", "description", "error", "errorMarker",
-      "control", "trigger", "value", "chevron", "popover", "listbox", "option", "check",
+      "control", "trigger", "value", "chevron", "popover", "listbox", "option", "check", "empty",
     ] as const) {
       expect(SELECT_CLASSES[look][slot]).toBeTypeOf("string");
+      // Only the wrapper `control` (Soft, Swiss) and the Swiss `errorMarker` are legitimately unstyled.
+      const unstyled =
+        (slot === "control" && look !== "playful") || (slot === "errorMarker" && look === "swiss");
+      if (!unstyled) expect(SELECT_CLASSES[look][slot]).not.toBe("");
     }
   }
   const p = SELECT_CLASSES.playful;
@@ -145,4 +149,45 @@ it("select classes define every slot and the Playful look follows the spec", () 
   expect(p.option).toContain("data-[focus-visible]:outline-bh-ink");
   expect(p.error).not.toMatch(/text-bh-(red|accent)/);
   expect(p.errorMarker).toContain("bg-bh-red");
+});
+
+it("select popovers: Soft is borderless, Swiss has a 1px rule, neither has a shadow", () => {
+  expect(SELECT_CLASSES.soft.popover).not.toContain("shadow");
+  expect(SELECT_CLASSES.swiss.popover).not.toContain("shadow");
+  expect(SELECT_CLASSES.soft.popover).not.toMatch(/(^|\s)border/);
+  for (const c of ["rounded-bh-soft", "bg-bh-sand", "min-w-(--trigger-width)"]) {
+    expect(SELECT_CLASSES.soft.popover).toContain(c);
+  }
+  for (const c of ["rounded-none", "border", "border-bh-rule", "bg-bh-paper-white", "min-w-(--trigger-width)"]) {
+    expect(SELECT_CLASSES.swiss.popover).toContain(c);
+  }
+});
+
+it("select triggers share one layout and reuse the look's field surface", () => {
+  for (const look of looks) {
+    expect(SELECT_CLASSES[look].trigger).toContain("flex items-center justify-between text-left");
+  }
+  expect(SELECT_CLASSES.soft.trigger).toContain(FIELD_CLASSES.soft.input);
+  for (const c of ["border-b", "border-bh-ink", "bg-transparent", "rounded-none"]) {
+    expect(SELECT_CLASSES.swiss.trigger).toContain(c);
+  }
+});
+
+it("Swiss select trigger signals invalid through the root group, with exactly one accent token", () => {
+  const { trigger } = SELECT_CLASSES.swiss;
+  expect(trigger).toContain("group-data-[invalid]:border-bh-accent");
+  // The trigger button never emits data-invalid (RAC 1.22.1); a plain data-[invalid]: variant would never fire.
+  expect(trigger).not.toMatch(/(^|\s)data-\[invalid\]:/);
+  expect(trigger.split(/\s+/).filter((t) => t.includes("bh-accent"))).toHaveLength(1);
+  expect(SELECT_CLASSES.swiss.option).not.toContain("bh-accent");
+});
+
+it("Soft select options and empty state avoid muted-text on sand, and no select slot uses yellow text", () => {
+  expect(SELECT_CLASSES.soft.empty).not.toContain("muted-text");
+  expect(SELECT_CLASSES.soft.value).not.toContain("muted-text");
+  expect(SELECT_CLASSES.soft.option).toContain("data-[focused]:bg-bh-charcoal");
+  expect(SELECT_CLASSES.soft.option).toContain("data-[focused]:text-bh-paper");
+  for (const look of looks) {
+    for (const v of Object.values(SELECT_CLASSES[look])) expect(v).not.toMatch(/text-bh-yellow/);
+  }
 });
