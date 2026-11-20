@@ -129,3 +129,8 @@ it("does not nest a label element inside the button label", () => {
   const { container } = render(<CheckboxBase classes={t} label="Terms" />);
   expect(container.querySelectorAll("label")).toHaveLength(1);
 });
+
+it("marks the button data-disabled when disabled so the disabled styling applies", () => {
+  render(<CheckboxBase classes={t} label="Terms" isDisabled />);
+  expect(screen.getByRole("checkbox").closest("label")).toHaveAttribute("data-disabled");
+});

@@ -5,6 +5,7 @@ import { TabsPlayful } from "./TabsPlayful/TabsPlayful";
 import { TextFieldPlayful } from "./TextFieldPlayful/TextFieldPlayful";
 import { TextAreaPlayful } from "./TextAreaPlayful/TextAreaPlayful";
 import { CheckboxPlayful } from "./CheckboxPlayful/CheckboxPlayful";
+import { SwitchPlayful } from "./SwitchPlayful/SwitchPlayful";
 
 // In Tailwind 4.3, both `outline-none` and `outline-hidden` set --tw-outline-style: none, and
 // `data-[focus-visible]:outline-2` reads that variable, so the ring never shows (WCAG 2.4.7).
@@ -50,4 +51,11 @@ it("CheckboxPlayful keeps a visible focus ring on its box", () => {
   const box = container.querySelector("[aria-hidden]")!;
   expect(box.className).toContain("group-data-[focus-visible]:outline-bh-ink");
   expect(killsFocusRing(screen.getByRole("checkbox").closest("label")!)).toBe(false);
+});
+
+it("SwitchPlayful keeps a visible focus ring on its track", () => {
+  const { container } = render(<SwitchPlayful label="Alerts" />);
+  const track = container.querySelector("[aria-hidden]")!;
+  expect(track.className).toContain("group-data-[focus-visible]:outline-bh-ink");
+  expect(killsFocusRing(screen.getByRole("switch").closest("label")!)).toBe(false);
 });
