@@ -38,6 +38,8 @@ export type ModalBaseProps = {
   /** Close on scrim click. Default `true`; never applies to `alertdialog`. */
   isDismissable?: boolean;
   role?: "dialog" | "alertdialog";
+  /** Id of the element that describes the dialog (read after its name). */
+  "aria-describedby"?: string;
   size?: ModalSize;
   /** Merged last into the dialog panel. */
   className?: string;
@@ -71,6 +73,7 @@ export function ModalBase({
   onOpenChange,
   isDismissable = true,
   role = "dialog",
+  "aria-describedby": ariaDescribedby,
   size = "md",
   className,
   ref,
@@ -86,7 +89,7 @@ export function ModalBase({
         ref={ref}
         className={cn("flex max-h-full w-full flex-col", SIZE_CLASSES[size], classes.modal, className)}
       >
-        <Dialog role={role} className="flex min-h-0 flex-1 flex-col outline-none">
+        <Dialog role={role} aria-describedby={ariaDescribedby} className="flex min-h-0 flex-1 flex-col outline-none">
           {({ close }) => (
             <>
               <div className={cn("shrink-0", classes.header)}>
