@@ -1,5 +1,6 @@
 import type { ReactElement } from "react";
 import { render } from "@testing-library/react";
+import { ModalSwiss } from "./swiss/ModalSwiss/ModalSwiss";
 import { ModalSoft } from "./soft/ModalSoft/ModalSoft";
 import { ModalPlayful } from "./playful/ModalPlayful/ModalPlayful";
 
@@ -15,7 +16,9 @@ const cases: Record<Look, LookCase[]> = {
   soft: [
     ["ModalSoft", <ModalSoft title="T" defaultOpen footer={footer}>Body</ModalSoft>],
   ],
-  swiss: [],
+  swiss: [
+    ["ModalSwiss", <ModalSwiss title="T" defaultOpen footer={footer}>Body</ModalSwiss>],
+  ],
 };
 
 // Overlays portal into document.body, so scan the whole body, not the render container.
@@ -40,7 +43,6 @@ const FORBIDDEN: Record<Look, RegExp> = {
 };
 
 for (const look of ["playful", "soft", "swiss"] as const) {
-  if (cases[look].length === 0) continue; // temporary until every look has a case
   describe(`${look} overlay look rules`, () => {
     it.each(cases[look])("%s", (_name, ui) => {
       const tokens = tokensOf(ui);
