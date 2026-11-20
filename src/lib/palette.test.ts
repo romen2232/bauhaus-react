@@ -125,3 +125,27 @@ it("documents the limits: accent on white is large-text only, rule is decorative
   expect(contrast(SWISS_HEX.mutedText, SWISS_HEX.ink)).toBeLessThan(4.5); // never put muted-text on ink
   expect(contrast(SWISS_HEX.rule, SWISS_HEX.white)).toBeLessThan(3);
 });
+
+it.each([
+  ["Playful input text: ink on paper-white", HEX.ink, "#FFFFFF", 4.5],
+  ["Playful placeholder: muted-text on paper-white", SWISS_HEX.mutedText, "#FFFFFF", 4.5],
+  ["Playful '(required)': muted-text on paper", SWISS_HEX.mutedText, HEX.paper, 4.5],
+  ["Soft input text: ink on sand", HEX.ink, SOFT_HEX.sand, 4.5],
+  ["Soft placeholder: charcoal on sand", SOFT_HEX.neutral, SOFT_HEX.sand, 4.5],
+  ["Soft label: charcoal on paper", SOFT_HEX.neutral, HEX.paper, 4.5],
+  ["Soft '(required)': muted-text on paper", SWISS_HEX.mutedText, HEX.paper, 4.5],
+  ["Swiss label/placeholder: muted-text on white", SWISS_HEX.mutedText, SWISS_HEX.white, 4.5],
+  ["Swiss ink rule on white (1.4.11)", SWISS_HEX.ink, SWISS_HEX.white, 3],
+  ["Swiss accent invalid rule on white (1.4.11)", SWISS_HEX.accent, SWISS_HEX.white, 3],
+  ["Playful red bar on paper-white (1.4.11)", HEX.red, "#FFFFFF", 3],
+  ["Soft red dot on paper (1.4.11)", HEX.red, HEX.paper, 3],
+  ["Soft Switch thumb: charcoal on sand (1.4.11)", SOFT_HEX.neutral, SOFT_HEX.sand, 3],
+])("form pair %s meets %f:1", (_n, a, b, min) => {
+  expect(contrast(a, b)).toBeGreaterThanOrEqual(min);
+});
+
+it("documents the Soft limits: muted-text never on sand, sand has no 3:1 edge on paper", () => {
+  expect(contrast(SWISS_HEX.mutedText, SOFT_HEX.sand)).toBeLessThan(4.5);
+  expect(contrast(SOFT_HEX.sand, HEX.paper)).toBeLessThan(3);
+  expect(contrast(HEX.red, SOFT_HEX.sand)).toBeLessThan(3); // markers sit on paper, never on sand
+});
