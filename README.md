@@ -200,6 +200,50 @@ Swiss components use a `paper-white` ground, `ink` text and `muted-text` → `in
 
 Animated decoration (`spin`, `KineticRule`, `Wordmark`) only runs when the user has not asked for reduced motion.
 
+### Forms (0.5, in progress: forms first)
+
+Six inputs in each look: `TextField`, `TextArea`, `Select`, `Checkbox`, `RadioGroup` and `Switch` (18 components). The 0.5 release ships with the modal and toast plan; until then `VERSION` stays `0.4.0`.
+
+| Component | What it is |
+|---|---|
+| `TextFieldPlayful` | Bordered paper-white text input; focus adds the hard shadow |
+| `TextAreaPlayful` | Multi-line text input with the same bordered field |
+| `SelectPlayful` | Button-triggered listbox with a bordered hard-shadow popover |
+| `CheckboxPlayful` | Square checkbox; `color` sets the checked fill (default `ink`) |
+| `RadioGroupPlayful` | Group of circular radios; `color` sets the checked fill (default `ink`) |
+| `SwitchPlayful` | Square-track switch; `color` sets the checked fill (default `ink`) |
+| `TextFieldSoft` | Pill text input on a sand fill with a 1px charcoal outline |
+| `TextAreaSoft` | Rounded multi-line text input on sand with a 1px charcoal outline |
+| `SelectSoft` | Pill trigger with a rounded sand popover |
+| `CheckboxSoft` | Rounded checkbox; `tone` sets the checked fill (default `neutral`) |
+| `RadioGroupSoft` | Group of round radios; `tone` sets the checked fill (default `neutral`) |
+| `SwitchSoft` | Pill switch; `tone` sets the checked track (default `neutral`) |
+| `TextFieldSwiss` | Transparent text input with a 1px ink bottom rule |
+| `TextAreaSwiss` | Multi-line text input with a 1px ink bottom rule |
+| `SelectSwiss` | Rule-style trigger with a paper-white hairline popover |
+| `CheckboxSwiss` | Square outlined checkbox that fills with ink |
+| `RadioGroupSwiss` | Group of outlined radios that fill with ink |
+| `SwitchSwiss` | Outlined switch with an ink track when on |
+
+Shared props:
+
+- `label` (required): every field has a visible label. Use `hideLabel` to hide it visually; it stays the accessible name. There is no other way to drop the label.
+- `description`: help text linked with `aria-describedby`. Known quirk: set it when the field mounts. React Aria resolves the description slot once on mount, so adding a `description` to an already mounted field does not link it.
+- `errorMessage`: a node, or a function receiving React Aria's `ValidationResult`. It shows only while the field is invalid.
+- `isRequired` adds the word "(required)" after the label in muted text. There is no red asterisk.
+- `isInvalid`, `isDisabled`, `isReadOnly` (not on `Select`), `name`, `className`, `ref` (on the field root).
+- Sizes: `md` only.
+- Per component: `TextField` takes `type`, `value`/`defaultValue`/`onChange`, `placeholder`, `autoComplete`; `TextArea` adds `rows`; `Checkbox` and `Switch` take `isSelected`/`defaultSelected`/`onChange` (`Checkbox` also `isIndeterminate`); `RadioGroup` takes `options` (`{ value, label, isDisabled? }`), `value`/`defaultValue`/`onChange` and `orientation`; `Select` takes `items` (`{ id, label, isDisabled? }`), `selectedKey`/`defaultSelectedKey`/`onSelectionChange` and `placeholder`.
+- Colour: Playful `color` and Soft `tone` set the checked fill of `Checkbox`, `RadioGroup` and `Switch`. Swiss has no colour prop.
+
+Validation uses React Aria's native validation plus `validate` (return a message, an array of messages, or `true`/`null` for valid) and `errorMessage`. `validationBehavior` defaults to `"aria"`: errors are announced and shown while the user edits, with no browser tooltips. Pass `"native"` to defer to the browser on form submit. There is no form-state library.
+
+Invalid state never uses small red text (red on paper is about 3.3:1). Invalid text fields and selects show the message in `ink` and mark the field with a red bar or, in Swiss, a `bh-accent` rule. `Checkbox`, `RadioGroup` and `Switch` do not change; the `ink` message sits under the control with a marker before it: a red square (Playful), a red tone dot (Soft) or a small accent square (Swiss).
+
+`Select` shows a "No options" message in its popover when `items` is empty.
+
+Soft fields and unchecked controls carry a 1px `charcoal` outline on the `sand` fill so the boundary reaches 3:1 non-text contrast (WCAG 1.4.11); the tonal fill alone is below that. Soft muted text is never placed on `sand`.
+
 ## Development
 
 ```sh

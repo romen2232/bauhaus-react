@@ -16,6 +16,12 @@ import { MenuOverlaySoft } from "./MenuOverlaySoft/MenuOverlaySoft";
 import { CarouselSoft } from "./CarouselSoft/CarouselSoft";
 import { DateStripSoft } from "./DateStripSoft/DateStripSoft";
 import { AudioPlayerSoft } from "./AudioPlayerSoft/AudioPlayerSoft";
+import { TextFieldSoft } from "./TextFieldSoft/TextFieldSoft";
+import { TextAreaSoft } from "./TextAreaSoft/TextAreaSoft";
+import { SelectSoft } from "./SelectSoft/SelectSoft";
+import { CheckboxSoft } from "./CheckboxSoft/CheckboxSoft";
+import { RadioGroupSoft } from "./RadioGroupSoft/RadioGroupSoft";
+import { SwitchSoft } from "./SwitchSoft/SwitchSoft";
 
 const meta: Meta = { title: "Soft/Overview", parameters: { backgrounds: { default: "paper" } } };
 export default meta;
@@ -101,6 +107,35 @@ export const AllComponents: StoryObj = {
             { href: "#", label: "Book", icon: "+" },
           ]}
         />
+      </Section>
+      <Section title="Forms">
+        <div className="flex max-w-md flex-col gap-6">
+          <TextFieldSoft label="Email" description="We only use it for receipts." />
+          <TextFieldSoft label="Work email" defaultValue="name@" isInvalid errorMessage="Enter a valid email" />
+          <TextAreaSoft label="Message" rows={3} />
+          <SelectSoft
+            label="Plan"
+            placeholder="Choose a plan"
+            items={[
+              { id: "free", label: "Free" },
+              { id: "team", label: "Team" },
+              { id: "scale", label: "Scale" },
+            ]}
+          />
+          <CheckboxSoft label="Send me product updates" defaultSelected />
+          <CheckboxSoft label="Select all projects" isIndeterminate />
+          <RadioGroupSoft
+            label="Billing cycle"
+            defaultValue="monthly"
+            options={[
+              { value: "monthly", label: "Monthly" },
+              { value: "quarterly", label: "Quarterly" },
+              { value: "yearly", label: "Yearly" },
+            ]}
+          />
+          <SwitchSoft label="Email notifications" />
+          <SwitchSoft label="Two-factor sign-in" defaultSelected />
+        </div>
       </Section>
       <FooterSoft columns={["Lorem", "Ipsum", "Dolor"]} bottom="© 2026 Lorem" />
     </div>

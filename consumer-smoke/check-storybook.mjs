@@ -19,6 +19,7 @@ const checks = [
   ["color-mix(in srgb", true],
   ["@theme", false], // raw Tailwind source must not leak into the output
   [".bg-bh-paper-white", true],
+  [".min-w-\\(--trigger-width\\)", true], // Select popover width, only used by the form skins
 ];
 
 let failed = false;

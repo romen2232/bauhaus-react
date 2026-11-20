@@ -18,6 +18,12 @@ import { TagSwiss } from "./TagSwiss/TagSwiss";
 import { TextLinkSwiss } from "./TextLinkSwiss/TextLinkSwiss";
 import { TopBarSwiss } from "./TopBarSwiss/TopBarSwiss";
 import { Grid } from "../primitives/Grid/Grid";
+import { TextFieldSwiss } from "./TextFieldSwiss/TextFieldSwiss";
+import { TextAreaSwiss } from "./TextAreaSwiss/TextAreaSwiss";
+import { SelectSwiss } from "./SelectSwiss/SelectSwiss";
+import { CheckboxSwiss } from "./CheckboxSwiss/CheckboxSwiss";
+import { RadioGroupSwiss } from "./RadioGroupSwiss/RadioGroupSwiss";
+import { SwitchSwiss } from "./SwitchSwiss/SwitchSwiss";
 
 const meta: Meta = {
   title: "Swiss/Overview",
@@ -118,6 +124,35 @@ export const AllComponents: StoryObj = {
             { href: "#pay", label: "Pay", icon: "+" },
           ]}
         />
+      </Section>
+      <Section title="Forms">
+        <div className="flex max-w-md flex-col gap-6">
+          <TextFieldSwiss label="Email" description="We only use it for receipts." />
+          <TextFieldSwiss label="Work email" defaultValue="name@" isInvalid errorMessage="Enter a valid email" />
+          <TextAreaSwiss label="Message" rows={3} />
+          <SelectSwiss
+            label="Plan"
+            placeholder="Choose a plan"
+            items={[
+              { id: "free", label: "Free" },
+              { id: "team", label: "Team" },
+              { id: "scale", label: "Scale" },
+            ]}
+          />
+          <CheckboxSwiss label="Send me product updates" defaultSelected />
+          <CheckboxSwiss label="Select all projects" isIndeterminate />
+          <RadioGroupSwiss
+            label="Billing cycle"
+            defaultValue="monthly"
+            options={[
+              { value: "monthly", label: "Monthly" },
+              { value: "quarterly", label: "Quarterly" },
+              { value: "yearly", label: "Yearly" },
+            ]}
+          />
+          <SwitchSwiss label="Email notifications" />
+          <SwitchSwiss label="Two-factor sign-in" defaultSelected />
+        </div>
       </Section>
       <FooterSwiss columns={["Accounts", "Support", "Legal"]} bottom="© 2026 Konto" />
     </div>
