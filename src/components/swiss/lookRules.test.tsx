@@ -26,6 +26,7 @@ import { SelectSwiss } from "./SelectSwiss/SelectSwiss";
 import { TableSwiss } from "./TableSwiss/TableSwiss";
 import { BarChartSwiss } from "./BarChartSwiss/BarChartSwiss";
 import { LineChartSwiss } from "./LineChartSwiss/LineChartSwiss";
+import { DonutChartSwiss } from "./DonutChartSwiss/DonutChartSwiss";
 import userEvent from "@testing-library/user-event";
 
 const FORBIDDEN =
@@ -44,6 +45,8 @@ const tableColumns: import("../_base/Table/tableTypes").TableColumn<TableRow>[] 
 ];
 const tableRows: TableRow[] = [{ id: "a", name: "Aurora", users: 12 }];
 const chartSeries = ["A", "B", "C"].map((id) => ({ id, label: id, data: chartData }));
+
+const donutMany = Array.from({ length: 8 }, (_, i) => ({ label: `Item ${i + 1}`, value: i + 1 }));
 
 type LookCase = [string, ReactElement, { pill?: boolean }?];
 
@@ -136,6 +139,9 @@ const cases: LookCase[] = [
   ["LineChartSwiss", <LineChartSwiss title="Visits" data={chartData} />],
   ["LineChartSwiss 3 series", <LineChartSwiss title="Visits" series={chartSeries} />],
   ["LineChartSwiss highlighted", <LineChartSwiss title="Visits" data={chartData} highlight="Feb" />],
+  ["DonutChartSwiss", <DonutChartSwiss title="Spend" data={chartData} />],
+  ["DonutChartSwiss highlighted", <DonutChartSwiss title="Spend" data={chartData} highlight="Feb" />],
+  ["DonutChartSwiss grouped", <DonutChartSwiss title="Spend" data={donutMany} showValues />],
 ];
 
 it.each(cases)("%s follows the Swiss look rules", (_name, element, options) => {

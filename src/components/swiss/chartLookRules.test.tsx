@@ -2,6 +2,7 @@ import type { ReactElement } from "react";
 import { render } from "@testing-library/react";
 import { BarChartSwiss } from "./BarChartSwiss/BarChartSwiss";
 import { LineChartSwiss } from "./LineChartSwiss/LineChartSwiss";
+import { DonutChartSwiss } from "./DonutChartSwiss/DonutChartSwiss";
 
 /** Swiss charts: no other look's colours, no radius, shadow, translate, heavy weights or thick strokes. */
 const FORBIDDEN_SWISS_CHART =
@@ -15,6 +16,8 @@ const data = [
 
 const series = ["A", "B", "C"].map((id) => ({ id, label: id, data }));
 
+const many = Array.from({ length: 8 }, (_, i) => ({ label: `Item ${i + 1}`, value: i + 1 }));
+
 const cases: [string, ReactElement][] = [
   ["BarChartSwiss", <BarChartSwiss title="Visits" data={data} />],
   ["BarChartSwiss highlighted", <BarChartSwiss title="Visits" data={data} highlight="Feb" showValues />],
@@ -24,6 +27,10 @@ const cases: [string, ReactElement][] = [
   ["LineChartSwiss 3 series", <LineChartSwiss title="Visits" series={series} />],
   ["LineChartSwiss highlighted", <LineChartSwiss title="Visits" series={series} highlight="Feb" showValues />],
   ["LineChartSwiss empty", <LineChartSwiss title="Visits" data={[]} />],
+  ["DonutChartSwiss", <DonutChartSwiss title="Spend" data={data} />],
+  ["DonutChartSwiss highlighted", <DonutChartSwiss title="Spend" data={data} highlight="Feb" showValues />],
+  ["DonutChartSwiss grouped", <DonutChartSwiss title="Spend" data={many} highlight="Item 8" />],
+  ["DonutChartSwiss empty", <DonutChartSwiss title="Spend" data={[]} />],
 ];
 
 it.each(cases)("%s follows the Swiss chart look rules", (_name, element) => {
