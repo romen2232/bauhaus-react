@@ -1,4 +1,4 @@
-export const VERSION = "0.4.0";
+export const VERSION = "0.6.0";
 
 // Utilities and tokens
 export { cn } from "./lib/cn.js";
@@ -129,3 +129,4 @@ export * from "./components/decoration/Ribbon/index.js";
 export * from "./components/decoration/SkewBar/index.js";
 export * from "./components/decoration/KineticRule/index.js";
 export * from "./components/decoration/Composition/index.js";
+export type { TableColumn, TableSortDescriptor } from "./components/_base/Table/tableTypes.js";
