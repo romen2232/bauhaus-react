@@ -115,6 +115,9 @@ export * from "./components/swiss/TableSwiss/index.js";
 export * from "./components/playful/ModalPlayful/index.js";
 export * from "./components/soft/ModalSoft/index.js";
 export * from "./components/swiss/ModalSwiss/index.js";
+export * from "./components/playful/ToastRegionPlayful/index.js";
+export * from "./components/soft/ToastRegionSoft/index.js";
+export * from "./components/swiss/ToastRegionSwiss/index.js";
 export { toast, createToastQueue, type ToastOptions, type ToastQueueHandle } from "./lib/toast.js";
 
 // Decoration
