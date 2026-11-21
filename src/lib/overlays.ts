@@ -82,7 +82,7 @@ export const MODAL_CLASSES: Record<OverlayLook, ModalClassSet> = {
 /** Toast class maps, one per look. Static literals only; the Playful fill comes from `FILL_CLASSES` in the skin. */
 export const TOAST_CLASSES: Record<OverlayLook, ToastClassSet> = {
   playful: {
-    toast: "border-2 border-bh-ink shadow-bh-hard uppercase font-bh-display font-black",
+    toast: "flex items-center gap-3 border-2 border-bh-ink shadow-bh-hard uppercase font-bh-display font-black",
     content: "flex flex-col gap-1 px-5 py-3",
     title: "text-sm tracking-wide",
     description: "font-bh-body text-xs font-normal normal-case",
@@ -91,7 +91,7 @@ export const TOAST_CLASSES: Record<OverlayLook, ToastClassSet> = {
     motion: PLAYFUL_TOAST_MOTION,
   },
   soft: {
-    toast: "rounded-full bg-bh-charcoal text-bh-paper",
+    toast: "flex items-center gap-3 rounded-full bg-bh-charcoal text-bh-paper",
     content: "flex flex-col gap-0.5 px-6 py-3",
     title: "font-bh-display text-sm font-normal",
     description: "font-bh-body text-xs font-normal",
@@ -100,7 +100,7 @@ export const TOAST_CLASSES: Record<OverlayLook, ToastClassSet> = {
     motion: SOFT_TOAST_MOTION,
   },
   swiss: {
-    toast: "bg-bh-paper-white text-bh-ink border-t-2 border-bh-ink",
+    toast: "flex items-center gap-3 bg-bh-paper-white text-bh-ink border-t-2 border-bh-ink",
     content: "flex flex-col gap-1 px-5 py-3",
     title: `${SWISS_DISPLAY} text-base`,
     description: "font-bh-grotesk text-sm",
