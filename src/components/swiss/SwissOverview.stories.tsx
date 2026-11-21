@@ -24,6 +24,8 @@ import { SelectSwiss } from "./SelectSwiss/SelectSwiss";
 import { CheckboxSwiss } from "./CheckboxSwiss/CheckboxSwiss";
 import { RadioGroupSwiss } from "./RadioGroupSwiss/RadioGroupSwiss";
 import { SwitchSwiss } from "./SwitchSwiss/SwitchSwiss";
+import { TableSwiss } from "./TableSwiss/TableSwiss";
+import type { TableColumn } from "../_base/Table/tableTypes";
 
 const meta: Meta = {
   title: "Swiss/Overview",
@@ -38,6 +40,24 @@ const Section = ({ title, children }: { title: string; children: ReactNode }) =>
     {children}
   </section>
 );
+
+type Project = { id: string; name: string; status: "live" | "draft"; users: number | null; shipped: Date };
+
+const projects: Project[] = [
+  { id: "aurora", name: "Aurora", status: "live", users: 1240, shipped: new Date("2026-01-12") },
+  { id: "borealis", name: "Borealis", status: "draft", users: 86, shipped: new Date("2026-03-04") },
+  { id: "cirrus", name: "Cirrus", status: "live", users: null, shipped: new Date("2026-05-21") },
+  { id: "delta", name: "Delta", status: "draft", users: 412, shipped: new Date("2026-02-02") },
+];
+
+const statusRank = (row: Project) => (row.status === "live" ? 2 : 1);
+
+const projectColumns = (status: (row: Project) => ReactNode): TableColumn<Project>[] => [
+  { id: "name", label: "Name", isRowHeader: true, allowsSorting: true },
+  { id: "status", label: "Status", allowsSorting: true, sortValue: statusRank, render: status },
+  { id: "users", label: "Users", align: "end", allowsSorting: true },
+  { id: "shipped", label: "Shipped", allowsSorting: true },
+];
 
 /** Every Swiss component on the paper-white ground, grouped by purpose. */
 export const AllComponents: StoryObj = {
@@ -153,6 +173,19 @@ export const AllComponents: StoryObj = {
           <SwitchSwiss label="Email notifications" />
           <SwitchSwiss label="Two-factor sign-in" defaultSelected />
         </div>
+      </Section>
+      <Section title="Data">
+        <TableSwiss
+          aria-label="Projects"
+          columns={projectColumns((row) => (
+            <span className={row.status === "live" ? "text-bh-ink" : "text-bh-muted-text"}>
+              {row.status === "live" ? "Live" : "Draft"}
+            </span>
+          ))}
+          rows={projects}
+          getRowId={(row) => row.id}
+          defaultSortDescriptor={{ column: "users", direction: "descending" }}
+        />
       </Section>
       <FooterSwiss columns={["Accounts", "Support", "Legal"]} bottom="© 2026 Konto" />
     </div>

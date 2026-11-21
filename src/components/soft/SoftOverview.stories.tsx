@@ -22,6 +22,8 @@ import { SelectSoft } from "./SelectSoft/SelectSoft";
 import { CheckboxSoft } from "./CheckboxSoft/CheckboxSoft";
 import { RadioGroupSoft } from "./RadioGroupSoft/RadioGroupSoft";
 import { SwitchSoft } from "./SwitchSoft/SwitchSoft";
+import { TableSoft } from "./TableSoft/TableSoft";
+import type { TableColumn } from "../_base/Table/tableTypes";
 
 const meta: Meta = { title: "Soft/Overview", parameters: { backgrounds: { default: "paper" } } };
 export default meta;
@@ -33,6 +35,24 @@ const Section = ({ title, children }: { title: string; children: React.ReactNode
     {children}
   </section>
 );
+
+type Project = { id: string; name: string; status: "live" | "draft"; users: number | null; shipped: Date };
+
+const projects: Project[] = [
+  { id: "aurora", name: "Aurora", status: "live", users: 1240, shipped: new Date("2026-01-12") },
+  { id: "borealis", name: "Borealis", status: "draft", users: 86, shipped: new Date("2026-03-04") },
+  { id: "cirrus", name: "Cirrus", status: "live", users: null, shipped: new Date("2026-05-21") },
+  { id: "delta", name: "Delta", status: "draft", users: 412, shipped: new Date("2026-02-02") },
+];
+
+const statusRank = (row: Project) => (row.status === "live" ? 2 : 1);
+
+const projectColumns = (status: (row: Project) => React.ReactNode): TableColumn<Project>[] => [
+  { id: "name", label: "Name", isRowHeader: true, allowsSorting: true },
+  { id: "status", label: "Status", allowsSorting: true, sortValue: statusRank, render: status },
+  { id: "users", label: "Users", align: "end", allowsSorting: true },
+  { id: "shipped", label: "Shipped", allowsSorting: true },
+];
 
 /** Every Soft component on the Soft ground. */
 export const AllComponents: StoryObj = {
@@ -136,6 +156,23 @@ export const AllComponents: StoryObj = {
           <SwitchSoft label="Email notifications" />
           <SwitchSoft label="Two-factor sign-in" defaultSelected />
         </div>
+      </Section>
+      <Section title="Data">
+        <TableSoft
+          aria-label="Projects"
+          columns={projectColumns((row) => (
+            <span className="inline-flex items-center gap-2">
+              <span
+                aria-hidden="true"
+                className={row.status === "live" ? "size-2 rounded-full bg-bh-blue" : "size-2 rounded-full bg-bh-yellow"}
+              />
+              {row.status === "live" ? "Live" : "Draft"}
+            </span>
+          ))}
+          rows={projects}
+          getRowId={(row) => row.id}
+          defaultSortDescriptor={{ column: "users", direction: "descending" }}
+        />
       </Section>
       <FooterSoft columns={["Lorem", "Ipsum", "Dolor"]} bottom="© 2026 Lorem" />
     </div>
