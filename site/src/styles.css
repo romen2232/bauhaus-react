@@ -22,3 +22,18 @@ body {
     transform: scale(0.6);
   }
 }
+
+@keyframes shape-wipe {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(8);
+    opacity: 0;
+  }
+}
