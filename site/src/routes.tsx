@@ -1,4 +1,5 @@
 import type { RouteObject } from "react-router";
+import { LandingPage } from "./landing/LandingPage";
 import { NotFound } from "./pages/NotFound";
 import { SiteLayout } from "./shell/SiteLayout";
 
@@ -11,7 +12,7 @@ export const routes: RouteObject[] = [
     path: "/",
     element: <SiteLayout />,
     children: [
-      { index: true, element: <Placeholder name="Landing" /> },
+      { index: true, element: <LandingPage /> },
       { path: "docs/getting-started/:page", element: <Placeholder name="Getting started" /> },
       { path: "docs/principles", element: <Placeholder name="Principles" /> },
       { path: "docs/colour", element: <Placeholder name="Colour" /> },
