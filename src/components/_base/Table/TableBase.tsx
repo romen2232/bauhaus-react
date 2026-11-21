@@ -1,8 +1,9 @@
 "use client";
-import type { ReactNode, Ref } from "react";
+import { useMemo, useState, type ReactNode, type Ref } from "react";
 import { Cell, Column, Row, Table, TableBody, TableHeader } from "react-aria-components";
 import { cn } from "../../../lib/cn.js";
-import type { TableBaseClasses, TableColumn } from "./tableTypes.js";
+import { sortRows } from "./sortRows.js";
+import type { TableBaseClasses, TableColumn, TableSortDescriptor } from "./tableTypes.js";
 
 export type TableBaseOwnProps<T> = {
   columns: TableColumn<T>[];
@@ -14,6 +15,11 @@ export type TableBaseOwnProps<T> = {
   className?: string;
   /** The scroll wrapper element. */
   ref?: Ref<HTMLDivElement>;
+  /** Controlled sort. The base does not reorder `rows`: the consumer owns the order. */
+  sortDescriptor?: TableSortDescriptor;
+  /** Initial sort when uncontrolled. The base then sorts `rows` itself. */
+  defaultSortDescriptor?: TableSortDescriptor;
+  onSortChange?: (descriptor: TableSortDescriptor) => void;
   classes: TableBaseClasses;
 };
 
@@ -38,16 +44,40 @@ export function TableBase<T>({
   rows,
   getRowId,
   emptyState,
+  sortDescriptor,
+  defaultSortDescriptor,
+  onSortChange,
   className,
   ref,
   classes,
   ...labelProps
 }: TableBaseProps<T>) {
+  const isControlled = sortDescriptor !== undefined;
+  const [localSort, setLocalSort] = useState(defaultSortDescriptor);
+  const requested = isControlled ? sortDescriptor : localSort;
+  // A descriptor for a column that no longer exists degrades to unsorted.
+  const sortColumn = requested ? columns.find((column) => column.id === requested.column) : undefined;
+  const effective = requested && sortColumn ? requested : undefined;
+
+  const displayRows = useMemo(
+    () => (isControlled || !effective ? rows : sortRows(rows, sortColumn, effective.direction)),
+    [isControlled, rows, sortColumn, effective],
+  );
+
   const rowHeaderId = (columns.find((column) => column.isRowHeader) ?? columns[0])?.id;
 
   return (
     <div className={cn(classes.wrapper, className)} ref={ref}>
-      <Table {...labelProps} className={classes.table}>
+      <Table
+        {...labelProps}
+        className={classes.table}
+        sortDescriptor={effective}
+        onSortChange={(next) => {
+          const descriptor: TableSortDescriptor = { column: String(next.column), direction: next.direction };
+          if (!isControlled) setLocalSort(descriptor);
+          onSortChange?.(descriptor);
+        }}
+      >
         <TableHeader columns={columns} dependencies={[columns]} className={classes.header}>
           {(column) => (
             <Column
@@ -55,14 +85,29 @@ export function TableBase<T>({
               textValue={column.label}
               isRowHeader={column.id === rowHeaderId}
               allowsSorting={column.allowsSorting}
-              className={cn(classes.column, column.align === "end" && classes.alignEnd)}
+              className={({ sortDirection }) =>
+                cn(
+                  classes.column,
+                  column.align === "end" && classes.alignEnd,
+                  sortDirection && classes.columnSorted,
+                )
+              }
             >
-              {column.label}
+              {({ allowsSorting, sortDirection }) => (
+                <>
+                  {column.label}
+                  {allowsSorting && (
+                    <span aria-hidden="true" className={classes.sortIcon}>
+                      {sortDirection === "ascending" ? "↑" : sortDirection === "descending" ? "↓" : "↕"}
+                    </span>
+                  )}
+                </>
+              )}
             </Column>
           )}
         </TableHeader>
         <TableBody
-          items={rows}
+          items={displayRows}
           className={classes.body}
           renderEmptyState={
             emptyState ? () => <div className={classes.empty}>{emptyState}</div> : undefined
