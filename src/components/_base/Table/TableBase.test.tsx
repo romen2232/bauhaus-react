@@ -1,5 +1,6 @@
 import { createRef } from "react";
 import { render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { TableBase } from "./TableBase";
 import type { TableBaseClasses, TableColumn } from "./tableTypes";
 
@@ -130,4 +131,125 @@ it("requires an accessible name (type test)", () => {
     <TableBase columns={columns} rows={rows} getRowId={getRowId} classes={c} />
   );
   expect(typeof unused).toBe("function");
+});
+
+describe("sorting", () => {
+  const sortable: TableColumn<Project>[] = [
+    { id: "name", label: "Name", allowsSorting: true },
+    { id: "users", label: "Users", allowsSorting: true, align: "end" },
+    { id: "shipped", label: "Shipped" },
+  ];
+  const names = () => screen.getAllByRole("rowheader").map((h) => h.textContent);
+  const header = (name: string) => screen.getByRole("columnheader", { name });
+  const table = (props: Partial<Parameters<typeof TableBase<Project>>[0]> = {}) => (
+    <TableBase aria-label="Projects" columns={sortable} rows={rows} getRowId={getRowId} classes={c} {...props} />
+  );
+
+  it("sortable columns expose aria-sort and unsortable ones do not", () => {
+    render(table());
+    expect(header("Name")).toHaveAttribute("aria-sort", "none");
+    expect(header("Users")).toHaveAttribute("aria-sort", "none");
+    expect(header("Shipped")).not.toHaveAttribute("aria-sort");
+  });
+
+  it("uncontrolled: clicking a header sorts ascending, then toggles descending, then ascending", async () => {
+    render(table());
+    await userEvent.click(header("Users"));
+    expect(header("Users")).toHaveAttribute("aria-sort", "ascending");
+    expect(names()).toEqual(["Borealis", "Aurora", "Cirrus"]);
+    await userEvent.click(header("Users"));
+    expect(header("Users")).toHaveAttribute("aria-sort", "descending");
+    expect(names()).toEqual(["Aurora", "Borealis", "Cirrus"]);
+    await userEvent.click(header("Users"));
+    expect(header("Users")).toHaveAttribute("aria-sort", "ascending");
+  });
+
+  it("Enter on a focused sortable header sorts it", async () => {
+    render(table());
+    header("Name").focus();
+    await userEvent.keyboard("{Enter}");
+    expect(header("Name")).toHaveAttribute("aria-sort", "ascending");
+  });
+
+  it("defaultSortDescriptor sorts on first render", () => {
+    render(table({ defaultSortDescriptor: { column: "name", direction: "descending" } }));
+    expect(names()).toEqual(["Cirrus", "Borealis", "Aurora"]);
+    expect(header("Name")).toHaveAttribute("aria-sort", "descending");
+  });
+
+  it("onSortChange is called with a string column and a direction", async () => {
+    const onSortChange = vi.fn();
+    render(table({ onSortChange }));
+    await userEvent.click(header("Users"));
+    expect(onSortChange).toHaveBeenCalledWith({ column: "users", direction: "ascending" });
+  });
+
+  it("controlled: rows keep the consumer's order and the descriptor drives aria-sort", async () => {
+    const onSortChange = vi.fn();
+    render(table({ sortDescriptor: { column: "users", direction: "descending" }, onSortChange }));
+    expect(names()).toEqual(["Aurora", "Borealis", "Cirrus"]);
+    expect(header("Users")).toHaveAttribute("aria-sort", "descending");
+    await userEvent.click(header("Users"));
+    expect(onSortChange).toHaveBeenCalledWith({ column: "users", direction: "ascending" });
+    expect(header("Users")).toHaveAttribute("aria-sort", "descending");
+  });
+
+  it("shows a sort icon that follows the direction and marks the sorted column", async () => {
+    const { container } = render(table());
+    const icon = () => header("Users").querySelector("[aria-hidden]")!;
+    expect(icon()).toHaveTextContent("↕");
+    expect(icon()).toHaveClass("si");
+    expect(header("Users")).not.toHaveClass("cs");
+    await userEvent.click(header("Users"));
+    expect(icon()).toHaveTextContent("↑");
+    expect(header("Users")).toHaveClass("cs");
+    await userEvent.click(header("Users"));
+    expect(icon()).toHaveTextContent("↓");
+    expect(header("Shipped").querySelector("[aria-hidden]")).toBeNull();
+    expect(container).toBeTruthy();
+  });
+
+  it("a sortValue column sorts by the real value", async () => {
+    type Task = { id: string; title: string; level: "high" | "low" };
+    const tasks: Task[] = [
+      { id: "1", title: "A", level: "high" },
+      { id: "2", title: "B", level: "low" },
+    ];
+    const cols: TableColumn<Task>[] = [
+      { id: "title", label: "Title" },
+      {
+        id: "level",
+        label: "Level",
+        allowsSorting: true,
+        render: (t) => <span>{t.level}</span>,
+        sortValue: (t) => (t.level === "high" ? 2 : 1),
+      },
+    ];
+    render(<TableBase aria-label="Tasks" columns={cols} rows={tasks} getRowId={(t) => t.id} classes={c} />);
+    await userEvent.click(screen.getByRole("columnheader", { name: "Level" }));
+    expect(screen.getAllByRole("rowheader").map((h) => h.textContent)).toEqual(["B", "A"]);
+  });
+
+  it("new rows re-sort in place while sorted (uncontrolled)", () => {
+    const props = { "aria-label": "Projects", columns: sortable, getRowId, classes: c };
+    const { rerender } = render(
+      <TableBase {...props} rows={rows} defaultSortDescriptor={{ column: "name", direction: "descending" }} />,
+    );
+    const extra = { slug: "d", name: "Delta", users: 1, shipped: new Date("2026-04-01") };
+    rerender(
+      <TableBase
+        {...props}
+        rows={[...rows, extra]}
+        defaultSortDescriptor={{ column: "name", direction: "descending" }}
+      />,
+    );
+    expect(names()).toEqual(["Delta", "Cirrus", "Borealis", "Aurora"]);
+  });
+
+  it("a descriptor for an unknown column does not crash", () => {
+    const gone = { column: "gone", direction: "ascending" } as const;
+    render(table({ defaultSortDescriptor: gone }));
+    expect(names()).toEqual(["Aurora", "Borealis", "Cirrus"]);
+    expect(header("Name")).toHaveAttribute("aria-sort", "none");
+  });
 });
