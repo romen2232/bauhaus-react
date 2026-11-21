@@ -45,7 +45,7 @@ export function LookRow({ row, large }: { row: RowSpec; large: boolean }) {
         <code className="normal-case">{row.exportNames.join(", ")}</code>
       </header>
       <div className="grid md:grid-cols-2">
-        <div className={`flex flex-wrap items-center gap-4 p-6 ${large ? "min-h-72 p-10" : "min-h-40"}`}>{row.demo}</div>
+        <div data-testid="demo" className={`flex flex-wrap items-center gap-4 p-6 ${large ? "min-h-72 p-10" : "min-h-40"}`}>{row.demo}</div>
         <div className={`relative ${CODE[key]}`}>
           <pre className="overflow-x-auto p-4 font-bh-mono text-xs leading-relaxed">
             <code>{row.snippet}</code>
