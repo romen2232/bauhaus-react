@@ -26,6 +26,11 @@ import { RadioGroupSwiss } from "./RadioGroupSwiss/RadioGroupSwiss";
 import { SwitchSwiss } from "./SwitchSwiss/SwitchSwiss";
 import { TableSwiss } from "./TableSwiss/TableSwiss";
 import type { TableColumn } from "../_base/Table/tableTypes";
+import { BarChartSwiss } from "./BarChartSwiss/BarChartSwiss";
+import { LineChartSwiss } from "./LineChartSwiss/LineChartSwiss";
+import { DonutChartSwiss } from "./DonutChartSwiss/DonutChartSwiss";
+import { SparklineSwiss } from "./SparklineSwiss/SparklineSwiss";
+import { BigNumber } from "../primitives/BigNumber/BigNumber";
 
 const meta: Meta = {
   title: "Swiss/Overview",
@@ -58,6 +63,23 @@ const projectColumns = (status: (row: Project) => ReactNode): TableColumn<Projec
   { id: "users", label: "Users", align: "end", allowsSorting: true },
   { id: "shipped", label: "Shipped", allowsSorting: true },
 ];
+
+const chartMonths = [
+  { label: "Jan", value: 12 },
+  { label: "Feb", value: 40 },
+  { label: "Mar", value: 25 },
+  { label: "Apr", value: 31 },
+];
+const chartSeries = [
+  { id: "visits", label: "Visits", data: chartMonths },
+  { id: "signups", label: "Signups", data: chartMonths.map((d) => ({ ...d, value: Math.round(d.value / 2) })) },
+];
+const chartSpend = [
+  { label: "Rent", value: 40 },
+  { label: "Food", value: 30 },
+  { label: "Fun", value: 30 },
+];
+const chartTrend = [4, 7, 5, 9, 8, 12, 11].map((value, i) => ({ label: `Day ${i + 1}`, value }));
 
 /** Every Swiss component on the paper-white ground, grouped by purpose. */
 export const AllComponents: StoryObj = {
@@ -186,6 +208,17 @@ export const AllComponents: StoryObj = {
           getRowId={(row) => row.id}
           defaultSortDescriptor={{ column: "users", direction: "descending" }}
         />
+      </Section>
+      <Section title="Charts">
+        <div className="grid gap-8 md:grid-cols-2">
+          <BarChartSwiss title="Visits per month" data={chartMonths} highlight="Feb" />
+          <LineChartSwiss title="Visits and signups" series={chartSeries} />
+          <DonutChartSwiss title="Spending by category" data={chartSpend} centerLabel="€100" centerCaption="Spent" />
+          <div className="flex items-end gap-4">
+            <BigNumber value="1,204" label="Signups" />
+            <SparklineSwiss title="Signups, last 7 days" hideTitle data={chartTrend} className="w-40" />
+          </div>
+        </div>
       </Section>
       <FooterSwiss columns={["Accounts", "Support", "Legal"]} bottom="© 2026 Konto" />
     </div>

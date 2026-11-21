@@ -1,7 +1,19 @@
 import * as lib from "./index";
 
 it("exposes the package version", () => {
-  expect(lib.VERSION).toBe("0.6.0");
+  expect(lib.VERSION).toBe("0.7.0");
+});
+
+it.each(["BarChart", "LineChart", "DonutChart", "Sparkline"])("exports the three %s skins", (name) => {
+  for (const look of ["Playful", "Soft", "Swiss"]) {
+    expect(typeof (lib as Record<string, unknown>)[`${name}${look}`]).toBe("function");
+  }
+});
+
+it("keeps the chart math internal", () => {
+  for (const internal of ["niceTicks", "linearScale", "bandLayout", "arcPath", "linePath", "pieAngles", "groupSlices", "ChartFrame"]) {
+    expect(lib).not.toHaveProperty(internal);
+  }
 });
 
 it("does not export internal bases", () => {
