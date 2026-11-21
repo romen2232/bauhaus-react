@@ -31,8 +31,7 @@ describe("registry", () => {
     expect(findEntry("does-not-exist")).toBeUndefined();
   });
 
-  // Gated until every group is written (Task 12); run early with REGISTRY_COMPLETE=1.
-  test.skipIf(process.env.REGISTRY_COMPLETE !== "1")("every library component is documented", () => {
+  test("every library component is documented", () => {
     const documented = new Set<string>();
     for (const entry of REGISTRY) {
       for (const look of Object.values(entry.looks ?? {})) documented.add(look.exportName);

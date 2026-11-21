@@ -160,7 +160,7 @@ export const NAVIGATION: DocEntry[] = [
     slug: "stepper",
     title: "Stepper",
     group: "Navigation",
-    purpose: "Shows progress through an ordered process, with the current step marked.",
+    purpose: "Vertical numbered dots joined by a dashed line. Colours can encode meaning.",
     principles: ["p4", "p5"],
     agnostic: {
       exportNames: ["Stepper"],
@@ -181,7 +181,7 @@ export const NAVIGATION: DocEntry[] = [
     slug: "arrow-link",
     title: "ArrowLink",
     group: "Navigation",
-    purpose: "A giant link with an arrow, for the big call to action at the end of a section.",
+    purpose: "A text link with a directional arrow, in sizes up to hero.",
     principles: ["p6", "p9"],
     agnostic: {
       exportNames: ["ArrowLink"],
@@ -199,6 +199,6 @@ export const NAVIGATION: DocEntry[] = [
     ],
     dos: ["Use one per section."],
     donts: ["Do not use it for minor links."],
-    a11y: ["A plain anchor: the arrow is decorative.", "Large sizes keep text at or above 24px."],
+    a11y: ["A plain anchor: the arrow is decorative."],
   },
 ];
