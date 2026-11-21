@@ -1,8 +1,8 @@
 import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import { routes } from "./routes";
 import "./styles.css";
 
-function App() {
-  return <h1>bauhaus-react</h1>;
-}
+const router = createBrowserRouter(routes, { basename: import.meta.env.BASE_URL.replace(/\/$/, "") });
 
-createRoot(document.getElementById("root")!).render(<App />);
+createRoot(document.getElementById("root")!).render(<RouterProvider router={router} />);
