@@ -205,7 +205,7 @@ export const FORMS: DocEntry[] = [
     slug: "number-stepper",
     title: "NumberStepper",
     group: "Forms",
-    purpose: "A large, padded counter numeral that shows a step in a sequence (01, 02, 03).",
+    purpose: "The current number in large type, with the next numbers ghosted behind it. Decorative.",
     principles: ["p6", "p9"],
     agnostic: {
       exportNames: ["NumberStepper"],
@@ -213,8 +213,8 @@ export const FORMS: DocEntry[] = [
       snippet: `${imports("NumberStepper")}\n\n<NumberStepper value={2} />`,
     },
     controls: [{ prop: "value", kind: "text", initial: "2" }],
-    dos: ["Use it to number steps or sections, in order."],
+    dos: ["Use it to number sections in order; ahead sets how many ghost numbers show."],
     donts: ["Do not use it as an editable number input."],
-    a11y: ["Display only: pair it with text that names the step.", "It is plain text, so it scales with the page."],
+    a11y: ["Decorative: pair it with text that names the step."],
   },
 ];

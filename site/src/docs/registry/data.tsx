@@ -165,7 +165,7 @@ export const DATA: DocEntry[] = [
     slug: "big-number",
     title: "BigNumber",
     group: "Data & charts",
-    purpose: "One headline figure in giant type, with a label and a caption.",
+    purpose: "A numeral as the hero, with an optional label above and a caption below.",
     principles: ["p6", "p9"],
     agnostic: {
       exportNames: ["BigNumber"],
@@ -184,7 +184,7 @@ export const DATA: DocEntry[] = [
     slug: "stat-columns",
     title: "StatColumns",
     group: "Data & charts",
-    purpose: "Several labelled figures side by side, each with an optional title and list.",
+    purpose: "A ruled row of stat columns: label, big value, title and sub-list.",
     principles: ["p8", "p6"],
     agnostic: {
       exportNames: ["StatColumns"],
@@ -209,7 +209,7 @@ export const DATA: DocEntry[] = [
     slug: "progress-rule",
     title: "ProgressRule",
     group: "Data & charts",
-    purpose: "A thin rule that fills to show progress.",
+    purpose: "A thin track with a filled segment.",
     principles: ["p9", "p4"],
     agnostic: {
       exportNames: ["ProgressRule"],
@@ -228,7 +228,7 @@ export const DATA: DocEntry[] = [
     slug: "index-counter",
     title: "IndexCounter",
     group: "Data & charts",
-    purpose: "A small \"01 / 12\" position marker for lists and carousels.",
+    purpose: "A zero-padded index like 01 or 01 / 12, announced as \"1 of 12\".",
     principles: ["p6", "p9"],
     agnostic: {
       exportNames: ["IndexCounter"],
@@ -241,7 +241,7 @@ export const DATA: DocEntry[] = [
     ],
     dos: ["Keep it next to the thing it counts."],
     donts: ["Do not use it as the only way to move between items."],
-    a11y: ["Plain text. Pair it with real navigation."],
+    a11y: ["Announced as \"1 of 12\". Pair it with real navigation."],
   },
   {
     slug: "timeline",

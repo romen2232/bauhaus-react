@@ -29,3 +29,10 @@ export const text = (values: PlaygroundValues, key: string): string => String(va
 export const flag = (values: PlaygroundValues, key: string): boolean => Boolean(values[key]);
 
 export const imports = (...names: string[]): string => `import { ${names.join(", ")} } from "bauhaus-react";`;
+
+const svg = (inner: string) => `data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">${inner}</svg>`)}`;
+
+/** A small Bauhaus composition used as demo imagery, so no image files are needed. */
+export const DEMO_IMAGE = svg(
+  '<rect width="120" height="120" fill="#f4efe6"/><circle cx="46" cy="46" r="34" fill="#1f5fd8"/><rect x="62" y="62" width="46" height="46" fill="#ea4535"/><polygon points="14,108 44,64 74,108" fill="#f5b62a"/>',
+);

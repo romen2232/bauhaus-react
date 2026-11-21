@@ -12,9 +12,9 @@ const EXPECTED: Record<Group, number> = {
   Overlays: 3,
   Navigation: 7,
   "Data & charts": 10,
-  "Media & cards": 0,
-  "Layout & type": 0,
-  Decoration: 0,
+  "Media & cards": 7,
+  "Layout & type": 7,
+  Decoration: 8,
 };
 
 const SEARCHES = ["", "?look=playful", "?look=swiss", "?look=soft"];
