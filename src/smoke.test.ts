@@ -1,7 +1,7 @@
 import * as lib from "./index";
 
 it("exposes the package version", () => {
-  expect(lib.VERSION).toBe("0.4.0");
+  expect(lib.VERSION).toBe("0.6.0");
 });
 
 it("does not export internal bases", () => {
@@ -86,4 +86,19 @@ it.each(["TextField", "TextArea", "Checkbox", "Switch", "RadioGroup", "Select", 
   for (const look of ["Playful", "Soft", "Swiss"]) {
     expect(typeof (lib as Record<string, unknown>)[`${name}${look}`]).toBe("function");
   }
+});
+
+it.each(["Playful", "Soft", "Swiss"])("exports Table%s", (look) => {
+  expect(typeof (lib as Record<string, unknown>)[`Table${look}`]).toBe("function");
+});
+
+it("does not export the Table base or the sort helpers", () => {
+  expect(lib).not.toHaveProperty("TableBase");
+  expect(lib).not.toHaveProperty("sortRows");
+});
+
+it("exposes the Table column type", () => {
+  const column: lib.TableColumn<{ name: string }> = { id: "name", label: "Name", allowsSorting: true };
+  const sort: lib.TableSortDescriptor = { column: "name", direction: "ascending" };
+  expect([column.id, sort.direction]).toEqual(["name", "ascending"]);
 });

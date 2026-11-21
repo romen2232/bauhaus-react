@@ -189,6 +189,9 @@ Swiss components use a `paper-white` ground, `ink` text and `muted-text` → `in
 | `CarouselSwiss` | Slide carousel with outlined arrows and a grotesk index + hairline progress pager |
 | `DateStripSwiss` | Single-select strip of days with an ink selection underline |
 | `AudioPlayerSwiss` | Audio player with a circular outlined play button, hairline track and square thumb |
+| `TablePlayful` | Framed table with a yellow header and hard shadow |
+| `TableSoft` | Tonal rows on a sand panel |
+| `TableSwiss` | Hairline table with tabular numerals |
 | `Shape` | Circle, quarter, half, triangle, square, bar; `fill`: solid, outline, pattern; optional `spin` |
 | `ShapeMosaic` | Edge-to-edge grid of shape tiles |
 | `Stamp` | Circular rotating text badge |
@@ -200,9 +203,9 @@ Swiss components use a `paper-white` ground, `ink` text and `muted-text` → `in
 
 Animated decoration (`spin`, `KineticRule`, `Wordmark`) only runs when the user has not asked for reduced motion.
 
-### Forms (0.5, in progress: forms first)
+### Forms
 
-Six inputs in each look: `TextField`, `TextArea`, `Select`, `Checkbox`, `RadioGroup` and `Switch` (18 components). The 0.5 release ships with the modal and toast plan; until then `VERSION` stays `0.4.0`.
+Six inputs in each look: `TextField`, `TextArea`, `Select`, `Checkbox`, `RadioGroup` and `Switch` (18 components).
 
 | Component | What it is |
 |---|---|
@@ -243,6 +246,28 @@ Invalid state never uses small red text (red on paper is about 3.3:1). Invalid t
 `Select` shows a "No options" message in its popover when `items` is empty.
 
 Soft fields and unchecked controls carry a 1px `charcoal` outline on the `sand` fill so the boundary reaches 3:1 non-text contrast (WCAG 1.4.11); the tonal fill alone is below that. Soft muted text is never placed on `sand`.
+
+### Table
+
+`TablePlayful`, `TableSoft` and `TableSwiss` render sortable data tables built on React Aria.
+
+```tsx
+import { TableSwiss, type TableColumn } from "bauhaus-react";
+
+const columns: TableColumn<Row>[] = [
+  { id: "name", label: "Name", isRowHeader: true, allowsSorting: true },
+  { id: "total", label: "Total", align: "end", allowsSorting: true, sortValue: (r) => r.total },
+];
+
+<TableSwiss aria-label="Orders" columns={columns} rows={rows} getRowId={(r) => r.id} />
+```
+
+- `columns`, `rows` and `getRowId` are required, and so is `aria-label`.
+- `TableColumn` fields: `render` (custom cell), `sortValue`, `align`, `isRowHeader` and `allowsSorting`.
+- Sorting is controlled (`sortDescriptor` + `onSortChange`) or uncontrolled (`defaultSortDescriptor`). Missing values always sort last, and activating a sorted column toggles ascending/descending.
+- Rows can link with `getRowHref` or act with `onRowAction`, not both.
+- Wide tables scroll horizontally inside their wrapper.
+- Status cells go through `render`, using `Tag`/`Chip` or plain text.
 
 ## Development
 
