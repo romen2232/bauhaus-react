@@ -24,6 +24,13 @@ export const SWISS_DISPLAY = "font-bh-grotesk font-normal tracking-[-0.03em]";
 export const SWISS_RAC_FOCUS =
   "outline-hidden data-[focus-visible]:outline-solid data-[focus-visible]:outline-2 data-[focus-visible]:outline-offset-2 data-[focus-visible]:outline-bh-ink";
 
+/**
+ * Table focus ring, shared by the three looks. The negative offset draws the ring inside the
+ * element so the table's `overflow-x-auto` wrapper never clips it.
+ */
+export const TABLE_RAC_FOCUS =
+  "outline-hidden data-[focus-visible]:outline-solid data-[focus-visible]:outline-2 data-[focus-visible]:-outline-offset-2 data-[focus-visible]:outline-bh-ink";
+
 /** Ink focus outline for every look's React Aria inputs that hide the native outline. */
 export const RAC_FOCUS = SWISS_RAC_FOCUS;
 

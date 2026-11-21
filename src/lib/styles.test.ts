@@ -1,4 +1,4 @@
-import { BOX_FOCUS, RAC_FOCUS, SWISS_DISPLAY, SWISS_LABEL, SWISS_MOTION, SWISS_RAC_FOCUS } from "./styles";
+import { BOX_FOCUS, RAC_FOCUS, SWISS_DISPLAY, SWISS_LABEL, SWISS_MOTION, SWISS_RAC_FOCUS, TABLE_RAC_FOCUS } from "./styles";
 
 it("Swiss strings carry the spec'd type and focus rules", () => {
   expect(SWISS_LABEL).toContain("tracking-[0.1em]");
@@ -10,4 +10,9 @@ it("Swiss strings carry the spec'd type and focus rules", () => {
 it("RAC_FOCUS reuses the Swiss ink outline and BOX_FOCUS is its group form", () => {
   expect(RAC_FOCUS).toBe(SWISS_RAC_FOCUS);
   expect(BOX_FOCUS).toContain("group-data-[focus-visible]:outline-solid");
+});
+
+it("TABLE_RAC_FOCUS draws the ring inside the scroll wrapper", () => {
+  expect(TABLE_RAC_FOCUS).toContain("data-[focus-visible]:outline-solid");
+  expect(TABLE_RAC_FOCUS).toContain("-outline-offset-2");
 });

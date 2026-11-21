@@ -191,3 +191,13 @@ it("Swiss radio: white dot on the ink fill and the ink ring on white (WCAG 1.4.1
   expect(contrast(SWISS_HEX.white, SWISS_HEX.ink)).toBeGreaterThanOrEqual(3);
   expect(contrast(SWISS_HEX.ink, SWISS_HEX.white)).toBeGreaterThanOrEqual(3);
 });
+
+// Table (Playful): header text on the yellow row, text on the hovered paper row, text on the white body.
+it("Playful table: ink on the yellow header and on the paper hover row meet AA", () => {
+  expect(contrast(HEX.ink, HEX.yellow)).toBeGreaterThanOrEqual(4.5);
+  expect(contrast(HEX.ink, HEX.paper)).toBeGreaterThanOrEqual(4.5);
+});
+
+it("Playful table: ink on the paper-white body meets AA", () => {
+  expect(contrast(HEX.ink, "#FFFFFF")).toBeGreaterThanOrEqual(4.5);
+});

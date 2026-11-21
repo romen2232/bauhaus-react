@@ -59,6 +59,7 @@ export * from "./components/playful/CheckboxPlayful/index.js";
 export * from "./components/playful/SwitchPlayful/index.js";
 export * from "./components/playful/RadioGroupPlayful/index.js";
 export * from "./components/playful/SelectPlayful/index.js";
+export * from "./components/playful/TablePlayful/index.js";
 
 // Soft look
 export * from "./components/soft/ButtonSoft/index.js";
