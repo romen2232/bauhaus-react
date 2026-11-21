@@ -1,6 +1,7 @@
 import { createRef } from "react";
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { RouterProvider } from "react-aria-components";
 import { TableBase } from "./TableBase";
 import type { TableBaseClasses, TableColumn } from "./tableTypes";
 
@@ -251,5 +252,62 @@ describe("sorting", () => {
     render(table({ defaultSortDescriptor: gone }));
     expect(names()).toEqual(["Aurora", "Borealis", "Cirrus"]);
     expect(header("Name")).toHaveAttribute("aria-sort", "none");
+  });
+});
+
+describe("row actions", () => {
+  const base = { "aria-label": "Projects", columns, getRowId, classes: c } as const;
+  const bodyRows = () => screen.getAllByRole("row").slice(1);
+
+  it("clicking a row calls onRowAction with the row object, and so does Enter", async () => {
+    const onRowAction = vi.fn();
+    render(<TableBase {...base} rows={rows} onRowAction={onRowAction} />);
+    await userEvent.click(screen.getByRole("rowheader", { name: "Borealis" }));
+    expect(onRowAction).toHaveBeenCalledWith(rows[1]);
+    onRowAction.mockClear();
+    bodyRows()[0]!.focus();
+    await userEvent.keyboard("{Enter}");
+    expect(onRowAction).toHaveBeenCalledWith(rows[0]);
+  });
+
+  it("onRowAction is not called for a row id that no longer exists", async () => {
+    const onRowAction = vi.fn();
+    const { rerender } = render(<TableBase {...base} rows={rows} onRowAction={onRowAction} />);
+    rerender(<TableBase {...base} rows={rows.slice(0, 1)} onRowAction={onRowAction} />);
+    expect(() => bodyRows()).not.toThrow();
+    expect(onRowAction).not.toHaveBeenCalled();
+  });
+
+  it("getRowHref navigates through the router", async () => {
+    const navigate = vi.fn();
+    render(
+      <RouterProvider navigate={navigate}>
+        <TableBase {...base} rows={rows} getRowHref={(r) => `/p/${r.name.toLowerCase()}`} />
+      </RouterProvider>,
+    );
+    await userEvent.click(screen.getByRole("rowheader", { name: "Aurora" }));
+    expect(navigate).toHaveBeenCalledWith("/p/aurora", undefined);
+  });
+
+  it("only actionable rows carry rowActionable", () => {
+    const plain = render(<TableBase {...base} rows={rows} />);
+    for (const row of bodyRows()) expect(row).not.toHaveClass("ra");
+    plain.unmount();
+    render(<TableBase {...base} rows={rows} onRowAction={() => {}} />);
+    for (const row of bodyRows()) expect(row).toHaveClass("ra");
+    expect(screen.getAllByRole("row")[0]).not.toHaveClass("ra");
+  });
+
+  it("no selection checkboxes are rendered", () => {
+    render(<TableBase {...base} rows={rows} onRowAction={() => {}} />);
+    expect(screen.queryAllByRole("checkbox")).toHaveLength(0);
+  });
+
+  it("rejects both getRowHref and onRowAction (type test)", () => {
+    const unused = () => (
+      // @ts-expect-error a table has links or actions, never both
+      <TableBase {...base} rows={rows} getRowHref={() => "/x"} onRowAction={() => {}} />
+    );
+    expect(typeof unused).toBe("function");
   });
 });

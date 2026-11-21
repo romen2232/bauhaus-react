@@ -27,10 +27,15 @@ export type TableLabelProps =
   | { "aria-label": string; "aria-labelledby"?: string }
   | { "aria-labelledby": string; "aria-label"?: string };
 
-export type TableBaseProps<T> = TableBaseOwnProps<T> & TableLabelProps;
+/** A table has row links or a row action, never both. No selection in 0.6. */
+export type TableRowActions<T> =
+  | { getRowHref?: (row: T) => string; onRowAction?: never }
+  | { onRowAction?: (row: T) => void; getRowHref?: never };
+
+export type TableBaseProps<T> = TableBaseOwnProps<T> & TableLabelProps & TableRowActions<T>;
 
 /** The shape every skin aliases (`Omit` would collapse the label union). */
-export type TableSkinProps<T> = Omit<TableBaseOwnProps<T>, "classes"> & TableLabelProps;
+export type TableSkinProps<T> = Omit<TableBaseOwnProps<T>, "classes"> & TableLabelProps & TableRowActions<T>;
 
 function defaultText(value: unknown): string {
   if (value === null || value === undefined) return "";
@@ -47,6 +52,8 @@ export function TableBase<T>({
   sortDescriptor,
   defaultSortDescriptor,
   onSortChange,
+  getRowHref,
+  onRowAction,
   className,
   ref,
   classes,
@@ -58,6 +65,8 @@ export function TableBase<T>({
   // A descriptor for a column that no longer exists degrades to unsorted.
   const sortColumn = requested ? columns.find((column) => column.id === requested.column) : undefined;
   const effective = requested && sortColumn ? requested : undefined;
+
+  const isActionable = Boolean(getRowHref || onRowAction);
 
   const displayRows = useMemo(
     () => (isControlled || !effective ? rows : sortRows(rows, sortColumn, effective.direction)),
@@ -71,6 +80,14 @@ export function TableBase<T>({
       <Table
         {...labelProps}
         className={classes.table}
+        onRowAction={
+          onRowAction
+            ? (key) => {
+                const row = rows.find((candidate) => getRowId(candidate) === String(key));
+                if (row !== undefined) onRowAction(row);
+              }
+            : undefined
+        }
         sortDescriptor={effective}
         onSortChange={(next) => {
           const descriptor: TableSortDescriptor = { column: String(next.column), direction: next.direction };
@@ -114,7 +131,13 @@ export function TableBase<T>({
           }
         >
           {(row) => (
-            <Row id={getRowId(row)} columns={columns} dependencies={[columns]} className={classes.row}>
+            <Row
+              id={getRowId(row)}
+              href={getRowHref?.(row)}
+              columns={columns}
+              dependencies={[columns]}
+              className={cn(classes.row, isActionable && classes.rowActionable)}
+            >
               {(column) => (
                 <Cell
                   className={cn(
