@@ -20,8 +20,8 @@ import {
 import type { Look, SingleLook } from "../../look/LookContext";
 
 export type HeroKit = {
-  Card: ComponentType<{ header?: ReactNode; children?: ReactNode }>;
-  Sparkline: ComponentType<{ title: string; data: { label: string; value: number }[]; hideTitle?: boolean }>;
+  Card: ComponentType<{ header?: ReactNode; children?: ReactNode; className?: string }>;
+  Sparkline: ComponentType<{ title: string; data: { label: string; value: number }[]; hideTitle?: boolean; className?: string }>;
   AudioPlayer: ComponentType<{ src: string; title: string }>;
   ToastRegion: ComponentType<{
     queue?: ToastQueueHandle;

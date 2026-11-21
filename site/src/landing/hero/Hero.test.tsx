@@ -84,3 +84,10 @@ test("shows the install command and copies it", async () => {
   await user.click(screen.getByRole("button", { name: /copy/i }));
   expect(await navigator.clipboard.readText()).toBe("pnpm add bauhaus-react");
 });
+
+test("the soft stat card sits on paper so the sparkline stays visible", () => {
+  renderHero("?look=soft");
+  const card = screen.getByText("Visits this week").closest("article");
+  expect(card).toHaveClass("bg-bh-paper");
+  expect(card).not.toHaveClass("bg-bh-charcoal");
+});

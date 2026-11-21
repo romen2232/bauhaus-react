@@ -13,7 +13,7 @@ export function InstallSteps() {
   return (
     <section aria-label="Install in 3 steps" className="border-t border-bh-ink bg-bh-paper px-4 py-12 md:px-8">
       <h2 className="font-bh-grotesk text-4xl tracking-[-0.03em] md:text-6xl">Install in 3 steps</h2>
-      <ol className="mt-8 grid gap-6 md:grid-cols-3">
+      <ol className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-6 md:grid-cols-3">
         {STEPS.map((step, i) => (
           <li key={step.title} className="flex flex-col gap-3">
             <span className="flex items-baseline justify-between font-bh-grotesk">

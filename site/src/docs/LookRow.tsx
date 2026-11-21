@@ -44,10 +44,10 @@ export function LookRow({ row, large }: { row: RowSpec; large: boolean }) {
         </span>
         <code className="normal-case">{row.exportNames.join(", ")}</code>
       </header>
-      <div className="grid md:grid-cols-2">
-        <div data-testid="demo" className={`flex flex-wrap items-center gap-4 p-6 ${large ? "min-h-72 p-10" : "min-h-40"}`}>{row.demo}</div>
-        <div className={`relative ${CODE[key]}`}>
-          <pre className="overflow-x-auto p-4 font-bh-mono text-xs leading-relaxed">
+      <div className="grid grid-cols-[minmax(0,1fr)] md:grid-cols-2">
+        <div data-testid="demo" className={`relative flex min-w-0 flex-wrap items-center gap-4 overflow-x-auto p-6 ${large ? "min-h-72 p-10" : "min-h-40"}`}>{row.demo}</div>
+        <div className={`relative min-w-0 ${CODE[key]}`}>
+          <pre className="overflow-x-auto p-4 pr-16 font-bh-mono text-xs leading-relaxed">
             <code>{row.snippet}</code>
           </pre>
           <CopyButton text={row.snippet} className="absolute right-3 top-3 font-bh-mono text-[11px] uppercase tracking-[0.1em] underline underline-offset-4" />

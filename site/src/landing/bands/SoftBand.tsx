@@ -22,15 +22,17 @@ export function SoftBand({ large }: { large: boolean }) {
       data-size={large ? "large" : "normal"}
       className={`mx-4 my-6 rounded-bh-soft bg-bh-sand md:mx-8 ${large ? "p-10 md:p-16" : "p-6 md:p-10"}`}
     >
-      <div className="grid gap-6 md:grid-cols-3">
-        <CardSoft header="Activity" className="md:col-span-2">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-6 md:grid-cols-3">
+        <CardSoft header="Activity" className="bg-bh-paper text-bh-ink md:col-span-2">
           <BarChartSoft title="Sessions this week" data={WEEK} height={180} />
         </CardSoft>
-        <CardSoft header="Sources">
+        <CardSoft header="Sources" className="bg-bh-paper text-bh-ink">
           <DonutChartSoft title="Traffic sources" data={SOURCES} />
         </CardSoft>
         <CardSoft header="Schedule" className="md:col-span-2">
-          <DateStripSoft label="Pick a day" start={new CalendarDate(2026, 11, 16)} days={7} defaultValue={new CalendarDate(2026, 11, 18)} />
+          <div className="relative overflow-x-auto">
+            <DateStripSoft label="Pick a day" start={new CalendarDate(2026, 11, 16)} days={7} defaultValue={new CalendarDate(2026, 11, 18)} />
+          </div>
         </CardSoft>
         <CardSoft header="Settings">
           <SwitchSoft label="Weekly digest" defaultSelected />

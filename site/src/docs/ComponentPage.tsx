@@ -70,7 +70,7 @@ export function ComponentPage({ entry }: { entry: DocEntry }) {
   ];
 
   return (
-    <div className="grid gap-10 px-4 py-8 md:px-8 xl:grid-cols-[minmax(0,1fr)_11rem]">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-10 px-4 py-8 md:px-8 xl:grid-cols-[minmax(0,1fr)_11rem]">
       <article className="flex min-w-0 flex-col gap-10">
         <header className="flex flex-col gap-3">
           <h1 className="font-bh-display text-5xl font-extrabold tracking-[-0.03em] md:text-7xl">{entry.title}</h1>

@@ -10,7 +10,7 @@ const ROWS = [
 export function SwissBand({ large }: { large: boolean }) {
   return (
     <section aria-label="Swiss" data-size={large ? "large" : "normal"} className="border-b border-bh-ink bg-bh-paper-white">
-      <div className={`grid gap-10 px-4 md:grid-cols-12 md:px-8 ${large ? "py-20" : "py-10"}`}>
+      <div className={`grid grid-cols-[minmax(0,1fr)] gap-10 px-4 md:grid-cols-12 md:px-8 ${large ? "py-20" : "py-10"}`}>
         <div className="md:col-span-7">
           <SectionLabel marker="A">Essay</SectionLabel>
           <DisplayHeading as="h3" size="xl" className="mt-4 font-bh-grotesk font-normal tracking-[-0.03em]">
