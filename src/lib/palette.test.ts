@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import {
   FILL_CLASSES, BG_CLASSES, HEX, TEXT_ON, type FillColor,
   SOFT_TONE_CLASSES, SOFT_TONE_TEXT_ON, SOFT_HEX, CURRENT_COLOR_CLASSES, SOFT_HOVER_CLASSES,
-  SWISS_HEX,
+  SWISS_HEX, SVG_FILL_CLASSES, SVG_STROKE_CLASSES, SOFT_TONE_SVG_FILL, SOFT_DONUT_TINTS,
 } from "./palette";
 import { PLAYFUL_CHECKED, SOFT_CHECKED } from "./fields";
 
@@ -215,4 +215,49 @@ it("Soft table: ink and charcoal header text on the sand panel, and ink on paper
 it("Swiss table: muted-text header and ink cells meet AA on white", () => {
   expect(contrast(SWISS_HEX.mutedText, SWISS_HEX.white)).toBeGreaterThanOrEqual(4.5);
   expect(contrast(SWISS_HEX.ink, SWISS_HEX.white)).toBeGreaterThanOrEqual(4.5);
+});
+
+const themeCss = readFileSync(resolve(import.meta.dirname, "../theme.css"), "utf8");
+
+it.each(colors)("SVG classes for %s match the theme token", (c) => {
+  expect(SVG_FILL_CLASSES[c]).toBe(`fill-bh-${c}`);
+  expect(SVG_STROKE_CLASSES[c]).toBe(`stroke-bh-${c}`);
+  expect(themeCss).toContain(`--color-bh-${c}:`);
+});
+it("Soft neutral SVG fill is charcoal", () => {
+  expect(SOFT_TONE_SVG_FILL.neutral).toBe("fill-bh-charcoal");
+});
+it("Soft donut tints are literal charcoal fills", () => {
+  expect(SOFT_DONUT_TINTS).toEqual(["fill-bh-charcoal", "fill-bh-charcoal/80", "fill-bh-charcoal/65"]);
+});
+
+// 1.4.11: meaningful marks reach 3:1, or are outlined/labelled (chart plan deviations 4-6)
+const PAPER = HEX.paper;
+it.each([
+  ["ink outline on paper", HEX.ink, PAPER],
+  ["charcoal mark on paper", SOFT_HEX.neutral, PAPER],
+  ["blue highlight on paper", SOFT_HEX.blue, PAPER],
+  ["red highlight on paper", SOFT_HEX.red, PAPER],
+  ["ink mark on white", SWISS_HEX.ink, SWISS_HEX.white],
+  ["accent mark on white", SWISS_HEX.accent, SWISS_HEX.white],
+  ["charcoal mark on white", SWISS_HEX.charcoal, SWISS_HEX.white],
+  ["muted-text dotted line on white", SWISS_HEX.mutedText, SWISS_HEX.white],
+])("%s meets 3:1", (_n, a, b) => {
+  expect(contrast(a, b)).toBeGreaterThanOrEqual(3);
+});
+it.each([
+  ["yellow", HEX.yellow],
+  ["sky", HEX.sky],
+  ["pink", HEX.pink],
+  ["orange", HEX.orange],
+])("documents that Playful %s needs its ink outline (below 3:1 on paper)", (_n, hex) => {
+  expect(contrast(hex, PAPER)).toBeLessThan(3);
+});
+it("documents that Soft yellow needs a direct label", () => {
+  expect(contrast(SOFT_HEX.yellow, PAPER)).toBeLessThan(3);
+});
+it("Soft donut tints stay at 3:1 or more on paper", () => {
+  for (const alpha of [1, 0.8, 0.65]) {
+    expect(contrast(mixSrgb(SOFT_HEX.neutral, PAPER, alpha), PAPER)).toBeGreaterThanOrEqual(3);
+  }
 });

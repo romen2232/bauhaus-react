@@ -20,6 +20,7 @@ const checks = [
   ["@theme", false], // raw Tailwind source must not leak into the output
   [".bg-bh-paper-white", true],
   [".min-w-\\(--trigger-width\\)", true], // Select popover width, only used by the form skins
+  [".fill-bh-ink", true], // chart marks: first drawn by BarChartSwiss
 ];
 
 let failed = false;

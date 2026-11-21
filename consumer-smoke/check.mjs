@@ -47,6 +47,13 @@ const expected = [
   ".data-\\[checked\\]\\:bg-bh-charcoal",
   ".data-\\[invalid\\]\\:border-bh-accent",
   ".min-w-\\(--trigger-width\\)",
+  // Charts (0.7): SVG fill/stroke utilities and the visually hidden data table.
+  ".fill-bh-red",
+  ".fill-bh-accent",
+  ".stroke-bh-ink",
+  ".stroke-bh-rule",
+  ".sr-only",
+  ".fill-bh-charcoal\\/80",
 ];
 
 let failed = false;
