@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { useSearchParams } from "react-router";
 
 export const LOOKS = ["mix", "playful", "swiss", "soft"] as const;
@@ -64,6 +64,24 @@ export function LookProvider({ children }: { children: ReactNode }) {
     },
     [setParams],
   );
+
+  // Keep the look in the URL: links and redirects drop the query, and an invalid value is cleaned up.
+  // A valid param is left alone, even when it differs from the state mid-update (see setLook).
+  const urlLook = params.get(PARAM);
+  useEffect(() => {
+    if (isLook(urlLook)) return;
+    const expected = look === "mix" ? null : look;
+    if (urlLook === expected) return;
+    setParams(
+      (prev) => {
+        const copy = new URLSearchParams(prev);
+        if (expected === null) copy.delete(PARAM);
+        else copy.set(PARAM, expected);
+        return copy;
+      },
+      { replace: true },
+    );
+  }, [urlLook, look, setParams]);
 
   const value = useMemo(() => ({ look, setLook }), [look, setLook]);
   return <LookContext.Provider value={value}>{children}</LookContext.Provider>;
