@@ -24,6 +24,7 @@ import { SwitchSoft } from "./SwitchSoft/SwitchSoft";
 import { RadioGroupSoft } from "./RadioGroupSoft/RadioGroupSoft";
 import { SelectSoft } from "./SelectSoft/SelectSoft";
 import { BarChartSoft } from "./BarChartSoft/BarChartSoft";
+import { LineChartSoft } from "./LineChartSoft/LineChartSoft";
 import userEvent from "@testing-library/user-event";
 
 // Soft look rules (spec §6.1): no borders, no hard shadow, no movement, yellow never as text.
@@ -35,6 +36,8 @@ const chartData = [
   { label: "Jan", value: 12 },
   { label: "Feb", value: 40 },
 ];
+
+const chartSeries = ["A", "B", "C"].map((id) => ({ id, label: id, data: chartData }));
 
 type LookCase = [string, ReactElement, { outline?: boolean }?];
 
@@ -85,6 +88,9 @@ const cases: LookCase[] = [
   ["SelectSoft selected", <SelectSoft label="Fruit" items={selectItems} defaultSelectedKey="a" />, { outline: true }],
   ["BarChartSoft", <BarChartSoft title="Visits" data={chartData} />],
   ["BarChartSoft highlighted", <BarChartSoft title="Visits" data={chartData} highlight="Feb" tone="yellow" />],
+  ["LineChartSoft", <LineChartSoft title="Visits" data={chartData} />],
+  ["LineChartSoft 3 series", <LineChartSoft title="Visits" series={chartSeries} />],
+  ["LineChartSoft highlighted", <LineChartSoft title="Visits" data={chartData} highlight="Feb" tone="yellow" />],
 ];
 
 it.each(cases)("%s follows the Soft look rules", (_name, element, options) => {
