@@ -8,3 +8,7 @@ node_modules/
 references/
 storybook-static/
 .claude/worktrees/
+site/dist/
+site/src/generated/
+site/dist/
+site/src/generated/
