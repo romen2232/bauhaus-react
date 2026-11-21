@@ -24,6 +24,11 @@ import { RadioGroupPlayful } from "./RadioGroupPlayful/RadioGroupPlayful";
 import { SwitchPlayful } from "./SwitchPlayful/SwitchPlayful";
 import { TablePlayful } from "./TablePlayful/TablePlayful";
 import type { TableColumn } from "../_base/Table/tableTypes";
+import { BarChartPlayful } from "./BarChartPlayful/BarChartPlayful";
+import { LineChartPlayful } from "./LineChartPlayful/LineChartPlayful";
+import { DonutChartPlayful } from "./DonutChartPlayful/DonutChartPlayful";
+import { SparklinePlayful } from "./SparklinePlayful/SparklinePlayful";
+import { BigNumber } from "../primitives/BigNumber/BigNumber";
 
 const meta: Meta = { title: "Playful/Overview" };
 export default meta;
@@ -52,6 +57,23 @@ const projectColumns = (status: (row: Project) => React.ReactNode): TableColumn<
   { id: "users", label: "Users", align: "end", allowsSorting: true },
   { id: "shipped", label: "Shipped", allowsSorting: true },
 ];
+
+const chartMonths = [
+  { label: "Jan", value: 12 },
+  { label: "Feb", value: 40 },
+  { label: "Mar", value: 25 },
+  { label: "Apr", value: 31 },
+];
+const chartSeries = [
+  { id: "visits", label: "Visits", data: chartMonths },
+  { id: "signups", label: "Signups", data: chartMonths.map((d) => ({ ...d, value: Math.round(d.value / 2) })) },
+];
+const chartSpend = [
+  { label: "Rent", value: 40 },
+  { label: "Food", value: 30 },
+  { label: "Fun", value: 30 },
+];
+const chartTrend = [4, 7, 5, 9, 8, 12, 11].map((value, i) => ({ label: `Day ${i + 1}`, value }));
 
 /** Every Playful component on the Playful ground. */
 export const AllComponents: StoryObj = {
@@ -151,6 +173,17 @@ export const AllComponents: StoryObj = {
           getRowId={(row) => row.id}
           defaultSortDescriptor={{ column: "users", direction: "descending" }}
         />
+      </Section>
+      <Section title="Charts">
+        <div className="grid gap-8 md:grid-cols-2">
+          <BarChartPlayful title="Visits per month" data={chartMonths} />
+          <LineChartPlayful title="Visits and signups" series={chartSeries} />
+          <DonutChartPlayful title="Spending by category" data={chartSpend} centerLabel="€100" centerCaption="Spent" />
+          <div className="flex items-end gap-4">
+            <BigNumber value="1,204" label="Signups" />
+            <SparklinePlayful title="Signups, last 7 days" hideTitle data={chartTrend} className="w-40" />
+          </div>
+        </div>
       </Section>
       <BottomNavPlayful
         label="Main"

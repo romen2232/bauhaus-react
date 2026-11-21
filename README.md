@@ -269,6 +269,35 @@ const columns: TableColumn<Row>[] = [
 - Wide tables scroll horizontally inside their wrapper.
 - Status cells go through `render`, using `Tag`/`Chip` or plain text.
 
+### Charts (0.7)
+
+Four charts in each look: `BarChart`, `LineChart`, `DonutChart` and `Sparkline` (12 components). They are hand-drawn SVG with no extra dependency.
+
+| Component | What it is |
+|---|---|
+| `BarChartPlayful` | Bars from `colors` with 2px ink outlines on an ink baseline |
+| `LineChartPlayful` | Up to three coloured lines over an ink casing |
+| `DonutChartPlayful` | Ring of coloured, ink-outlined slices with a centre numeral |
+| `SparklinePlayful` | Ink trend line ending in a coloured dot (`color`) |
+| `BarChartSoft` | Charcoal bars with one highlighted bar in a `tone` |
+| `LineChartSoft` | Charcoal lines told apart by dash pattern, one toned point |
+| `DonutChartSoft` | Charcoal-tint ring with one toned slice |
+| `SparklineSoft` | Charcoal trend line ending in a toned dot |
+| `BarChartSwiss` | Ink bars on 1px rule gridlines, one accent bar |
+| `LineChartSwiss` | 1px ink, charcoal and muted lines on rule gridlines |
+| `DonutChartSwiss` | Ink, charcoal and accent ring (at most 3 slices) |
+| `SparklineSwiss` | 1px ink trend line ending in an accent dot |
+
+Shared behaviour:
+
+- Every chart is a `<figure>` with a required `title` (`hideTitle` hides it visually; it stays the accessible name), a visually hidden data table holding the same values, and an `aria-hidden` SVG with nothing focusable inside.
+- Values come from the hover tooltip, the data table, or `showValues`. `Sparkline` has no tooltip or axes.
+- `highlight` takes a label. Playful takes `colors`, Soft takes `tone`. A highlighted mark always prints its value.
+- `DonutChart` draws at most 6 slices (Swiss 3) and groups the rest as "Other". `LineChart` takes up to 3 series through `series`, or one series through `data`.
+- The chart fills its container's width, so give the parent a width. `height` sets the chart height.
+- The types `ChartDatum` (`{ label, value }`) and `ChartSeries` (`{ id, label, data }`) are exported.
+- Consumers must let Tailwind scan the package (the `@source` line in Setup) so the `fill-bh-*` and `stroke-bh-*` classes exist.
+
 ## Development
 
 ```sh

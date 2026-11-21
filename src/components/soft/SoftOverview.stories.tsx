@@ -24,6 +24,11 @@ import { RadioGroupSoft } from "./RadioGroupSoft/RadioGroupSoft";
 import { SwitchSoft } from "./SwitchSoft/SwitchSoft";
 import { TableSoft } from "./TableSoft/TableSoft";
 import type { TableColumn } from "../_base/Table/tableTypes";
+import { BarChartSoft } from "./BarChartSoft/BarChartSoft";
+import { LineChartSoft } from "./LineChartSoft/LineChartSoft";
+import { DonutChartSoft } from "./DonutChartSoft/DonutChartSoft";
+import { SparklineSoft } from "./SparklineSoft/SparklineSoft";
+import { BigNumber } from "../primitives/BigNumber/BigNumber";
 
 const meta: Meta = { title: "Soft/Overview", parameters: { backgrounds: { default: "paper" } } };
 export default meta;
@@ -53,6 +58,23 @@ const projectColumns = (status: (row: Project) => React.ReactNode): TableColumn<
   { id: "users", label: "Users", align: "end", allowsSorting: true },
   { id: "shipped", label: "Shipped", allowsSorting: true },
 ];
+
+const chartMonths = [
+  { label: "Jan", value: 12 },
+  { label: "Feb", value: 40 },
+  { label: "Mar", value: 25 },
+  { label: "Apr", value: 31 },
+];
+const chartSeries = [
+  { id: "visits", label: "Visits", data: chartMonths },
+  { id: "signups", label: "Signups", data: chartMonths.map((d) => ({ ...d, value: Math.round(d.value / 2) })) },
+];
+const chartSpend = [
+  { label: "Rent", value: 40 },
+  { label: "Food", value: 30 },
+  { label: "Fun", value: 30 },
+];
+const chartTrend = [4, 7, 5, 9, 8, 12, 11].map((value, i) => ({ label: `Day ${i + 1}`, value }));
 
 /** Every Soft component on the Soft ground. */
 export const AllComponents: StoryObj = {
@@ -173,6 +195,17 @@ export const AllComponents: StoryObj = {
           getRowId={(row) => row.id}
           defaultSortDescriptor={{ column: "users", direction: "descending" }}
         />
+      </Section>
+      <Section title="Charts">
+        <div className="grid gap-8 md:grid-cols-2">
+          <BarChartSoft title="Visits per month" data={chartMonths} highlight="Feb" />
+          <LineChartSoft title="Visits and signups" series={chartSeries} />
+          <DonutChartSoft title="Spending by category" data={chartSpend} centerLabel="€100" centerCaption="Spent" />
+          <div className="flex items-end gap-4">
+            <BigNumber value="1,204" label="Signups" />
+            <SparklineSoft title="Signups, last 7 days" hideTitle data={chartTrend} className="w-40" />
+          </div>
+        </div>
       </Section>
       <FooterSoft columns={["Lorem", "Ipsum", "Dolor"]} bottom="© 2026 Lorem" />
     </div>
