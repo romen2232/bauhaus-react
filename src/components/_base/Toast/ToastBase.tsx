@@ -88,8 +88,11 @@ export function ToastBase({
               <Button
                 className={classes.action}
                 onPress={() => {
-                  content.action?.onAction();
-                  queue.close(t.key);
+                  try {
+                    content.action?.onAction();
+                  } finally {
+                    queue.close(t.key);
+                  }
                 }}
               >
                 {content.action.label}
