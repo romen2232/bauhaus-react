@@ -62,6 +62,7 @@ export * from "./components/playful/SelectPlayful/index.js";
 export * from "./components/playful/TablePlayful/index.js";
 export * from "./components/playful/BarChartPlayful/index.js";
 export * from "./components/playful/LineChartPlayful/index.js";
+export * from "./components/playful/DonutChartPlayful/index.js";
 
 // Soft look
 export * from "./components/soft/ButtonSoft/index.js";
@@ -89,6 +90,7 @@ export * from "./components/soft/SelectSoft/index.js";
 export * from "./components/soft/TableSoft/index.js";
 export * from "./components/soft/BarChartSoft/index.js";
 export * from "./components/soft/LineChartSoft/index.js";
+export * from "./components/soft/DonutChartSoft/index.js";
 
 // Swiss look
 export * from "./components/swiss/ButtonSwiss/index.js";
@@ -116,6 +118,7 @@ export * from "./components/swiss/SelectSwiss/index.js";
 export * from "./components/swiss/TableSwiss/index.js";
 export * from "./components/swiss/BarChartSwiss/index.js";
 export * from "./components/swiss/LineChartSwiss/index.js";
+export * from "./components/swiss/DonutChartSwiss/index.js";
 
 // Chart types
 export type { ChartDatum, ChartSeries } from "./lib/chartTypes.js";

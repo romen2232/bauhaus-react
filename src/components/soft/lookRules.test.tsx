@@ -25,6 +25,7 @@ import { RadioGroupSoft } from "./RadioGroupSoft/RadioGroupSoft";
 import { SelectSoft } from "./SelectSoft/SelectSoft";
 import { BarChartSoft } from "./BarChartSoft/BarChartSoft";
 import { LineChartSoft } from "./LineChartSoft/LineChartSoft";
+import { DonutChartSoft } from "./DonutChartSoft/DonutChartSoft";
 import userEvent from "@testing-library/user-event";
 
 // Soft look rules (spec §6.1): no borders, no hard shadow, no movement, yellow never as text.
@@ -38,6 +39,8 @@ const chartData = [
 ];
 
 const chartSeries = ["A", "B", "C"].map((id) => ({ id, label: id, data: chartData }));
+
+const donutMany = Array.from({ length: 8 }, (_, i) => ({ label: `Item ${i + 1}`, value: i + 1 }));
 
 type LookCase = [string, ReactElement, { outline?: boolean }?];
 
@@ -91,6 +94,9 @@ const cases: LookCase[] = [
   ["LineChartSoft", <LineChartSoft title="Visits" data={chartData} />],
   ["LineChartSoft 3 series", <LineChartSoft title="Visits" series={chartSeries} />],
   ["LineChartSoft highlighted", <LineChartSoft title="Visits" data={chartData} highlight="Feb" tone="yellow" />],
+  ["DonutChartSoft", <DonutChartSoft title="Spend" data={chartData} />],
+  ["DonutChartSoft highlighted", <DonutChartSoft title="Spend" data={chartData} highlight="Feb" tone="yellow" />],
+  ["DonutChartSoft grouped", <DonutChartSoft title="Spend" data={donutMany} showValues />],
 ];
 
 it.each(cases)("%s follows the Soft look rules", (_name, element, options) => {

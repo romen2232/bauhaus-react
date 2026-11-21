@@ -19,11 +19,12 @@ export type DonutChartClasses = Pick<
   ChartLookClasses,
   "root" | "caption" | "plot" | "tooltip" | "valueLabel" | "centre" | "centreCaption" | "legend"
 > & {
-  mark: (index: number, isHighlighted: boolean) => string;
+  /** `highlightIndex` is the highlighted slice (-1 for none), for skins whose colours depend on it. */
+  mark: (index: number, isHighlighted: boolean, highlightIndex: number) => string;
   /** Class of the empty ring drawn when the total is 0. */
   track: string;
   /** Class of a legend swatch; defaults to `mark`. */
-  swatch?: (index: number, isHighlighted: boolean) => string;
+  swatch?: (index: number, isHighlighted: boolean, highlightIndex: number) => string;
 };
 
 export type DonutChartBaseProps = DonutChartProps & {
@@ -83,7 +84,7 @@ export function DonutChartBase({
       {slices.map((s, i) => (
         <li key={i} data-chart-legend="" className="flex items-center gap-1.5">
           <svg width={10} height={10} viewBox="0 0 10 10" aria-hidden="true" className="shrink-0">
-            <rect x={1} y={1} width={8} height={8} className={swatchClass(i, i === highlightIndex)} />
+            <rect x={1} y={1} width={8} height={8} className={swatchClass(i, i === highlightIndex, highlightIndex)} />
           </svg>
           <span>{s.label}</span>
           {showValues && <span className={classes.valueLabel}>{display(s)}</span>}
@@ -127,7 +128,7 @@ export function DonutChartBase({
                 <path
                   key={`s${i}`}
                   data-chart-mark=""
-                  className={classes.mark(i, i === highlightIndex)}
+                  className={classes.mark(i, i === highlightIndex, highlightIndex)}
                   d={arcPath(round(cx), round(cy), outer, inner, start, end)}
                   onPointerEnter={() =>
                     setHover({ index: i, x: round(mid.x), y: round(mid.y - 6), text: `${s.label}: ${display(s)}` })
