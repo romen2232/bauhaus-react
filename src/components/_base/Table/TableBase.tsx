@@ -125,6 +125,7 @@ export function TableBase<T>({
         </TableHeader>
         <TableBody
           items={displayRows}
+          dependencies={[columns, getRowHref, isActionable]}
           className={classes.body}
           renderEmptyState={
             emptyState ? () => <div className={classes.empty}>{emptyState}</div> : undefined

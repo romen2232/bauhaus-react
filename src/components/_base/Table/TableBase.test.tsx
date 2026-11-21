@@ -298,6 +298,17 @@ describe("row actions", () => {
     expect(screen.getAllByRole("row")[0]).not.toHaveClass("ra");
   });
 
+  it("updates existing rows when getRowHref or onRowAction changes and rows stay stable", () => {
+    const { rerender } = render(<TableBase {...base} rows={rows} />);
+    for (const row of bodyRows()) expect(row).not.toHaveClass("ra");
+    rerender(<TableBase {...base} rows={rows} onRowAction={() => {}} />);
+    for (const row of bodyRows()) expect(row).toHaveClass("ra");
+    rerender(<TableBase {...base} rows={rows} getRowHref={(r) => `/a/${r.name}`} />);
+    expect(bodyRows()[0]).toHaveAttribute("data-href", "/a/Aurora");
+    rerender(<TableBase {...base} rows={rows} getRowHref={(r) => `/b/${r.name}`} />);
+    expect(bodyRows()[0]).toHaveAttribute("data-href", "/b/Aurora");
+  });
+
   it("no selection checkboxes are rendered", () => {
     render(<TableBase {...base} rows={rows} onRowAction={() => {}} />);
     expect(screen.queryAllByRole("checkbox")).toHaveLength(0);
