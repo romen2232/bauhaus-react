@@ -1,0 +1,17 @@
+@import "tailwindcss";
+@import "../../src/theme.css";
+@source "../../src";
+@source "./";
+
+@import "@fontsource/outfit/300.css";
+@import "@fontsource/outfit/400.css";
+@import "@fontsource/outfit/700.css";
+@import "@fontsource/outfit/800.css";
+@import "@fontsource-variable/inter";
+@import "@fontsource/inter-tight/400.css";
+
+body {
+  background: var(--color-bh-paper-white);
+  color: var(--color-bh-ink);
+  font-family: var(--font-bh-body);
+}
