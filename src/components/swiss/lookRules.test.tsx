@@ -27,6 +27,7 @@ import { TableSwiss } from "./TableSwiss/TableSwiss";
 import { BarChartSwiss } from "./BarChartSwiss/BarChartSwiss";
 import { LineChartSwiss } from "./LineChartSwiss/LineChartSwiss";
 import { DonutChartSwiss } from "./DonutChartSwiss/DonutChartSwiss";
+import { SparklineSwiss } from "./SparklineSwiss/SparklineSwiss";
 import userEvent from "@testing-library/user-event";
 
 const FORBIDDEN =
@@ -142,6 +143,8 @@ const cases: LookCase[] = [
   ["DonutChartSwiss", <DonutChartSwiss title="Spend" data={chartData} />],
   ["DonutChartSwiss highlighted", <DonutChartSwiss title="Spend" data={chartData} highlight="Feb" />],
   ["DonutChartSwiss grouped", <DonutChartSwiss title="Spend" data={donutMany} showValues />],
+  ["SparklineSwiss", <SparklineSwiss title="Trend" data={chartData} />],
+  ["SparklineSwiss highlighted", <SparklineSwiss title="Trend" data={chartData} highlight="Jan" />],
 ];
 
 it.each(cases)("%s follows the Swiss look rules", (_name, element, options) => {
