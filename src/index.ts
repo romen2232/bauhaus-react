@@ -60,6 +60,7 @@ export * from "./components/playful/SwitchPlayful/index.js";
 export * from "./components/playful/RadioGroupPlayful/index.js";
 export * from "./components/playful/SelectPlayful/index.js";
 export * from "./components/playful/TablePlayful/index.js";
+export * from "./components/playful/BarChartPlayful/index.js";
 
 // Soft look
 export * from "./components/soft/ButtonSoft/index.js";
@@ -85,6 +86,7 @@ export * from "./components/soft/SwitchSoft/index.js";
 export * from "./components/soft/RadioGroupSoft/index.js";
 export * from "./components/soft/SelectSoft/index.js";
 export * from "./components/soft/TableSoft/index.js";
+export * from "./components/soft/BarChartSoft/index.js";
 
 // Swiss look
 export * from "./components/swiss/ButtonSwiss/index.js";
@@ -110,6 +112,10 @@ export * from "./components/swiss/SwitchSwiss/index.js";
 export * from "./components/swiss/RadioGroupSwiss/index.js";
 export * from "./components/swiss/SelectSwiss/index.js";
 export * from "./components/swiss/TableSwiss/index.js";
+export * from "./components/swiss/BarChartSwiss/index.js";
+
+// Chart types
+export type { ChartDatum, ChartSeries } from "./lib/chartTypes.js";
 
 // Overlays
 export * from "./components/playful/ModalPlayful/index.js";
