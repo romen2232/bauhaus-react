@@ -23,12 +23,18 @@ import { CheckboxSoft } from "./CheckboxSoft/CheckboxSoft";
 import { SwitchSoft } from "./SwitchSoft/SwitchSoft";
 import { RadioGroupSoft } from "./RadioGroupSoft/RadioGroupSoft";
 import { SelectSoft } from "./SelectSoft/SelectSoft";
+import { BarChartSoft } from "./BarChartSoft/BarChartSoft";
 import userEvent from "@testing-library/user-event";
 
 // Soft look rules (spec §6.1): no borders, no hard shadow, no movement, yellow never as text.
-const FORBIDDEN = /^(border(-[xytrbl])?(-\d+)?|shadow-bh-hard.*|-?translate-.*|text-bh-yellow)$/;
+const FORBIDDEN =
+  /^(border(-[xytrbl])?(-\d+)?|shadow-bh-hard.*|-?translate-.*|text-bh-yellow|(fill|stroke)-bh-(navy|sky|pink|orange))$/;
 
 const selectItems = [{ id: "a", label: "Apple" }];
+const chartData = [
+  { label: "Jan", value: 12 },
+  { label: "Feb", value: 40 },
+];
 
 type LookCase = [string, ReactElement, { outline?: boolean }?];
 
@@ -77,6 +83,8 @@ const cases: LookCase[] = [
   ["SelectSoft", <SelectSoft label="Fruit" items={selectItems} />, { outline: true }],
   ["SelectSoft invalid", <SelectSoft label="Fruit" items={selectItems} isInvalid errorMessage="Required" />, { outline: true }],
   ["SelectSoft selected", <SelectSoft label="Fruit" items={selectItems} defaultSelectedKey="a" />, { outline: true }],
+  ["BarChartSoft", <BarChartSoft title="Visits" data={chartData} />],
+  ["BarChartSoft highlighted", <BarChartSoft title="Visits" data={chartData} highlight="Feb" tone="yellow" />],
 ];
 
 it.each(cases)("%s follows the Soft look rules", (_name, element, options) => {

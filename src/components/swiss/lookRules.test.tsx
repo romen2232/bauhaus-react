@@ -24,12 +24,17 @@ import { SwitchSwiss } from "./SwitchSwiss/SwitchSwiss";
 import { RadioGroupSwiss } from "./RadioGroupSwiss/RadioGroupSwiss";
 import { SelectSwiss } from "./SelectSwiss/SelectSwiss";
 import { TableSwiss } from "./TableSwiss/TableSwiss";
+import { BarChartSwiss } from "./BarChartSwiss/BarChartSwiss";
 import userEvent from "@testing-library/user-event";
 
 const FORBIDDEN =
   /^(border(-[xytrbl])?-(2|4|8)|divide-[xy]-(2|4|8)|shadow(-.*)?|-?translate-.*|text-bh-yellow|text-bh-accent|rounded-bh-soft|font-bh-(display|body)|font-(medium|semibold|bold|extrabold|black)|(bg|text|border|divide)-bh-(red|yellow|blue|navy|sky|pink|orange|sand|paper|teal|khaki))$/;
 
 const selectItems = [{ id: "a", label: "Apple" }];
+const chartData = [
+  { label: "Jan", value: 12 },
+  { label: "Feb", value: 40 },
+];
 
 type TableRow = { id: string; name: string; users: number };
 const tableColumns: import("../_base/Table/tableTypes").TableColumn<TableRow>[] = [
@@ -124,6 +129,8 @@ const cases: LookCase[] = [
       onRowAction={() => {}}
     />,
   ],
+  ["BarChartSwiss", <BarChartSwiss title="Visits" data={chartData} />],
+  ["BarChartSwiss highlighted", <BarChartSwiss title="Visits" data={chartData} highlight="Feb" />],
 ];
 
 it.each(cases)("%s follows the Swiss look rules", (_name, element, options) => {
