@@ -51,6 +51,32 @@ export const FILL_CLASSES: Record<FillColor, string> = {
   paper: "bg-bh-paper text-bh-ink",
 };
 
+/** SVG fill utilities (charts). Literal strings so the consumer's Tailwind can read them. */
+export const SVG_FILL_CLASSES: Record<FillColor, string> = {
+  red: "fill-bh-red",
+  yellow: "fill-bh-yellow",
+  blue: "fill-bh-blue",
+  navy: "fill-bh-navy",
+  sky: "fill-bh-sky",
+  pink: "fill-bh-pink",
+  orange: "fill-bh-orange",
+  ink: "fill-bh-ink",
+  paper: "fill-bh-paper",
+};
+
+/** SVG stroke utilities (charts). */
+export const SVG_STROKE_CLASSES: Record<FillColor, string> = {
+  red: "stroke-bh-red",
+  yellow: "stroke-bh-yellow",
+  blue: "stroke-bh-blue",
+  navy: "stroke-bh-navy",
+  sky: "stroke-bh-sky",
+  pink: "stroke-bh-pink",
+  orange: "stroke-bh-orange",
+  ink: "stroke-bh-ink",
+  paper: "stroke-bh-paper",
+};
+
 /** Soft look: the triad encodes meaning only (status, category, step). */
 export type SoftTone = "red" | "yellow" | "blue" | "neutral";
 
@@ -77,6 +103,17 @@ export const SOFT_TONE_CLASSES: Record<SoftTone, string> = {
   blue: "bg-bh-blue text-bh-paper",
   neutral: "bg-bh-charcoal text-bh-paper",
 };
+
+/** SVG fills for the Soft look; `neutral` is charcoal. */
+export const SOFT_TONE_SVG_FILL: Record<SoftTone, string> = {
+  red: "fill-bh-red",
+  yellow: "fill-bh-yellow",
+  blue: "fill-bh-blue",
+  neutral: "fill-bh-charcoal",
+};
+
+/** Soft donut slices cycle three charcoal tints (8.24, 4.86 and about 3.4 against paper). */
+export const SOFT_DONUT_TINTS = ["fill-bh-charcoal", "fill-bh-charcoal/80", "fill-bh-charcoal/65"] as const;
 
 /** Hex values mirrored from theme.css for the Swiss look; used for contrast tests. */
 export const SWISS_HEX = {
