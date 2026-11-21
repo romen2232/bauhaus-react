@@ -8,6 +8,7 @@ import { CheckboxPlayful } from "./CheckboxPlayful/CheckboxPlayful";
 import { SwitchPlayful } from "./SwitchPlayful/SwitchPlayful";
 import { RadioGroupPlayful } from "./RadioGroupPlayful/RadioGroupPlayful";
 import { SelectPlayful } from "./SelectPlayful/SelectPlayful";
+import { TablePlayful } from "./TablePlayful/TablePlayful";
 
 // In Tailwind 4.3, both `outline-none` and `outline-hidden` set --tw-outline-style: none, and
 // `data-[focus-visible]:outline-2` reads that variable, so the ring never shows (WCAG 2.4.7).
@@ -77,4 +78,27 @@ it("SelectPlayful keeps a visible focus ring on its trigger and options", async 
   await userEvent.click(trigger);
   expect(killsFocusRing(screen.getByRole("option", { name: "Apple" }))).toBe(false);
   expect(killsFocusRing(screen.getByRole("listbox"))).toBe(false);
+});
+
+it("TablePlayful keeps a visible focus ring on columns, rows and cells", () => {
+  render(
+    <TablePlayful
+      aria-label="Projects"
+      columns={[
+        { id: "name", label: "Name", allowsSorting: true },
+        { id: "users", label: "Users" },
+      ]}
+      rows={[{ name: "Aurora", users: 12 }]}
+      getRowId={(r) => r.name}
+      onRowAction={() => {}}
+    />,
+  );
+  const parts = [
+    ...screen.getAllByRole("columnheader"),
+    ...screen.getAllByRole("row"),
+    ...screen.getAllByRole("gridcell"),
+    ...screen.getAllByRole("rowheader"),
+  ];
+  for (const part of parts) expect(killsFocusRing(part)).toBe(false);
+  expect(screen.getAllByRole("gridcell")[0]!.className).toContain("data-[focus-visible]:outline-bh-ink");
 });
