@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { routes } from "../routes";
@@ -66,5 +66,24 @@ describe("site shell", () => {
     renderAt(path);
     expect(screen.getByRole("heading", { name: "Page not found" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /home/i })).toHaveAttribute("href", "/");
+  });
+
+  test("keeps the look in the URL while navigating", async () => {
+    const router = renderAt("/?look=swiss");
+    await userEvent.click(screen.getByRole("link", { name: "Docs" }));
+    await waitFor(() => expect(router.state.location.pathname).toBe("/docs/getting-started/install"));
+    await waitFor(() => expect(router.state.location.search).toContain("look=swiss"));
+  });
+
+  test("does not add a look param to the URL in mix", async () => {
+    const router = renderAt("/");
+    await userEvent.click(screen.getByRole("link", { name: "Docs" }));
+    await waitFor(() => expect(router.state.location.pathname).toBe("/docs/getting-started/install"));
+    expect(router.state.location.search).toBe("");
+  });
+
+  test("removes an invalid look param from the URL", async () => {
+    const router = renderAt("/?look=neon");
+    await waitFor(() => expect(router.state.location.search).toBe(""));
   });
 });

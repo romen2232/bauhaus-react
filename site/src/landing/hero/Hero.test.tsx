@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router";
 import { mockMatchMedia } from "../../../vitest.setup";
@@ -90,4 +90,14 @@ test("the soft stat card sits on paper so the sparkline stays visible", () => {
   const card = screen.getByText("Visits this week").closest("article");
   expect(card).toHaveClass("bg-bh-paper");
   expect(card).not.toHaveClass("bg-bh-charcoal");
+});
+
+test("quick repeated clicks always end on the selected look", () => {
+  renderHero("?look=playful");
+  // playful -> swiss -> soft -> playful, faster than one wipe.
+  for (let i = 0; i < 3; i++) act(() => screen.getByRole("button", { name: "Try it" }).click());
+  const wipe = screen.queryByTestId("shape-wipe");
+  if (wipe) fireEvent.animationEnd(wipe);
+  expect(screen.queryByTestId("shape-wipe")).toBeNull();
+  expect(app()).toHaveAttribute("data-look", "playful");
 });

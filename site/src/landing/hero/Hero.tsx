@@ -39,10 +39,11 @@ export function Hero() {
   const reduced = useReducedMotion();
   const target = heroLook(look);
   const [shown, setShown] = useState<SingleLook>(target);
-  const [wipe, setWipe] = useState<{ kind: WipeKind; to: SingleLook } | null>(null);
+  const [wipe, setWipe] = useState<{ id: number; kind: WipeKind; to: SingleLook } | null>(null);
   const [copied, setCopied] = useState(false);
   const [queue] = useState(() => createToastQueue());
   const shownRef = useRef(shown);
+  const targetRef = useRef(target);
   const wipes = useRef(0);
 
   useEffect(() => {
@@ -50,12 +51,18 @@ export function Hero() {
   }, [shown]);
 
   useEffect(() => {
-    if (target === shownRef.current) return;
+    targetRef.current = target;
+    if (target === shownRef.current) {
+      // Back on the look that is already shown (quick clicks): drop any wipe still heading elsewhere.
+      setWipe(null);
+      return;
+    }
     if (reduced) {
       setShown(target);
       return;
     }
-    setWipe({ kind: WIPE_KINDS[wipes.current++ % WIPE_KINDS.length]!, to: target });
+    const id = wipes.current++;
+    setWipe({ id, kind: WIPE_KINDS[id % WIPE_KINDS.length]!, to: target });
     const swap = setTimeout(() => setShown(target), WIPE_MS / 2);
     const clear = setTimeout(() => setWipe(null), WIPE_MS + 150);
     return () => {
@@ -111,7 +118,17 @@ export function Hero() {
           </kit.Card>
         </div>
         <kit.ToastRegion queue={queue} placement="bottom" className="absolute" />
-        {wipe && <ShapeWipe kind={wipe.kind} onDone={() => { setShown(wipe.to); setWipe(null); }} />}
+        {wipe && (
+          <ShapeWipe
+            key={wipe.id}
+            kind={wipe.kind}
+            onDone={() => {
+              // Always land on the look that is currently selected, not the one this wipe started for.
+              setShown(targetRef.current);
+              setWipe(null);
+            }}
+          />
+        )}
       </div>
     </section>
   );
