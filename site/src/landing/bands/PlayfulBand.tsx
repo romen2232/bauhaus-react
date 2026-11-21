@@ -11,7 +11,7 @@ export function PlayfulBand({ large }: { large: boolean }) {
         meta={["Portfolio", "Est. 2019", "Open for projects"]}
         action={<ButtonPlayful size="sm">Contact</ButtonPlayful>}
       />
-      <div className={`grid gap-8 px-4 md:grid-cols-[1.2fr_1fr] md:px-8 ${large ? "py-20" : "py-10"}`}>
+      <div className={`grid grid-cols-[minmax(0,1fr)] gap-8 px-4 md:grid-cols-[1.2fr_1fr] md:px-8 ${large ? "py-20" : "py-10"}`}>
         <div className="flex flex-col gap-6">
           <TagPlayful color="yellow">Selected work</TagPlayful>
           <h3 className="font-bh-display text-5xl font-extrabold uppercase leading-[0.9] tracking-[-0.03em] md:text-7xl">

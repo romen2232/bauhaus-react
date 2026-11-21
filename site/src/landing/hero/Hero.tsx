@@ -23,6 +23,8 @@ const PANEL: Record<SingleLook, string> = {
   swiss: "border border-bh-ink bg-bh-paper-white",
   soft: "rounded-bh-soft bg-bh-sand",
 };
+// Chart marks are drawn for light grounds: Soft's default charcoal card would hide the sparkline.
+const STAT_CARD: Record<SingleLook, string> = { playful: "", swiss: "", soft: "bg-bh-paper text-bh-ink" };
 const CODE: Record<SingleLook, string> = {
   playful: "border-2 border-bh-ink bg-bh-paper-white",
   swiss: "border border-bh-ink bg-bh-paper-white",
@@ -80,7 +82,7 @@ export function Hero() {
 
   return (
     <section aria-label="Introduction" className="grid items-center gap-10 bg-bh-paper px-4 py-10 md:grid-cols-2 md:px-8 md:py-16">
-      <div className="flex flex-col items-start gap-6">
+      <div className="flex min-w-0 flex-col items-start gap-6">
         <DisplayHeading as="h1" size="2xl" className="break-words">
           <span className="block">One idea.</span> <span className="block text-bh-red">Three looks.</span>
         </DisplayHeading>
@@ -98,11 +100,11 @@ export function Hero() {
         </div>
       </div>
 
-      <div data-testid="hero-app" data-look={shown} className={`relative overflow-hidden p-6 md:p-8 ${PANEL[shown]}`}>
+      <div data-testid="hero-app" data-look={shown} className={`relative min-w-0 overflow-hidden p-6 md:p-8 ${PANEL[shown]}`}>
         <div className="flex flex-col gap-5">
-          <kit.Card header="Visits this week">
+          <kit.Card header="Visits this week" className={STAT_CARD[shown]}>
             <p className="font-bh-display text-4xl font-bold">2,376</p>
-            <kit.Sparkline title="Visits per day" hideTitle data={VISITS} />
+            <kit.Sparkline title="Visits per day" hideTitle data={VISITS} className="w-full" />
           </kit.Card>
           <kit.Card>
             <kit.AudioPlayer src={`${import.meta.env.BASE_URL}silence.wav`} title="Demo track" />

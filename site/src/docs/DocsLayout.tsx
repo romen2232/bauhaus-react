@@ -20,7 +20,7 @@ export function DocsLayout() {
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
   return (
-    <div className="grid md:grid-cols-[15rem_minmax(0,1fr)]">
+    <div className="grid grid-cols-[minmax(0,1fr)] md:grid-cols-[15rem_minmax(0,1fr)]">
       <aside className="border-b border-bh-rule md:border-b-0 md:border-r">
         <button
           type="button"

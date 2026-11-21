@@ -22,13 +22,13 @@ const COMPONENTS: Components = {
     );
   },
   p: ({ children }) => <p className="leading-relaxed text-bh-charcoal">{children}</p>,
-  ul: ({ children }) => <ul className="list-disc pl-5 text-bh-charcoal">{children}</ul>,
+  ul: ({ children }) => <ul className="list-disc break-words pl-5 text-bh-charcoal">{children}</ul>,
   ol: ({ children }) => <ol className="list-decimal pl-5 text-bh-charcoal">{children}</ol>,
   hr: () => <hr className="border-bh-rule" />,
   code: ({ children }) => <code className="font-bh-mono text-[0.9em]">{children}</code>,
   a: ({ href, children }: ComponentProps<"a">) =>
     href?.startsWith("http") || href?.startsWith("#") ? (
-      <a href={href} className="underline underline-offset-4" {...(href.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : {})}>
+      <a href={href} className="break-words underline underline-offset-4 [overflow-wrap:anywhere]" {...(href.startsWith("http") ? { target: "_blank", rel: "noreferrer" } : {})}>
         {children}
       </a>
     ) : (
@@ -51,7 +51,7 @@ export function Principles() {
     if (hash) document.getElementById(hash.slice(1))?.scrollIntoView();
   }, [hash]);
   return (
-    <article className="flex max-w-4xl flex-col gap-4 px-4 py-8 md:px-8">
+    <article className="flex min-w-0 max-w-4xl flex-col gap-4 px-4 py-8 md:px-8">
       <ReactMarkdown remarkPlugins={[remarkGfm]} components={COMPONENTS}>
         {doc}
       </ReactMarkdown>

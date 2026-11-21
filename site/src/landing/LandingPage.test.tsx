@@ -85,3 +85,13 @@ test.each(["", "?look=playful", "?look=swiss", "?look=soft"])("renders without R
   expect(error.mock.calls.map((c) => String(c[0]).slice(0, 160))).toEqual([]);
   error.mockRestore();
 });
+
+test("soft charts sit on paper cards, not charcoal (their marks are drawn for light grounds)", () => {
+  renderLanding("?look=soft");
+  const soft = screen.getByRole("region", { name: "Soft" });
+  for (const title of ["Sessions this week", "Traffic sources"]) {
+    const card = within(soft).getAllByText(title)[0]!.closest("article");
+    expect(card, title).toHaveClass("bg-bh-paper");
+    expect(card, title).not.toHaveClass("bg-bh-charcoal");
+  }
+});
