@@ -10,6 +10,7 @@ import { CheckboxSwiss } from "./CheckboxSwiss/CheckboxSwiss";
 import { SwitchSwiss } from "./SwitchSwiss/SwitchSwiss";
 import { RadioGroupSwiss } from "./RadioGroupSwiss/RadioGroupSwiss";
 import { SelectSwiss } from "./SelectSwiss/SelectSwiss";
+import { TableSwiss } from "./TableSwiss/TableSwiss";
 
 // Tailwind 4.3 hides outlines through --tw-outline-style, so React Aria controls
 // that hide their outline must explicitly restore a solid style on focus.
@@ -88,4 +89,27 @@ it("SelectSwiss keeps a visible focus ring on its trigger, options and empty lis
   expect(killsFocusRing(screen.getByRole("option", { name: "Apple" }))).toBe(false);
   expect(killsFocusRing(screen.getByRole("listbox"))).toBe(false);
   unmount();
+});
+
+it("TableSwiss keeps a visible focus ring on columns, rows and cells", () => {
+  render(
+    <TableSwiss
+      aria-label="Projects"
+      columns={[
+        { id: "name", label: "Name", allowsSorting: true },
+        { id: "users", label: "Users" },
+      ]}
+      rows={[{ name: "Aurora", users: 12 }]}
+      getRowId={(r) => r.name}
+      onRowAction={() => {}}
+    />,
+  );
+  const parts = [
+    ...screen.getAllByRole("columnheader"),
+    ...screen.getAllByRole("row"),
+    ...screen.getAllByRole("gridcell"),
+    ...screen.getAllByRole("rowheader"),
+  ];
+  for (const part of parts) expect(killsFocusRing(part)).toBe(false);
+  expect(screen.getAllByRole("gridcell")[0]!.className).toContain("data-[focus-visible]:outline-bh-ink");
 });

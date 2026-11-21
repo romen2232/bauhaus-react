@@ -209,3 +209,10 @@ it("Soft table: ink and charcoal header text on the sand panel, and ink on paper
   expect(contrast(SOFT_HEX.neutral, SOFT_HEX.sand)).toBeGreaterThanOrEqual(4.5);
   expect(contrast(HEX.ink, HEX.paper)).toBeGreaterThanOrEqual(4.5);
 });
+
+// Table (Swiss): header and cells read on white. The `rule` hairlines are decorative; the content
+// stays readable without them, so they carry no contrast requirement.
+it("Swiss table: muted-text header and ink cells meet AA on white", () => {
+  expect(contrast(SWISS_HEX.mutedText, SWISS_HEX.white)).toBeGreaterThanOrEqual(4.5);
+  expect(contrast(SWISS_HEX.ink, SWISS_HEX.white)).toBeGreaterThanOrEqual(4.5);
+});

@@ -1,5 +1,5 @@
 import type { TableBaseClasses } from "../components/_base/Table/tableTypes.js";
-import { TABLE_RAC_FOCUS } from "./styles.js";
+import { SWISS_LABEL, SWISS_MOTION, TABLE_RAC_FOCUS } from "./styles.js";
 
 /** Playful table: framed, yellow header row, 2px ink row rules. Static literals only. */
 export const TABLE_PLAYFUL_CLASSES: TableBaseClasses = {
@@ -33,4 +33,21 @@ export const TABLE_SOFT_CLASSES: TableBaseClasses = {
   rowHeaderCell: "font-bh-display",
   alignEnd: "text-end tabular-nums",
   empty: "p-6 text-center font-bh-body",
+};
+
+/** Swiss table: no frame, 1px ink header rule, 1px hairline row rules, tabular numerals. */
+export const TABLE_SWISS_CLASSES: TableBaseClasses = {
+  wrapper: "overflow-x-auto bg-transparent",
+  table: "w-full border-collapse font-bh-grotesk text-sm font-normal text-bh-ink",
+  header: "",
+  column: `border-b border-bh-ink px-4 pt-3 pb-2 text-start text-bh-muted-text ${SWISS_LABEL} ${SWISS_MOTION} ${TABLE_RAC_FOCUS}`,
+  columnSorted: "text-bh-ink",
+  sortIcon: "ml-2",
+  body: "",
+  row: `border-b border-bh-rule ${TABLE_RAC_FOCUS}`,
+  rowActionable: "cursor-pointer data-[hovered]:bg-bh-rule/50",
+  cell: `px-4 py-3 ${TABLE_RAC_FOCUS}`,
+  rowHeaderCell: "",
+  alignEnd: "text-end tabular-nums",
+  empty: "p-6 text-center text-bh-muted-text",
 };
