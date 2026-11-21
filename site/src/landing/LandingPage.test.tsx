@@ -78,3 +78,10 @@ test("install steps show the three commands", () => {
   expect(text).toContain('import { ButtonPlayful } from "bauhaus-react"');
   expect(within(install).getAllByRole("button", { name: /copy/i })).toHaveLength(3);
 });
+
+test.each(["", "?look=playful", "?look=swiss", "?look=soft"])("renders without React warnings (%s)", (search) => {
+  const error = vi.spyOn(console, "error").mockImplementation(() => {});
+  renderLanding(search);
+  expect(error.mock.calls.map((c) => String(c[0]).slice(0, 160))).toEqual([]);
+  error.mockRestore();
+});

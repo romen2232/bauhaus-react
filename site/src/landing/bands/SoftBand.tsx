@@ -41,9 +41,9 @@ export function SoftBand({ large }: { large: boolean }) {
         showLabels
         className="mt-6"
         items={[
-          { href: "#", label: "Home", icon: "●", current: true },
-          { href: "#", label: "Stats", icon: "■" },
-          { href: "#", label: "Plan", icon: "▲" },
+          { href: "#home", label: "Home", icon: "●", current: true },
+          { href: "#stats", label: "Stats", icon: "■" },
+          { href: "#plan", label: "Plan", icon: "▲" },
         ]}
       />
     </section>

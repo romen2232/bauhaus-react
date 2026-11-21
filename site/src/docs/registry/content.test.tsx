@@ -10,8 +10,8 @@ const EXPECTED: Record<Group, number> = {
   Actions: 5,
   Forms: 8,
   Overlays: 3,
-  Navigation: 0,
-  "Data & charts": 0,
+  Navigation: 7,
+  "Data & charts": 10,
   "Media & cards": 0,
   "Layout & type": 0,
   Decoration: 0,
@@ -49,7 +49,7 @@ describe.each(REGISTRY.map((e) => [e.slug, e] as const))("%s", (_slug, entry) =>
       </MemoryRouter>,
     );
     for (const demo of screen.getAllByTestId("demo")) expect(demo.children.length).toBeGreaterThan(0);
-    expect(error).not.toHaveBeenCalled();
+    expect(error.mock.calls.map((c) => String(c[0]).slice(0, 220))).toEqual([]);
     error.mockRestore();
   });
 });
