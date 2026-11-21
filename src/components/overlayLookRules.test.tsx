@@ -1,29 +1,51 @@
 import type { ReactElement } from "react";
-import { render } from "@testing-library/react";
+import { act, render } from "@testing-library/react";
+import { createToastQueue } from "../lib/toast";
 import { ModalSwiss } from "./swiss/ModalSwiss/ModalSwiss";
 import { ModalSoft } from "./soft/ModalSoft/ModalSoft";
 import { ModalPlayful } from "./playful/ModalPlayful/ModalPlayful";
+import { ToastRegionPlayful } from "./playful/ToastRegionPlayful/ToastRegionPlayful";
+import { ToastRegionSoft } from "./soft/ToastRegionSoft/ToastRegionSoft";
+import { ToastRegionSwiss } from "./swiss/ToastRegionSwiss/ToastRegionSwiss";
 
 type Look = "playful" | "soft" | "swiss";
-type LookCase = [string, ReactElement];
+type LookCase = [string, ReactElement, (() => void)?];
+
+/** A toast skin with one toast (carrying an action, so every part renders) added in an `act`. */
+const toastCase = (name: string, Region: (p: { queue: ReturnType<typeof createToastQueue> }) => ReactElement): LookCase => {
+  const q = createToastQueue();
+  return [
+    name,
+    <Region queue={q} />,
+    () => {
+      act(() => {
+        q({ title: "Saved", description: "Done", action: { label: "Undo", onAction: () => {} } });
+      });
+    },
+  ];
+};
 
 const footer = <span>Footer</span>;
 
 const cases: Record<Look, LookCase[]> = {
   playful: [
     ["ModalPlayful", <ModalPlayful title="T" defaultOpen footer={footer}>Body</ModalPlayful>],
+    toastCase("ToastRegionPlayful", ToastRegionPlayful),
   ],
   soft: [
     ["ModalSoft", <ModalSoft title="T" defaultOpen footer={footer}>Body</ModalSoft>],
+    toastCase("ToastRegionSoft", ToastRegionSoft),
   ],
   swiss: [
     ["ModalSwiss", <ModalSwiss title="T" defaultOpen footer={footer}>Body</ModalSwiss>],
+    toastCase("ToastRegionSwiss", ToastRegionSwiss),
   ],
 };
 
 // Overlays portal into document.body, so scan the whole body, not the render container.
-const tokensOf = (ui: ReactElement): string[] => {
+const tokensOf = (ui: ReactElement, setup?: () => void): string[] => {
   const { unmount } = render(ui);
+  setup?.();
   const out = new Set<string>();
   for (const el of document.body.querySelectorAll("*")) {
     for (const token of (el.getAttribute("class") ?? "").split(/\s+/).filter(Boolean)) {
@@ -70,6 +92,28 @@ describe("Swiss border allow-list matcher", () => {
   });
 });
 
+describe("Playful and Swiss matchers on toast-relevant tokens", () => {
+  it.each(["rounded-full", "rounded-bh-soft", "font-bold", "text-bh-yellow", "backdrop-blur-sm"])("playful flags %s", (t) => {
+    expect(FORBIDDEN.playful.test(t)).toBe(true);
+  });
+  it.each(["rounded-none", "font-black", "shadow-bh-hard", "border-2"])("playful allows %s", (t) => {
+    expect(FORBIDDEN.playful.test(t)).toBe(false);
+  });
+  it.each(["shadow-bh-hard", "-translate-y-3", "translate-y-2", "rounded-full", "bg-bh-blue", "bg-bh-charcoal", "text-bh-paper", "border-bh-red", "text-bh-accent"])(
+    "swiss flags %s",
+    (t) => {
+      expect(FORBIDDEN.swiss.test(t)).toBe(true);
+    },
+  );
+  it.each(["bg-bh-paper-white", "text-bh-ink", "border-bh-ink", "opacity-0", "underline"])("swiss allows %s", (t) => {
+    expect(FORBIDDEN.swiss.test(t)).toBe(false);
+  });
+  it("variant prefixes are stripped, so a translate hidden behind motion-safe:starting: is still caught", () => {
+    expect("motion-safe:starting:-translate-y-3".split(":").pop()).toBe("-translate-y-3");
+    expect(FORBIDDEN.swiss.test("motion-safe:starting:-translate-y-3".split(":").pop() as string)).toBe(true);
+  });
+});
+
 describe("Soft look matcher", () => {
   it.each([
     "shadow", "shadow-sm", "shadow-lg", "shadow-bh-hard", "shadow-bh-hard-lg",
@@ -81,8 +125,8 @@ describe("Soft look matcher", () => {
 
 for (const look of ["playful", "soft", "swiss"] as const) {
   describe(`${look} overlay look rules`, () => {
-    it.each(cases[look])("%s", (_name, ui) => {
-      const tokens = tokensOf(ui);
+    it.each(cases[look])("%s", (_name, ui, setup) => {
+      const tokens = tokensOf(ui, setup);
       expect(tokens.length).toBeGreaterThan(0);
       expect(tokens.filter((t) => FORBIDDEN[look].test(t))).toEqual([]);
       if (look === "swiss") expect(swissBorderViolations(tokens)).toEqual([]);

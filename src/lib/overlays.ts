@@ -30,6 +30,14 @@ const SOFT_MOTION =
 const SWISS_WIPE =
   "motion-safe:transition-[clip-path,opacity] motion-safe:duration-200 motion-safe:ease-out motion-safe:data-[entering]:[clip-path:inset(0_0_100%_0)] motion-safe:data-[exiting]:opacity-0";
 
+// Toasts enter with `starting:` (CSS @starting-style) and have no exit animation: React Aria unmounts a closed toast immediately.
+const PLAYFUL_TOAST_MOTION =
+  "motion-safe:transition-[opacity,translate] motion-safe:duration-150 motion-safe:ease-out motion-safe:starting:opacity-0 motion-safe:starting:-translate-y-3";
+const SOFT_TOAST_MOTION =
+  "motion-safe:transition-[opacity,translate] motion-safe:duration-200 motion-safe:ease-out motion-safe:starting:opacity-0 motion-safe:starting:translate-y-2";
+const SWISS_TOAST_WIPE =
+  "motion-safe:transition-[clip-path] motion-safe:duration-200 motion-safe:ease-out motion-safe:starting:[clip-path:inset(0_0_100%_0)]";
+
 // Focus ring for controls inside a toast: it follows the toast's own text colour (Playful) or `paper` (Soft).
 const RING_BASE =
   "outline-hidden data-[focus-visible]:outline-solid data-[focus-visible]:outline-2 data-[focus-visible]:outline-offset-2";
@@ -80,7 +88,7 @@ export const TOAST_CLASSES: Record<OverlayLook, ToastClassSet> = {
     description: "font-bh-body text-xs font-normal normal-case",
     action: `${PLAYFUL_TOAST_RING} font-bh-display text-xs font-black uppercase underline underline-offset-4`,
     close: `${PLAYFUL_TOAST_RING} font-bh-display text-lg font-black`,
-    motion: PLAYFUL_MOTION,
+    motion: PLAYFUL_TOAST_MOTION,
   },
   soft: {
     toast: "rounded-full bg-bh-charcoal text-bh-paper",
@@ -89,7 +97,7 @@ export const TOAST_CLASSES: Record<OverlayLook, ToastClassSet> = {
     description: "font-bh-body text-xs font-normal",
     action: `${SOFT_TOAST_RING} font-bh-display text-sm font-normal underline underline-offset-4`,
     close: `${SOFT_TOAST_RING} font-bh-display text-lg font-normal`,
-    motion: SOFT_MOTION,
+    motion: SOFT_TOAST_MOTION,
   },
   swiss: {
     toast: "bg-bh-paper-white text-bh-ink border-t-2 border-bh-ink",
@@ -98,6 +106,6 @@ export const TOAST_CLASSES: Record<OverlayLook, ToastClassSet> = {
     description: "font-bh-grotesk text-sm",
     action: `${SWISS_RAC_FOCUS} ${SWISS_LABEL} underline underline-offset-4 decoration-1`,
     close: `${SWISS_RAC_FOCUS} font-bh-grotesk text-lg font-normal`,
-    motion: SWISS_WIPE,
+    motion: SWISS_TOAST_WIPE,
   },
 };
