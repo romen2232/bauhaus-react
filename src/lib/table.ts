@@ -17,3 +17,20 @@ export const TABLE_PLAYFUL_CLASSES: TableBaseClasses = {
   alignEnd: "text-end tabular-nums",
   empty: "p-6 text-center font-bh-body",
 };
+
+/** Soft table: rows on a sand panel, alternate rows lightened, no rules. */
+export const TABLE_SOFT_CLASSES: TableBaseClasses = {
+  wrapper: "overflow-x-auto rounded-bh-soft bg-bh-sand p-2",
+  table: "w-full border-collapse font-bh-body text-sm text-bh-ink",
+  header: "",
+  column: `px-4 py-3 text-start font-bh-display text-sm font-normal text-bh-charcoal ${TABLE_RAC_FOCUS}`,
+  columnSorted: "text-bh-ink",
+  sortIcon: "ml-2",
+  body: "",
+  row: `odd:bg-bh-paper/50 ${TABLE_RAC_FOCUS}`,
+  rowActionable: "cursor-pointer data-[hovered]:bg-bh-paper/80",
+  cell: `px-4 py-3 ${TABLE_RAC_FOCUS}`,
+  rowHeaderCell: "font-bh-display",
+  alignEnd: "text-end tabular-nums",
+  empty: "p-6 text-center font-bh-body",
+};
