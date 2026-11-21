@@ -32,6 +32,8 @@ export type ChartFrameProps = {
   classes: Pick<ChartLookClasses, "root" | "caption" | "plot" | "tooltip">;
   className?: string;
   ref?: Ref<HTMLElement>;
+  /** Optional decorative content shown under the plot (a legend). Must be `aria-hidden`. */
+  after?: ReactNode;
   /** Draws the SVG content for the measured width. */
   children: (width: number) => ReactNode;
 };
@@ -40,7 +42,7 @@ export type ChartFrameProps = {
  * Internal: the shared accessible chart shell. A named `<figure>`, an `aria-hidden` SVG (nothing
  * focusable inside), an optional hover tooltip and a visually hidden data table with the same values.
  */
-export function ChartFrame({ title, hideTitle, height, table, tooltip, classes, className, ref, children }: ChartFrameProps) {
+export function ChartFrame({ title, hideTitle, height, table, tooltip, classes, className, ref, after, children }: ChartFrameProps) {
   const captionId = useId();
   const plotRef = useRef<HTMLDivElement>(null);
   const width = useMeasuredWidth(plotRef);
@@ -64,6 +66,7 @@ export function ChartFrame({ title, hideTitle, height, table, tooltip, classes, 
           </div>
         )}
       </div>
+      {after}
       <table className="sr-only">
         <caption>{title}</caption>
         <thead>
