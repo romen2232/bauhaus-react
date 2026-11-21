@@ -23,12 +23,20 @@ import { CheckboxSwiss } from "./CheckboxSwiss/CheckboxSwiss";
 import { SwitchSwiss } from "./SwitchSwiss/SwitchSwiss";
 import { RadioGroupSwiss } from "./RadioGroupSwiss/RadioGroupSwiss";
 import { SelectSwiss } from "./SelectSwiss/SelectSwiss";
+import { TableSwiss } from "./TableSwiss/TableSwiss";
 import userEvent from "@testing-library/user-event";
 
 const FORBIDDEN =
   /^(border(-[xytrbl])?-(2|4|8)|divide-[xy]-(2|4|8)|shadow(-.*)?|-?translate-.*|text-bh-yellow|text-bh-accent|rounded-bh-soft|font-bh-(display|body)|font-(medium|semibold|bold|extrabold|black)|(bg|text|border|divide)-bh-(red|yellow|blue|navy|sky|pink|orange|sand|paper|teal|khaki))$/;
 
 const selectItems = [{ id: "a", label: "Apple" }];
+
+type TableRow = { id: string; name: string; users: number };
+const tableColumns: import("../_base/Table/tableTypes").TableColumn<TableRow>[] = [
+  { id: "name", label: "Name", allowsSorting: true },
+  { id: "users", label: "Users", align: "end" },
+];
+const tableRows: TableRow[] = [{ id: "a", name: "Aurora", users: 12 }];
 
 type LookCase = [string, ReactElement, { pill?: boolean }?];
 
@@ -106,6 +114,16 @@ const cases: LookCase[] = [
   ["SelectSwiss", <SelectSwiss label="Fruit" items={selectItems} />],
   ["SelectSwiss invalid", <SelectSwiss label="Fruit" items={selectItems} isInvalid errorMessage="Required" />],
   ["SelectSwiss selected", <SelectSwiss label="Fruit" items={selectItems} defaultSelectedKey="a" />],
+  [
+    "TableSwiss",
+    <TableSwiss
+      aria-label="Projects"
+      columns={tableColumns}
+      rows={tableRows}
+      getRowId={(r) => r.id}
+      onRowAction={() => {}}
+    />,
+  ],
 ];
 
 it.each(cases)("%s follows the Swiss look rules", (_name, element, options) => {

@@ -109,6 +109,7 @@ export * from "./components/swiss/CheckboxSwiss/index.js";
 export * from "./components/swiss/SwitchSwiss/index.js";
 export * from "./components/swiss/RadioGroupSwiss/index.js";
 export * from "./components/swiss/SelectSwiss/index.js";
+export * from "./components/swiss/TableSwiss/index.js";
 
 // Overlays
 export * from "./components/playful/ModalPlayful/index.js";
