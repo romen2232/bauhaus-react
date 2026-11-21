@@ -10,6 +10,7 @@ import { CheckboxSoft } from "./CheckboxSoft/CheckboxSoft";
 import { SwitchSoft } from "./SwitchSoft/SwitchSoft";
 import { RadioGroupSoft } from "./RadioGroupSoft/RadioGroupSoft";
 import { SelectSoft } from "./SelectSoft/SelectSoft";
+import { TableSoft } from "./TableSoft/TableSoft";
 
 // Same guard as playful/focusRing.test.tsx: in Tailwind 4.3, `outline-none`/`outline-hidden` set
 // --tw-outline-style: none, so a React Aria control that hides the outline must restore the style.
@@ -84,4 +85,27 @@ it("SelectSoft keeps a visible focus ring on its trigger, options and empty list
   expect(killsFocusRing(screen.getByRole("option", { name: "Apple" }))).toBe(false);
   expect(killsFocusRing(screen.getByRole("listbox"))).toBe(false);
   unmount();
+});
+
+it("TableSoft keeps a visible focus ring on columns, rows and cells", () => {
+  render(
+    <TableSoft
+      aria-label="Projects"
+      columns={[
+        { id: "name", label: "Name", allowsSorting: true },
+        { id: "users", label: "Users" },
+      ]}
+      rows={[{ name: "Aurora", users: 12 }]}
+      getRowId={(r) => r.name}
+      onRowAction={() => {}}
+    />,
+  );
+  const parts = [
+    ...screen.getAllByRole("columnheader"),
+    ...screen.getAllByRole("row"),
+    ...screen.getAllByRole("gridcell"),
+    ...screen.getAllByRole("rowheader"),
+  ];
+  for (const part of parts) expect(killsFocusRing(part)).toBe(false);
+  expect(screen.getAllByRole("gridcell")[0]!.className).toContain("data-[focus-visible]:outline-bh-ink");
 });

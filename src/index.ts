@@ -84,6 +84,7 @@ export * from "./components/soft/CheckboxSoft/index.js";
 export * from "./components/soft/SwitchSoft/index.js";
 export * from "./components/soft/RadioGroupSoft/index.js";
 export * from "./components/soft/SelectSoft/index.js";
+export * from "./components/soft/TableSoft/index.js";
 
 // Swiss look
 export * from "./components/swiss/ButtonSwiss/index.js";

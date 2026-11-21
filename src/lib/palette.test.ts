@@ -201,3 +201,11 @@ it("Playful table: ink on the yellow header and on the paper hover row meet AA",
 it("Playful table: ink on the paper-white body meets AA", () => {
   expect(contrast(HEX.ink, "#FFFFFF")).toBeGreaterThanOrEqual(4.5);
 });
+
+// Table (Soft): rows sit on sand; the lightened alternate row is paper at 50% over sand, which lies
+// between two backgrounds that both carry ink at AA.
+it("Soft table: ink and charcoal header text on the sand panel, and ink on paper, meet AA", () => {
+  expect(contrast(HEX.ink, SOFT_HEX.sand)).toBeGreaterThanOrEqual(4.5);
+  expect(contrast(SOFT_HEX.neutral, SOFT_HEX.sand)).toBeGreaterThanOrEqual(4.5);
+  expect(contrast(HEX.ink, HEX.paper)).toBeGreaterThanOrEqual(4.5);
+});
