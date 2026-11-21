@@ -26,6 +26,7 @@ import { SelectSoft } from "./SelectSoft/SelectSoft";
 import { BarChartSoft } from "./BarChartSoft/BarChartSoft";
 import { LineChartSoft } from "./LineChartSoft/LineChartSoft";
 import { DonutChartSoft } from "./DonutChartSoft/DonutChartSoft";
+import { SparklineSoft } from "./SparklineSoft/SparklineSoft";
 import userEvent from "@testing-library/user-event";
 
 // Soft look rules (spec §6.1): no borders, no hard shadow, no movement, yellow never as text.
@@ -97,6 +98,8 @@ const cases: LookCase[] = [
   ["DonutChartSoft", <DonutChartSoft title="Spend" data={chartData} />],
   ["DonutChartSoft highlighted", <DonutChartSoft title="Spend" data={chartData} highlight="Feb" tone="yellow" />],
   ["DonutChartSoft grouped", <DonutChartSoft title="Spend" data={donutMany} showValues />],
+  ["SparklineSoft", <SparklineSoft title="Trend" data={chartData} />],
+  ["SparklineSoft toned", <SparklineSoft title="Trend" data={chartData} highlight="Jan" tone="yellow" />],
 ];
 
 it.each(cases)("%s follows the Soft look rules", (_name, element, options) => {

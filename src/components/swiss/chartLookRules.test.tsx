@@ -3,6 +3,7 @@ import { render } from "@testing-library/react";
 import { BarChartSwiss } from "./BarChartSwiss/BarChartSwiss";
 import { LineChartSwiss } from "./LineChartSwiss/LineChartSwiss";
 import { DonutChartSwiss } from "./DonutChartSwiss/DonutChartSwiss";
+import { SparklineSwiss } from "./SparklineSwiss/SparklineSwiss";
 
 /** Swiss charts: no other look's colours, no radius, shadow, translate, heavy weights or thick strokes. */
 const FORBIDDEN_SWISS_CHART =
@@ -31,6 +32,9 @@ const cases: [string, ReactElement][] = [
   ["DonutChartSwiss highlighted", <DonutChartSwiss title="Spend" data={data} highlight="Feb" showValues />],
   ["DonutChartSwiss grouped", <DonutChartSwiss title="Spend" data={many} highlight="Item 8" />],
   ["DonutChartSwiss empty", <DonutChartSwiss title="Spend" data={[]} />],
+  ["SparklineSwiss", <SparklineSwiss title="Trend" data={data} />],
+  ["SparklineSwiss highlighted", <SparklineSwiss title="Trend" data={data} highlight="Jan" />],
+  ["SparklineSwiss empty", <SparklineSwiss title="Trend" data={[]} />],
 ];
 
 it.each(cases)("%s follows the Swiss chart look rules", (_name, element) => {
