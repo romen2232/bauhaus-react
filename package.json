@@ -31,7 +31,7 @@
     "site:build": "pnpm site:props && vite build --config site/vite.config.ts",
     "site:preview": "vite preview --config site/vite.config.ts",
     "site:test": "pnpm site:props && vitest run --config site/vitest.config.ts",
-    "site:typecheck": "tsc -p site/tsconfig.json",
+    "site:typecheck": "pnpm site:props && tsc -p site/tsconfig.json",
     "site:props": "node --experimental-strip-types site/scripts/extract-props.ts"
   },
   "peerDependencies": {
