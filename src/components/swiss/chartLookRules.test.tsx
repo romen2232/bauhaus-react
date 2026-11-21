@@ -1,6 +1,7 @@
 import type { ReactElement } from "react";
 import { render } from "@testing-library/react";
 import { BarChartSwiss } from "./BarChartSwiss/BarChartSwiss";
+import { LineChartSwiss } from "./LineChartSwiss/LineChartSwiss";
 
 /** Swiss charts: no other look's colours, no radius, shadow, translate, heavy weights or thick strokes. */
 const FORBIDDEN_SWISS_CHART =
@@ -12,11 +13,17 @@ const data = [
   { label: "Mar", value: 25 },
 ];
 
+const series = ["A", "B", "C"].map((id) => ({ id, label: id, data }));
+
 const cases: [string, ReactElement][] = [
   ["BarChartSwiss", <BarChartSwiss title="Visits" data={data} />],
   ["BarChartSwiss highlighted", <BarChartSwiss title="Visits" data={data} highlight="Feb" showValues />],
   ["BarChartSwiss negative", <BarChartSwiss title="Net" data={[{ label: "A", value: -4 }, { label: "B", value: 6 }]} />],
   ["BarChartSwiss empty", <BarChartSwiss title="Visits" data={[]} />],
+  ["LineChartSwiss", <LineChartSwiss title="Visits" data={data} />],
+  ["LineChartSwiss 3 series", <LineChartSwiss title="Visits" series={series} />],
+  ["LineChartSwiss highlighted", <LineChartSwiss title="Visits" series={series} highlight="Feb" showValues />],
+  ["LineChartSwiss empty", <LineChartSwiss title="Visits" data={[]} />],
 ];
 
 it.each(cases)("%s follows the Swiss chart look rules", (_name, element) => {

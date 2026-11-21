@@ -25,6 +25,7 @@ import { RadioGroupSwiss } from "./RadioGroupSwiss/RadioGroupSwiss";
 import { SelectSwiss } from "./SelectSwiss/SelectSwiss";
 import { TableSwiss } from "./TableSwiss/TableSwiss";
 import { BarChartSwiss } from "./BarChartSwiss/BarChartSwiss";
+import { LineChartSwiss } from "./LineChartSwiss/LineChartSwiss";
 import userEvent from "@testing-library/user-event";
 
 const FORBIDDEN =
@@ -42,6 +43,7 @@ const tableColumns: import("../_base/Table/tableTypes").TableColumn<TableRow>[] 
   { id: "users", label: "Users", align: "end" },
 ];
 const tableRows: TableRow[] = [{ id: "a", name: "Aurora", users: 12 }];
+const chartSeries = ["A", "B", "C"].map((id) => ({ id, label: id, data: chartData }));
 
 type LookCase = [string, ReactElement, { pill?: boolean }?];
 
@@ -131,6 +133,9 @@ const cases: LookCase[] = [
   ],
   ["BarChartSwiss", <BarChartSwiss title="Visits" data={chartData} />],
   ["BarChartSwiss highlighted", <BarChartSwiss title="Visits" data={chartData} highlight="Feb" />],
+  ["LineChartSwiss", <LineChartSwiss title="Visits" data={chartData} />],
+  ["LineChartSwiss 3 series", <LineChartSwiss title="Visits" series={chartSeries} />],
+  ["LineChartSwiss highlighted", <LineChartSwiss title="Visits" data={chartData} highlight="Feb" />],
 ];
 
 it.each(cases)("%s follows the Swiss look rules", (_name, element, options) => {
