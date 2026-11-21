@@ -12,6 +12,8 @@ The library mixes several Bauhaus-derived looks. Each look has its own component
 
 Look-agnostic pieces (layout, type, decoration) have no suffix.
 
+**Showcase:** a live site with every component in every look lives in `site/` (`pnpm site:dev`; build with `pnpm site:build`). Published at <https://romen2232.github.io/bauhaus-react/> once deployed.
+
 ## Requirements
 
 - React 19

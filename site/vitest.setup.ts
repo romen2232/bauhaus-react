@@ -20,5 +20,6 @@ export function mockMatchMedia(matches: Record<string, boolean>): void {
 }
 
 beforeEach(() => {
-  mockMatchMedia({});
+  // Node-environment tests (the build test) have no window.
+  if (typeof window !== "undefined") mockMatchMedia({});
 });
