@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { CopyButton } from "../shell/CopyButton";
 
 const STEPS = [
   { title: "Install", code: "pnpm add bauhaus-react" },
@@ -8,28 +8,6 @@ const STEPS = [
   },
   { title: "Use a component", code: 'import { ButtonPlayful } from "bauhaus-react";\n\n<ButtonPlayful href="/start">Get started</ButtonPlayful>' },
 ] as const;
-
-function CopyButton({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false);
-  return (
-    <button
-      type="button"
-      aria-label="Copy to clipboard"
-      onClick={async () => {
-        try {
-          await navigator.clipboard.writeText(text);
-          setCopied(true);
-          setTimeout(() => setCopied(false), 1500);
-        } catch {
-          // Clipboard blocked: the code stays selectable.
-        }
-      }}
-      className="font-bh-mono text-xs uppercase tracking-[0.1em] underline underline-offset-4"
-    >
-      {copied ? "Copied" : "Copy"}
-    </button>
-  );
-}
 
 export function InstallSteps() {
   return (

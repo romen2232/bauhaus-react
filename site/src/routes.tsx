@@ -1,4 +1,6 @@
-import type { RouteObject } from "react-router";
+import { Navigate, type RouteObject } from "react-router";
+import { ComponentRoute } from "./docs/ComponentRoute";
+import { DocsLayout } from "./docs/DocsLayout";
 import { LandingPage } from "./landing/LandingPage";
 import { NotFound } from "./pages/NotFound";
 import { SiteLayout } from "./shell/SiteLayout";
@@ -13,11 +15,18 @@ export const routes: RouteObject[] = [
     element: <SiteLayout />,
     children: [
       { index: true, element: <LandingPage /> },
-      { path: "docs/getting-started/:page", element: <Placeholder name="Getting started" /> },
-      { path: "docs/principles", element: <Placeholder name="Principles" /> },
-      { path: "docs/colour", element: <Placeholder name="Colour" /> },
-      // Replaced by the registry-driven page in Task 9; until then every slug is unknown.
-      { path: "docs/components/:slug", element: <NotFound /> },
+      {
+        path: "docs",
+        element: <DocsLayout />,
+        children: [
+          { index: true, element: <Navigate to="getting-started/install" replace /> },
+          { path: "getting-started/:page", element: <Placeholder name="Getting started" /> },
+          { path: "principles", element: <Placeholder name="Principles" /> },
+          { path: "colour", element: <Placeholder name="Colour" /> },
+          { path: "components/:slug", element: <ComponentRoute /> },
+          { path: "*", element: <NotFound /> },
+        ],
+      },
       { path: "*", element: <NotFound /> },
     ],
   },
